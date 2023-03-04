@@ -1,1 +1,3 @@
-console.log(123)
+import Core from './core'
+
+export { Core }

@@ -1,1 +1,6 @@
-const a = 1;
+
+class Core {
+
+}
+
+export default Core
