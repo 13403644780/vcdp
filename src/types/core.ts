@@ -3,10 +3,8 @@
  */
 export interface Config {
   container: string | Element
-  video: {
-    width: number
-    height: number
-  }
+  video: VideoConfig
+  data: Data
 }
 
 /**
@@ -16,3 +14,26 @@ export interface VideoConfig {
   width: number
   height: number
 }
+/**
+ * 内容参数
+ */
+export interface Data {
+  backgroundAudio: BackgroundAudio[]
+  scenes: Scene[]
+  element: VideoElement[]
+}
+
+/**
+ * 背景音乐
+ */
+export interface BackgroundAudio {}
+
+/**
+ * 场景
+ */
+export interface Scene {}
+
+/**
+ * 视频元素
+ */
+export interface VideoElement {}
