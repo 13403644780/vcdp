@@ -5,7 +5,9 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "build": "rollup -c"
+    "build": "rollup -c",
+    "react": "vite --mode=react",
+    "vue": "vite --mode=vue"
   },
   "keywords": [],
   "author": "",
