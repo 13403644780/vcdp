@@ -14,12 +14,12 @@
     "declarationDir": "./lib/types",
     "baseUrl": "./",
     "paths": {
-      "@happyPlayer": ["src/index.ts"]
+      "@happyPlayer": ["./src/index.ts"]
     }
     
   },
   "exclude": [
     "node_modules"
   ],
-  "include": ["src/**/*", "example/**/*"]
+  "include": ["src/**/*"]
 }

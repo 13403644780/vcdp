@@ -1,42 +1,62 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
+.container {
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  padding: 5px;
+}
+.topView {
+  width: 100%;
+  display: flex;
+  height: 60%;
+  column-gap: 10px;
+}
+.data, .player {
+  flex: 1;
+  box-sizing: border-box;
+  height: 100%;
+  border: 1px #376C5E solid;
+  border-radius: 4px;
+}
+.data {
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  border: none;
+  row-gap: 5px;
+}
+.buttonGroup {
+  display: flex;
+  align-items: center;
+  column-gap: 10px;
+  padding: 0 5px;
+}
+.buttonGroup > button {
+  border: 1px #476A6F solid;
+  outline: none;
+  cursor: pointer;
+  background: #8FB2B7;
+  color: #DAE5E7;
+  width: 80px;
+  height: 28px;
+  line-height: 28px;
+  font-size: 14px;
   text-align: center;
+  border-radius: 2px;
+  padding: 0;
 }
-
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
+.buttonGroup > button:hover {
+  background: #202F31;
 }
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
+.buttonGroup > button:active {
+  background: #202F31;
 }
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+.jsonContainer {
+  flex: 1;
+  width: 100%;
+  overflow: auto;
 }
-
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
-}
-
-.card {
-  padding: 2em;
-}
-
-.read-the-docs {
-  color: #888;
+.bottomView {
+  width: 100%;
+  display: flex;
+  height: 40%;
 }

@@ -1,0 +1,78 @@
+{
+  "backgroundAudio": [
+    {
+      "source": "https://image.liuyongzhi.cn/video/obj_wo3DlMOGwrbDjj7DisKw_14096462065_f8fb_560c_c15d_12a0db051a26b4001cb2db52d488a239.mp3",
+      "duration": 325903.673,
+      "startTime": 0,
+      "endTime": 325903.673,
+      "repeat": true,
+      "mute": false,
+      "volume": 50
+    }
+  ],
+  "scenes": [
+    {
+      "duration": 90023.764,
+      "volume": 80,
+      "subtitle": {
+        "source": "https://image.liuyongzhi.cn/video/%5BEnglish%5D%20John%20Wick_%20Chapter%204%20(2023)%20Final%20Trailer%20%E2%80%93%20Keanu%20Reeves%2C%20Donnie%20Yen%2C%20Bill%20Skarsga%CC%8Ard%20%5BDownSub.com%5D.srt",
+        "style": {
+          "fontFamily": "",
+          "fontSize": 20,
+          "fontStyle": "italic bold",
+          "align": "center",
+          "stroke": "#7EB09B",
+          "strokeWidth": 5
+        },
+        "position": {
+          "x": 960,
+          "y": 540
+        }
+      },
+      "material": {
+        "type": 1,
+        "duration": 90023.764,
+        "startTime": 0,
+        "endTime": 90023.764,
+        "source": "https://image.liuyongzhi.cn/video/John%20Wick_%20Chapter%204%20(2023)%20Final%20Trailer%20%E2%80%93%20Keanu%20Reeves%2C%20Donnie%20Yen%2C%20Bill%20Skarsga%CC%8Ard.mp4"
+      }
+    }
+  ],
+  "elements": [
+    {
+      "type": 1,
+      "text": "element",
+      "style": {
+        "fontFamily": "",
+        "fontSize": 20,
+        "fontStyle": "italic bold",
+        "align": "center",
+        "stroke": "#7EB09B",
+        "strokeWidth": 5
+      },
+      "startAppear": 0,
+      "endAppear": 90023.764,
+      "position": {
+        "x": 20,
+        "y": 40
+      }
+    },
+    {
+      "type": 2,
+      "source": "https://image.liuyongzhi.cn/imagesoffice-word-5.png",
+      "style": {
+        "stroke": "#7EB09B",
+        "strokeWidth": 5,
+        "width": 80,
+        "height": 80,
+        "opacity": 80
+      },
+      "startAppear": 0,
+      "endAppear": 90023.764,
+      "position": {
+        "x": 1500,
+        "y": 700
+      }
+    }
+  ]
+}

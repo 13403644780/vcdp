@@ -54,7 +54,13 @@ export interface Scene {
  * 2: 图片元素
  */
 export interface VideoElement {
-  type: 1 | 2
+  type: 1 | 2,
+  text?: string
+  source: string
+  position: Position
+  style: Konva.TextConfig | Konva.ImageConfig
+  startAppear: number
+  endAppear: number
 }
 
 /**
@@ -73,6 +79,7 @@ export interface Dub {
 export interface Subtitle {
   source: string
   style: Konva.TextConfig
+  position: Position
 }
 
 /**
@@ -84,6 +91,13 @@ export interface Material {
   duration: number
   startTime?: number
   endTime?: number
-  volume?: number
   source: string
+}
+
+/**
+ * 位置
+ */
+export interface Position {
+  x: number
+  y: number
 }
