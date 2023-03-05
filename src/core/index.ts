@@ -1,14 +1,16 @@
 import { Config } from "../types"
+import Compile from "../compile"
+import Render from '../renderer'
 class Core {
+  _compile: Compile
+  _render: Render
   constructor(options: Config) {
-    console.log(options)
+    this._compile = new Compile(options.data)
+    this._render = new Render({
+      container: typeof options.container === "string" ? document.querySelector(options.container) as Element : options.container
+    })
   }
 
-  private parse() {
-
-  }
-
-  private render() {}
 }
 
 export default Core

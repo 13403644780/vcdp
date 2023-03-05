@@ -24,6 +24,7 @@ function App() {
       data: jsonData
     })
     setPlayerRef(player)
+    console.log('player: ', player);
   }, [])
   function updatePlayer() {
     console.log('jsonControl.get(): ', jsonControl?.get());

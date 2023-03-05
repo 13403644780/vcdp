@@ -8,7 +8,7 @@ export default defineConfig(({mode}) => {
     root: `./example/${mode}`,
     plugins: [react(), vue()],
     server: {
-      port: 9000
+      port: 3000
     },
     resolve: {
       alias: {

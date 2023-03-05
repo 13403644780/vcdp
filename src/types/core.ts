@@ -21,7 +21,7 @@ export interface VideoConfig {
 export interface Data {
   backgroundAudio: BackgroundAudio[]
   scenes: Scene[]
-  element: VideoElement[]
+  elements: VideoElement[]
 }
 
 /**
