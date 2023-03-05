@@ -1,3 +1,4 @@
+import Konva from 'konva'
 /**
  * 配置文件
  */
@@ -44,26 +45,38 @@ export interface Scene {
   volume: number
   dub?: Dub
   subtitle?: Subtitle
-  materials: Material
+  material: Material
 }
 
 /**
  * 视频元素
+ * 1: 文字元素
+ * 2: 图片元素
  */
-export interface VideoElement {}
+export interface VideoElement {
+  type: 1 | 2
+}
 
 /**
  * 配音
  */
-export interface Dub {}
+export interface Dub {
+  source: string
+  startTime: number
+  endTime: number
+  volume: number
+}
 
 /**
  * 字幕
  */
-export interface Subtitle {}
+export interface Subtitle {
+  source: string
+  style: Konva.TextConfig
+}
 
 /**
- * 字幕
+ * 素材
  * @type { number } 1: 视频素材 2: 图片素材
  */
 export interface Material {
@@ -72,4 +85,5 @@ export interface Material {
   startTime?: number
   endTime?: number
   volume?: number
+  source: string
 }
