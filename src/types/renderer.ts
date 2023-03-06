@@ -1,7 +1,9 @@
+import { VideoConfig } from "./core"
 
 /**
  * 初始化
  */
 export interface RendererConfig {
-  container: Element
+  container: HTMLDivElement,
+  video: VideoConfig
 }

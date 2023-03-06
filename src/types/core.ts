@@ -3,7 +3,7 @@ import Konva from 'konva'
  * 配置文件
  */
 export interface Config {
-  container: string | Element
+  container: string | HTMLDivElement
   video: VideoConfig
   data: Data
 }

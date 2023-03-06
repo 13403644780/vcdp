@@ -19,6 +19,7 @@ specifiers:
   rollup: ^3.18.0
   rollup-plugin-dts: ^5.2.0
   rollup-plugin-typescript2: ^0.34.1
+  srt-parser-2: ^1.2.2
   typescript: ^4.9.5
   vite: ^4.1.0
   vue: ^3.2.45
@@ -30,6 +31,7 @@ dependencies:
   normalize.css: 8.0.1
   react: 18.2.0
   react-dom: 18.2.0_react@18.2.0
+  srt-parser-2: 1.2.2
   vue: 3.2.47
 
 devDependencies:
@@ -1855,6 +1857,11 @@ packages:
   /sourcemap-codec/1.4.8:
     resolution: {integrity: sha512-9NykojV5Uih4lgo5So5dtw+f0JgJX30KCNI8gwhz2J9A15wD0Ml6tjHKwf6fTSa6fAdVBdZeNOs9eJ71qCk8vA==}
     deprecated: Please use @jridgewell/sourcemap-codec instead
+
+  /srt-parser-2/1.2.2:
+    resolution: {integrity: sha512-SlWIhy9mQGMY8BHv1MkeQbCx6gHUNG0NecZro4QIDxzIpBw3Q0kFjA4EWyE9I+H7VrmdPYBHlvtrKzMLFTKP0g==}
+    hasBin: true
+    dev: false
 
   /strip-ansi/6.0.1:
     resolution: {integrity: sha512-Y38VPSHcqkFrCpFnQ9vuSXmquuv5oXOKpGeT6aGrr3o3Gc9AlVa6JBfUSOCnbxGGZF+/0ooI7KrPuUSztUdU5A==}
