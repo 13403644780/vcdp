@@ -1,17 +1,20 @@
-import { Data } from "../types"
+import { Data, ListNode } from "../types"
 
 class Compile {
   _fileCache: Map<string, Blob>
   _options: Data
+  _AllData: ListNode | null
   constructor(option: Data) {
     this._fileCache = new Map()
     this._options = option
-    this.cacheElement()
+    this._AllData = null
   }
-  /**
-   * 缓存元素数据
-   */
-  private cacheElement() {
+
+  parseAllData() {
+    
+  }
+
+  cacheElement() {
     const elements = this._options.elements
     const promises = elements.filter(element => element.type === 2).map(element => {
       return this.syncLoaderSource(element.source)
@@ -25,10 +28,8 @@ class Compile {
       console.warn('load element Failed', reason)
     })
   }
-  /**
-   * 异步加载数据
-   */
-  private async syncLoaderSource(source: string) {
+
+  async syncLoaderSource(source: string) {
     return {
       result: await (await fetch(source)).blob(),
       source

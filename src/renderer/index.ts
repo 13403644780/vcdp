@@ -1,5 +1,5 @@
 import Konva from 'konva'
-import { RendererConfig } from '../types'
+import { RendererConfig, ListNode } from '../types'
 class Renderer {
   _options: RendererConfig
   _stage: Konva.Stage | null
@@ -9,6 +9,7 @@ class Renderer {
   _animation: Konva.Animation | null
   _scale: number
   _videoRef: HTMLVideoElement | null
+  _currentData: ListNode | null
   constructor(options: RendererConfig) {
     this._options = options
     this._stage = null
@@ -17,6 +18,7 @@ class Renderer {
     this._videoRef = null
     this._imageRef = null
     this._animation = null
+    this._currentData = null
     this._scale = 1
     this.initScale()
     this.initCanvas()
@@ -72,14 +74,6 @@ class Renderer {
       console.log('Konva.Animation: ', Konva.Animation);
       
     }, this._videoLayer)
-  }
-  public play() {
-    this._videoRef?.play()
-    this._animation?.start()
-  }
-  public pause() {
-    this._videoRef?.pause()
-    this._animation?.stop()
   }
 }
 

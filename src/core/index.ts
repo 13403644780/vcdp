@@ -11,6 +11,14 @@ class Core {
       video: options.video
     })
   }
+  public play() {
+    this._render._videoRef?.play()
+    this._render._animation?.start()
+  }
+  public pause() {
+    this._render._videoRef?.pause()
+    this._render._animation?.stop()
+  }
 
 }
 
