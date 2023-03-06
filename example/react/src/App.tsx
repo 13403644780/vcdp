@@ -30,12 +30,20 @@ function App() {
   function updatePlayer() {
     console.log('jsonControl.get(): ', jsonControl?.get());
   }
+  function play() {
+    playerRef?._render.play()
+  }
+  function pause() {
+    playerRef?._render.pause()
+  }
   return (
     <div className="container">
       <div className='topView'>
         <div className='data'>
           <div className='buttonGroup'>
             <button onClick={updatePlayer}>更新</button>
+            <button onClick={play}>播放</button>
+            <button onClick={pause}>暂停</button>
           </div>
           <div className='jsonContainer' ref={jsonViewRef}></div>
         </div>
