@@ -49,8 +49,7 @@ export interface TextElement {
 export interface Position{
     x: number
     y: number
-  }
-
+}
 export interface RenderDataVideo {
   source: string | Blob
   startTime: number
@@ -67,8 +66,6 @@ export interface RenderData {
   video?: RenderDataVideo
   subtitle?: RenderDataSubtitle
 }
-
-
 export interface CompileOptions extends Data {
   firstDataInit():void
 }

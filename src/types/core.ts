@@ -1,4 +1,5 @@
 import Konva from 'konva'
+import { Position } from './compile'
 /**
  * 配置文件
  */
@@ -94,10 +95,3 @@ export interface Material {
   source: string
 }
 
-/**
- * 位置
- */
-export interface Position {
-  x: number
-  y: number
-}

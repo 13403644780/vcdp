@@ -30,7 +30,6 @@ const config = [
       })
     ]
   },
-  // Build type definitions
   {
     input: 'src/index.ts',
     output: {
