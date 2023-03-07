@@ -87,7 +87,6 @@ class Renderer {
     })
   }
   initSubtitle() {
-    console.log(this._proxyTarget?.subtitle)
     this._textRef = new Konva.Text({
       x: this._proxyTarget?.subtitle?.position.x,
       y: this._proxyTarget?.subtitle?.position.y,
@@ -99,8 +98,7 @@ class Renderer {
       strokeWidth: this._proxyTarget?.subtitle?.style.strokeWidth,
       padding: 10
     })
-    this._textRef?.offsetX(this._textRef.width() / 2)
-    this._textRef?.offsetY(this._textRef.height())
+    this.setSubtitleOffset()
     this._subtitleLayer?.add(this._textRef)
   }
   initAnimation() {
@@ -113,8 +111,31 @@ class Renderer {
     if (!result) return
     const { text } = result
     this._textRef?.text(text)
-    this._textRef?.offsetX(this._textRef.width() / 2)
-    this._textRef?.offsetY(this._textRef.height())
+    this.setSubtitleOffset()
+  }
+  setSubtitleOffset() {
+    const x = this._proxyTarget?.subtitle?.position.x
+    const y = this._proxyTarget?.subtitle?.position.y
+    const currentHeight = this._textRef?.height()
+    const currentWidth = this._textRef?.width()
+    const maxHeight = this._videoLayer?.height()
+    const maxwidth = this._videoLayer?.width()
+    if (x !== undefined && y !== undefined && currentWidth !== undefined && currentHeight !== undefined && maxHeight !== undefined && maxwidth !== undefined) {
+      if (y - currentHeight < 0) {
+        this._textRef?.offsetY(Math.abs(y - currentHeight))
+      }else if (y + currentHeight > maxHeight) {
+        this._textRef?.offsetY(maxHeight - y + currentHeight)
+      } else {
+        this._textRef?.offsetY(this._textRef.height() / 2)
+      }
+      if (x - currentWidth < 0) {
+        this._textRef?.offsetX(Math.abs(x - currentHeight))
+      } else if (x + currentWidth > maxwidth) {
+        this._textRef?.offsetX(maxwidth - x + currentWidth)
+      } else {
+        this._textRef?.offsetX(this._textRef.width() / 2)
+      }
+    }
   }
   proxyCurrent() {
     const self = this
