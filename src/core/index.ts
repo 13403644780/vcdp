@@ -20,6 +20,7 @@ class Core {
   }
   public play() {
     this._render._videoRef?.play()
+    console.log('this._render._videoRef?.play(): ', this._render._videoRef);
     this._render._animation?.start()
   }
   public pause() {
