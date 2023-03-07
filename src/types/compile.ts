@@ -1,9 +1,11 @@
+import Konva from "konva"
+import { Data } from "./core"
+
 /**
  * 链表节点
  */
 export interface ListNode {
   currentData: NodeData,
-  sourceIndex: number | null
   next: ListNode | null
 }
 
@@ -11,24 +13,18 @@ export interface ListNode {
  * 节点数据
  */
 export interface NodeData {
-  audio?: Audio[],
-  scene: {
+  video: {
     source: string
-    volume: number
-    duration: number
     startTime: number
     endTime: number
-    position: {
-      x: number
-      y: number
-    },
-    size: {
-      width: number
-      height: number
-    },
-    subtitle: {}
-  },
-  elements?: Element[]
+    duration: number
+    volume: number
+  }
+  subtitle: {
+    source: string
+    style: Konva.TextConfig | any
+    position: Position
+  }
 }
 
 export interface Audio {
@@ -46,8 +42,32 @@ export interface TextElement {
     stroke: string,
     strokeWidth: number,
   },
-  position: {
+  position: Position
+}
+
+export interface Position{
     x: number
     y: number
   }
+
+export interface RenderDataVideo {
+  source: string | Blob
+  startTime: number
+  endTime: number
+  duration: number
+  volume: number
+}
+export interface RenderDataSubtitle {
+  source: string | any[]
+  style: Konva.TextConfig | any
+  position: Position
+}
+export interface RenderData {
+  video?: RenderDataVideo
+  subtitle?: RenderDataSubtitle
+}
+
+
+export interface CompileOptions extends Data {
+  firstDataInit():void
 }

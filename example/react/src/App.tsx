@@ -25,16 +25,15 @@ function App() {
       data: jsonData as Data
     })
     setPlayerRef(player)
-    console.log('player: ', player);
   }, [])
   function updatePlayer() {
     console.log('jsonControl.get(): ', jsonControl?.get());
   }
   function play() {
-    playerRef?._render.play()
+    playerRef?.play()
   }
   function pause() {
-    playerRef?._render.pause()
+    playerRef?.pause()
   }
   return (
     <div className="container">

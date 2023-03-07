@@ -19,7 +19,7 @@ export interface VideoConfig {
  * 内容参数
  */
 export interface Data {
-  backgroundAudio: BackgroundAudio[]
+  backgroundAudio: BackgroundAudio
   scenes: Scene[]
   elements: VideoElement[]
 }
@@ -89,8 +89,8 @@ export interface Subtitle {
 export interface Material {
   type: 1 | 2
   duration: number
-  startTime?: number
-  endTime?: number
+  startTime: number
+  endTime: number
   source: string
 }
 

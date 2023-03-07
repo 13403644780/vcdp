@@ -1,5 +1,8 @@
 import Konva from 'konva'
-import { RendererConfig, ListNode } from '../types'
+import { merge, debounce } from 'lodash-es'
+import { RendererConfig, ListNode, RenderData } from '../types'
+
+
 class Renderer {
   _options: RendererConfig
   _stage: Konva.Stage | null
@@ -9,7 +12,7 @@ class Renderer {
   _animation: Konva.Animation | null
   _scale: number
   _videoRef: HTMLVideoElement | null
-  _currentData: ListNode | null
+  _proxyTarget: RenderData | undefined
   constructor(options: RendererConfig) {
     this._options = options
     this._stage = null
@@ -18,12 +21,10 @@ class Renderer {
     this._videoRef = null
     this._imageRef = null
     this._animation = null
-    this._currentData = null
     this._scale = 1
     this.initScale()
     this.initCanvas()
-    this.initVideo()
-    this.initAnimation()
+    this.proxyCurrent()
   }
   initCanvas() {
     this._stage = new Konva.Stage({
@@ -55,7 +56,6 @@ class Renderer {
   }
   initVideo() {
     this._videoRef = document.createElement("video")
-    this._videoRef.setAttribute('src', 'https://image.liuyongzhi.cn/video/John%20Wick_%20Chapter%204%20(2023)%20Final%20Trailer%20%E2%80%93%20Keanu%20Reeves%2C%20Donnie%20Yen%2C%20Bill%20Skarsga%CC%8Ard.mp4')
     this._imageRef = new Konva.Image({
       image: this._videoRef,
       x: 0,
@@ -63,18 +63,37 @@ class Renderer {
     })
     this._videoLayer?.add(this._imageRef)
     this._videoRef.addEventListener('loadedmetadata', (e) => {
-      console.log("this._videoLayer!.width()", this._videoLayer!.width());
-      console.log("this._videoLayer!.height()", this._videoLayer!.height());
       this._imageRef?.width(this._options.video.width)
       this._imageRef?.height(this._options.video.height)
     })
   }
   initAnimation() {
-    this._animation = new Konva.Animation(function() {
-      console.log('Konva.Animation: ', Konva.Animation);
-      
+    this._animation = new Konva.Animation(function () {
     }, this._videoLayer)
   }
+
+  proxyCurrent() {
+    this._proxyTarget = new Proxy<RenderData>({}, HandleFunc())
+  }
+  updateRenderer() {
+    console.log('updateRenderer -->>')
+  }
+  public changeCurrentData(data: RenderData) {
+    merge(this._proxyTarget, data)
+    console.log('this._proxyTarget: ', this._proxyTarget);
+
+  }
 }
+
+const HandleFunc = <T extends {}>() => ({
+  get(target: T, prop: keyof T, receiver: any) {
+    return Reflect.get(target, prop, receiver)
+  },
+
+  set(target: T, prop: keyof T, value: T[keyof T], receiver: any) {
+    console.log('set----->', target)
+    return Reflect.set(target, prop, value, receiver)
+  }
+})
 
 export default Renderer

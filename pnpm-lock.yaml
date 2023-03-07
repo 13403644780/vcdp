@@ -3,6 +3,7 @@ lockfileVersion: 5.4
 specifiers:
   '@rollup/plugin-typescript': ^11.0.0
   '@types/jsoneditor': ^9.9.0
+  '@types/lodash-es': ^4.17.6
   '@types/node': ^18.14.6
   '@types/react': ^18.0.27
   '@types/react-dom': ^18.0.10
@@ -13,6 +14,7 @@ specifiers:
   eslint: ^8.35.0
   jsoneditor: ^9.10.0
   konva: ^8.4.2
+  lodash-es: ^4.17.21
   normalize.css: ^8.0.1
   react: ^18.2.0
   react-dom: ^18.2.0
@@ -28,6 +30,7 @@ specifiers:
 dependencies:
   jsoneditor: 9.10.0
   konva: 8.4.2
+  lodash-es: 4.17.21
   normalize.css: 8.0.1
   react: 18.2.0
   react-dom: 18.2.0_react@18.2.0
@@ -37,6 +40,7 @@ dependencies:
 devDependencies:
   '@rollup/plugin-typescript': 11.0.0_fn2onl6nbsljlgjr3jlzr6w7we
   '@types/jsoneditor': 9.9.0
+  '@types/lodash-es': 4.17.6
   '@types/node': 18.14.6
   '@types/react': 18.0.28
   '@types/react-dom': 18.0.11
@@ -535,6 +539,16 @@ packages:
     dependencies:
       '@types/ace': 0.0.48
       ajv: 6.12.6
+    dev: true
+
+  /@types/lodash-es/4.17.6:
+    resolution: {integrity: sha512-R+zTeVUKDdfoRxpAryaQNRKk3105Rrgx2CFRClIgRGaqDTdjsm8h6IYA8ir584W3ePzkZfst5xIgDwYrlh9HLg==}
+    dependencies:
+      '@types/lodash': 4.14.191
+    dev: true
+
+  /@types/lodash/4.14.191:
+    resolution: {integrity: sha512-BdZ5BCCvho3EIXw6wUCXHe7rS53AIDPLE+JzwgT+OsJk53oBfbSmZZ7CX4VaRoN78N+TJpFi9QPlfIVNmJYWxQ==}
     dev: true
 
   /@types/node/18.14.6:
@@ -1504,6 +1518,10 @@ packages:
     dependencies:
       p-locate: 5.0.0
     dev: true
+
+  /lodash-es/4.17.21:
+    resolution: {integrity: sha512-mKnC+QJ9pWVzv+C4/U3rRsHapFfHvQFoFB92e52xeyGMcX6/OlIl78je1u8vePzYZSkkogMPJ2yjxxsb89cxyw==}
+    dev: false
 
   /lodash.merge/4.6.2:
     resolution: {integrity: sha512-0KpjqXRVvrYyCsX1swR/XTK0va6VQkQM6MNo7PqW77ByjAhoARA8EfrP1N4+KlKj8YS0ZUCtRT/YUuhyYDujIQ==}

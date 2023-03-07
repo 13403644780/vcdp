@@ -1,15 +1,22 @@
-import { Config } from "../types"
+import { Config, RenderData } from "../types"
 import Compile from "../compile"
 import Render from '../renderer'
 class Core {
   _compile: Compile
   _render: Render
   constructor(options: Config) {
-    this._compile = new Compile(options.data)
+    this._compile = new Compile({
+      ...options.data,
+      firstDataInit: this.initRenderData.bind(this)
+    })
     this._render = new Render({
       container: typeof options.container === "string" ? document.querySelector(options.container) as HTMLDivElement : options.container,
       video: options.video
     })
+    
+  }
+  initRenderData() {
+    this._render.changeCurrentData(this._compile._playerData as RenderData)
   }
   public play() {
     this._render._videoRef?.play()
