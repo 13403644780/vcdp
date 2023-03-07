@@ -15,6 +15,8 @@ class Renderer {
   _scale: number
   _videoRef: HTMLVideoElement | null
   _textRef: Konva.Text | undefined
+  _subtitleLabel: Konva.Label | undefined
+  _subtitleTag: Konva.Tag | undefined
   _proxyTarget: RenderData | undefined
   constructor(options: RendererConfig) {
     this._options = options
@@ -87,19 +89,33 @@ class Renderer {
     })
   }
   initSubtitle() {
-    this._textRef = new Konva.Text({
+    this._subtitleLabel = new Konva.Label({
       x: this._proxyTarget?.subtitle?.position.x,
-      y: this._proxyTarget?.subtitle?.position.y,
+      y: this._proxyTarget?.subtitle?.position.y
+    })
+    this._subtitleTag = new Konva.Tag({
+      fill: this._proxyTarget?.subtitle?.style.backgroundColor,
+      cornerRadius: 5
+    })
+    this._subtitleLabel.add(this._subtitleTag)
+    this._textRef = new Konva.Text({
+      text: "Konva Hello Konva ",
       fontSize: this._proxyTarget?.subtitle?.style.fontSize,
       align: this._proxyTarget?.subtitle?.style.align,
-      fill: '#FFFFFF',
+      fill: this._proxyTarget?.subtitle?.style.fill,
       fontStyle: this._proxyTarget?.subtitle?.style.fontStyle,
       stroke: this._proxyTarget?.subtitle?.style.stroke,
       strokeWidth: this._proxyTarget?.subtitle?.style.strokeWidth,
+      verticalAlign: 'middle',
+      lineHeight: 1.2,
       padding: 10
     })
-    this.setSubtitleOffset()
-    this._subtitleLayer?.add(this._textRef)
+    this._subtitleLabel.add(this._textRef)
+    this._subtitleLabel.offset({
+      x: this._textRef.width() / 2,
+      y: this._textRef.height() / 2
+    })
+    this._subtitleLayer?.add(this._subtitleLabel)
   }
   initAnimation() {
     this._animation = new Konva.Animation(() => {
@@ -110,32 +126,31 @@ class Renderer {
     const result = getCurrentTimeSubtitleText(this._videoRef!.currentTime, this._proxyTarget!.video!.startTime, this._proxyTarget!.subtitle!.source as parseSubtitle[])
     if (!result) return
     const { text } = result
-    this._textRef?.text(text)
-    this.setSubtitleOffset()
+    requestAnimationFrame(() => {
+      this._textRef?.text(text)
+      this._subtitleLabel?.offset({
+        x: this._textRef!.width() / 2,
+        y: this._textRef!.height() / 2
+      })
+      this.setSubtitleOffset()
+    })
   }
   setSubtitleOffset() {
-    const x = this._proxyTarget?.subtitle?.position.x
-    const y = this._proxyTarget?.subtitle?.position.y
-    const currentHeight = this._textRef?.height()
-    const currentWidth = this._textRef?.width()
-    const maxHeight = this._videoLayer?.height()
-    const maxwidth = this._videoLayer?.width()
-    if (x !== undefined && y !== undefined && currentWidth !== undefined && currentHeight !== undefined && maxHeight !== undefined && maxwidth !== undefined) {
-      if (y - currentHeight < 0) {
-        this._textRef?.offsetY(Math.abs(y - currentHeight))
-      }else if (y + currentHeight > maxHeight) {
-        this._textRef?.offsetY(maxHeight - y + currentHeight)
-      } else {
-        this._textRef?.offsetY(this._textRef.height() / 2)
-      }
-      if (x - currentWidth < 0) {
-        this._textRef?.offsetX(Math.abs(x - currentHeight))
-      } else if (x + currentWidth > maxwidth) {
-        this._textRef?.offsetX(maxwidth - x + currentWidth)
-      } else {
-        this._textRef?.offsetX(this._textRef.width() / 2)
-      }
-    }
+    this._subtitleLabel?.offset({
+      x: this._textRef!.width() / 2,
+      y: this._textRef!.height() / 2
+    })
+    const textWidth = this._textRef!.width()
+    const textHeight = this._textRef!.height()
+    const maxWidth = this._options.video.width
+    const maxHeight = this._options.video.height
+    const styleX = this._proxyTarget!.subtitle!.position.x
+    const styleY = this._proxyTarget!.subtitle!.position.y
+    this._subtitleLabel?.setPosition({
+      x: Math.max(textWidth / 2, Math.min(styleX, maxWidth - textWidth / 2)),
+      y: Math.max(textHeight / 2, Math.min(styleY, maxHeight - textHeight / 2))
+    })
+
   }
   proxyCurrent() {
     const self = this

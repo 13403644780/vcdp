@@ -15,12 +15,13 @@
       "subtitle": {
         "source": "https://image.liuyongzhi.cn/video/%5BEnglish%5D%20John%20Wick_%20Chapter%204%20(2023)%20Final%20Trailer%20%E2%80%93%20Keanu%20Reeves%2C%20Donnie%20Yen%2C%20Bill%20Skarsga%CC%8Ard%20%5BDownSub.com%5D.srt",
         "style": {
-          "fontSize": 80,
+          "fontSize": 100,
           "fontStyle": "italic bold",
           "align": "center",
           "stroke": "#7EB09B",
-          "strokeWidth": 10,
-          "fill": "#FFFFFF"
+          "strokeWidth": 5,
+          "fill": "#FFFFFF",
+          "backgroundColor": "#000000"
         },
         "position": {
           "x": 0,
@@ -41,16 +42,17 @@
       "subtitle": {
         "source": "https://image.liuyongzhi.cn/video/%5BEnglish%5D%20John%20Wick_%20Chapter%204%20(2023)%20Final%20Trailer%20%E2%80%93%20Keanu%20Reeves%2C%20Donnie%20Yen%2C%20Bill%20Skarsga%CC%8Ard%20%5BDownSub.com%5D.srt",
         "style": {
-          "fontSize": 80,
+          "fontSize": 100,
           "fontStyle": "italic bold",
           "align": "center",
           "stroke": "#7EB09B",
-          "strokeWidth": 10,
-          "fill": "#FFFFFF"
+          "strokeWidth": 5,
+          "fill": "#FFFFFF",
+          "backgroundColor": "#000000"
         },
         "position": {
-          "x": 0,
-          "y": 0
+          "x": 100,
+          "y": 100
         }
       },
       "material": {
