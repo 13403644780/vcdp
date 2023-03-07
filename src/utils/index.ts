@@ -1,4 +1,5 @@
 import { ListNode, NodeData } from "../types/compile";
+import { parseSubtitle } from '../types'
 export class ListNodeFactory {
   next: ListNode | null
   currentData: NodeData
@@ -9,6 +10,7 @@ export class ListNodeFactory {
 }
 
 
-export function calculateBackgroundAudioTime(duration: number, currentTime: number, currentDuration: number, preTime: number) {
-
+export function getCurrentTimeSubtitleText (videoCurrentTime: number, videoStartTime: number, subtitles: parseSubtitle[]) {
+  const realTime = videoCurrentTime - videoStartTime
+  return subtitles.find((subtitle) => subtitle.startSeconds< realTime && subtitle.endSeconds > realTime)
 }

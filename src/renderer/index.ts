@@ -1,6 +1,7 @@
 import Konva from 'konva'
 import { merge, debounce } from 'lodash-es'
-import { RendererConfig, ListNode, RenderData } from '../types'
+import { RendererConfig, ListNode, RenderData, parseSubtitle } from '../types'
+import { getCurrentTimeSubtitleText } from '../utils'
 
 
 class Renderer {
@@ -13,6 +14,7 @@ class Renderer {
   _animation: Konva.Animation | null
   _scale: number
   _videoRef: HTMLVideoElement | null
+  _textRef: Konva.Text | undefined
   _proxyTarget: RenderData | undefined
   constructor(options: RendererConfig) {
     this._options = options
@@ -45,7 +47,7 @@ class Renderer {
         y: this._scale
       },
       width: this._options.video.width,
-      height: this._options.video.height
+      height: this._options.video.height,
     })
     this._subtitleLayer = new Konva.Layer({
       name: "subtitle-layer",
@@ -59,6 +61,8 @@ class Renderer {
       height: this._options.video.height
     })
     this._stage.container().style.backgroundColor = '#39375B'
+    this._videoLayer.zIndex(1)
+    this._subtitleLayer.zIndex(2)
     this._stage.add(this._videoLayer)
     this._stage.add(this._subtitleLayer)
   }
@@ -83,13 +87,35 @@ class Renderer {
     })
   }
   initSubtitle() {
-
+    console.log(this._proxyTarget?.subtitle)
+    this._textRef = new Konva.Text({
+      x: this._proxyTarget?.subtitle?.position.x,
+      y: this._proxyTarget?.subtitle?.position.y,
+      fontSize: this._proxyTarget?.subtitle?.style.fontSize,
+      align: this._proxyTarget?.subtitle?.style.align,
+      fill: '#FFFFFF',
+      fontStyle: this._proxyTarget?.subtitle?.style.fontStyle,
+      stroke: this._proxyTarget?.subtitle?.style.stroke,
+      strokeWidth: this._proxyTarget?.subtitle?.style.strokeWidth,
+      padding: 10
+    })
+    this._textRef?.offsetX(this._textRef.width() / 2)
+    this._textRef?.offsetY(this._textRef.height())
+    this._subtitleLayer?.add(this._textRef)
   }
   initAnimation() {
-    this._animation = new Konva.Animation(function () {
+    this._animation = new Konva.Animation(() => {
+      this.updateSubtitle()
     }, this._videoLayer)
   }
-
+  updateSubtitle() {
+    const result = getCurrentTimeSubtitleText(this._videoRef!.currentTime, this._proxyTarget!.video!.startTime, this._proxyTarget!.subtitle!.source as parseSubtitle[])
+    if (!result) return
+    const { text } = result
+    this._textRef?.text(text)
+    this._textRef?.offsetX(this._textRef.width() / 2)
+    this._textRef?.offsetY(this._textRef.height())
+  }
   proxyCurrent() {
     const self = this
     this._proxyTarget = new Proxy<RenderData>({}, HandleFunc(self))
@@ -106,7 +132,6 @@ class Renderer {
       this._videoRef?.setAttribute('src', url)
     }
   }
-  updateSubtitle() {}
   public changeCurrentData(data: RenderData) {
     merge(this._proxyTarget, data)
   }

@@ -1,5 +1,6 @@
 import Konva from "konva"
 import { Data } from "./core"
+import { parseSubtitle } from "./renderer"
 
 /**
  * 链表节点
@@ -58,7 +59,7 @@ export interface RenderDataVideo {
   volume: number
 }
 export interface RenderDataSubtitle {
-  source: string | any[]
+  source: string | parseSubtitle[]
   style: Konva.TextConfig | any
   position: Position
 }

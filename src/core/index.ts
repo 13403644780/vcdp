@@ -17,6 +17,7 @@ class Core {
   }
   initRenderData() {
     this._render.changeCurrentData(this._compile._playerData as RenderData)
+    this._render.initSubtitle()
   }
   public play() {
     this._render._videoRef?.play()

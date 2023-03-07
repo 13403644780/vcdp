@@ -1,5 +1,5 @@
 import { Data, ListNode, RenderData, Scene, CompileOptions } from "../types"
-import { calculateBackgroundAudioTime, ListNodeFactory } from '../utils'
+import { ListNodeFactory } from '../utils'
 import { cloneDeep } from 'lodash-es'
 import srtParse from 'srt-parser-2'
 class Compile {
@@ -17,6 +17,7 @@ class Compile {
   }
 
   parseAllData() {
+    console.log(this._options.scenes)
     const scenes = this._options.scenes.reduce((pre: any[], nex: Scene) => {
       const video = {
         source: nex.material.source,
@@ -63,6 +64,8 @@ class Compile {
       }
     }
     this._playerData = currentData
+    console.log('currentData: ', currentData);
+    console.log()
     this._options.firstDataInit()
   }
 
