@@ -111,10 +111,7 @@ class Renderer {
       padding: 10
     })
     this._subtitleLabel.add(this._textRef)
-    this._subtitleLabel.offset({
-      x: this._textRef.width() / 2,
-      y: this._textRef.height() / 2
-    })
+    this.setSubtitleOffset()
     this._subtitleLayer?.add(this._subtitleLabel)
   }
   initAnimation() {
