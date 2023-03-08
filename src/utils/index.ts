@@ -14,3 +14,8 @@ export function getCurrentTimeSubtitleText (videoCurrentTime: number, videoStart
   const realTime = videoCurrentTime - videoStartTime
   return subtitles.find((subtitle) => subtitle.startSeconds< realTime && subtitle.endSeconds > realTime)
 }
+
+export function calculationBackgroundStartTime(previousTime: number, currentVideoDuration: number, currentAudioDuration: number, isRepeat?: boolean): number {
+  const currentNodeTime = previousTime + currentVideoDuration
+  return currentNodeTime < currentAudioDuration ? previousTime : isRepeat ? Math.abs(currentAudioDuration - currentNodeTime) : -1
+}

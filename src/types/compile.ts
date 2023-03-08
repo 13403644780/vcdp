@@ -23,9 +23,13 @@ export interface NodeData {
   }
   subtitle: {
     source: string
-    style: Konva.TextConfig | any
+    style: {
+      [key: string]: any
+    }
     position: Position
   }
+  backgroundAudio: RenderDataAudio | undefined
+  dubAudio: RenderDataAudio | undefined
 }
 
 export interface Audio {
@@ -62,9 +66,17 @@ export interface RenderDataSubtitle {
   style: Konva.TextConfig | any
   position: Position
 }
+export interface RenderDataAudio {
+  source: string
+  startTime: number
+  endTime: number
+  volume: number
+  mute: boolean
+}
 export interface RenderData {
   video?: RenderDataVideo
   subtitle?: RenderDataSubtitle
+  audio?: RenderDataAudio[]
 }
 export interface CompileOptions extends Data {
   firstDataInit():void
