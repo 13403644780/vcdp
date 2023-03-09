@@ -23,7 +23,8 @@ class Compile {
         startTime: nex.material.startTime,
         endTime: nex.material.endTime,
         duration: nex.material.duration,
-        volume: nex.volume
+        volume: nex.volume,
+        mute: nex?.mute || false
       }
       const subtitle = {
         source: nex.subtitle?.source || '',
@@ -98,22 +99,18 @@ class Compile {
 
   getBackgroundAudio(pre: NodeData[], nex: Scene) {
     if (this._options.backgroundAudio) {
-      const previousTime = pre.reduce((p, n) => p + n.video.duration, 0)
-      const startTime = calculationBackgroundStartTime(
-        previousTime, nex.duration,
+      const previousTime = pre.reduce((p, n) => p + (n.video.endTime - n.video.startTime), 0)
+      const { startTime, endTime } = calculationBackgroundStartTime(
+        previousTime,
+        nex.duration,
         this._options.backgroundAudio?.startTime || 0,
         this._options.backgroundAudio?.endTime || 0,
         this._options.backgroundAudio?.repeat)
       if (startTime !== -1) {
-        const startTime = calculationBackgroundStartTime(
-          previousTime, nex.duration,
-          this._options.backgroundAudio?.startTime || 0,
-          this._options.backgroundAudio?.endTime || 0,
-          this._options.backgroundAudio?.repeat)
         return {
           source: this._options.backgroundAudio.source,
           startTime: startTime,
-          endTime: startTime + nex.duration,
+          endTime: endTime,
           volume: this._options.backgroundAudio.volume,
           mute: this._options.backgroundAudio?.mute || false,
           type: 1

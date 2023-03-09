@@ -179,6 +179,9 @@ class Renderer {
       this._Urls.push(url)
       this._videoRef?.setAttribute('src', url)
     }
+    this._videoRef!.muted = this._proxyTarget.video.mute
+    this._videoRef!.volume = this._proxyTarget.video.volume / 100
+    console.log('this._videoRef: ', this._proxyTarget);
   }
   updateAudioSource() {
     if (!this._proxyTarget?.audio || !Array.isArray(this._proxyTarget.audio)) return
@@ -189,8 +192,11 @@ class Renderer {
         target?.setAttribute('src', audio[i].source as string)
       } else {
         const url = URL.createObjectURL(audio[i].source as Blob)
+        this._Urls.push(url)
         target?.setAttribute('src', url)
       }
+      target!.volume = audio[i].volume / 100
+      target!.muted = audio[i].mute
     }
   }
   setMediaStartTime() {

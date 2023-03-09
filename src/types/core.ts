@@ -44,6 +44,7 @@ export interface BackgroundAudio {
 export interface Scene {
   duration: number
   volume: number
+  mute?: boolean,
   dub?: Dub
   subtitle?: Subtitle
   material: Material

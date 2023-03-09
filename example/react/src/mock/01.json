@@ -6,12 +6,13 @@
       "endTime": 325903.673,
       "repeat": true,
       "mute": false,
-      "volume": 50
+      "volume": 5
     },
   "scenes": [
     {
       "duration": 1000,
       "volume": 80,
+      "mute": false,
       "subtitle": {
         "source": "https://image.liuyongzhi.cn/video/%5BEnglish%5D%20John%20Wick_%20Chapter%204%20(2023)%20Final%20Trailer%20%E2%80%93%20Keanu%20Reeves%2C%20Donnie%20Yen%2C%20Bill%20Skarsga%CC%8Ard%20%5BDownSub.com%5D.srt",
         "style": {
@@ -39,6 +40,7 @@
     {
       "duration": 1000,
       "volume": 80,
+      "mute": false,
       "subtitle": {
         "source": "https://image.liuyongzhi.cn/video/%5BEnglish%5D%20John%20Wick_%20Chapter%204%20(2023)%20Final%20Trailer%20%E2%80%93%20Keanu%20Reeves%2C%20Donnie%20Yen%2C%20Bill%20Skarsga%CC%8Ard%20%5BDownSub.com%5D.srt",
         "style": {

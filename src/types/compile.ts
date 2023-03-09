@@ -20,6 +20,7 @@ export interface NodeData {
     endTime: number
     duration: number
     volume: number
+    mute: boolean
   }
   subtitle: {
     source: string
@@ -60,6 +61,7 @@ export interface RenderDataVideo {
   endTime: number
   duration: number
   volume: number
+  mute: boolean
 }
 export interface RenderDataSubtitle {
   source: string | parseSubtitle[]

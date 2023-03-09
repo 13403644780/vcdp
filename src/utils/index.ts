@@ -20,8 +20,32 @@ export function calculationBackgroundStartTime(
   currentVideoDuration: number,
   currentAudioStartTime: number,
   currentAudioEndTime: number,
-  isRepeat?: boolean): number {
-  const currentAudioCutDuration = currentAudioEndTime - currentAudioStartTime
-  const currentNodeTime = previousTime + currentVideoDuration
-  return currentNodeTime < currentAudioCutDuration ? currentAudioStartTime : isRepeat ? Math.abs(currentAudioCutDuration - currentNodeTime) + currentAudioStartTime : -1
+  isRepeat?: boolean): {
+    startTime: number,
+    endTime: number
+  } {
+
+  const backgroundAudioDuration = currentAudioEndTime - currentAudioStartTime
+  const startTime = backgroundAudioDuration > previousTime ? 
+  currentAudioStartTime + previousTime : 
+  isRepeat ?
+  currentAudioStartTime + (previousTime % backgroundAudioDuration) :
+  -1
+
+
+  const endTime = startTime === -1 ?
+  -1 :
+  startTime + currentVideoDuration > backgroundAudioDuration ?
+  (backgroundAudioDuration - (startTime + currentVideoDuration)) + currentAudioStartTime :
+  startTime + currentVideoDuration
+
+  // console.table([
+  //   ['previousTime', 'currentVideoDuration', 'currentAudioStartTime', 'currentAudioEndTime', 'isRepeat', 'startTime', 'endTime'],
+  //   [previousTime, currentVideoDuration, currentAudioStartTime, currentAudioEndTime, isRepeat, startTime, endTime]
+  // ])
+  return {
+    startTime,
+    endTime
+  }
 }
+
