@@ -28,7 +28,7 @@ class Compile {
       const subtitle = {
         source: nex.subtitle?.source || '',
         style: nex.subtitle?.style || {},
-        position: nex.subtitle?.position || {x: 0, y: 0},
+        position: nex.subtitle?.position || { x: 0, y: 0 },
       }
       const backgroundAudio = this.getBackgroundAudio(pre, nex)
       const dubAudio = this.getDubAudio(nex)
@@ -55,9 +55,9 @@ class Compile {
   async parseData() {
     if (!this._currentNode) return
     const data = cloneDeep(this._currentNode.currentData)
-    const videoSource = this._fileCache.get(data.video.source) || await this.loadVideoData(data.video.source)
+    const videoSource = this._fileCache.get(data.video.source) || await this.loadMediaData(data.video.source)
     const subtitleSource = this._fileCache.get(data.subtitle.source) || await this.loadSubtitleData(data.subtitle.source)
-    this.parseAudioData(data as NodeData)
+    const audio = await this.parseAudioData(data as NodeData)
     const currentData: RenderData = {
       video: {
         ...data.video,
@@ -67,16 +67,22 @@ class Compile {
         ...data.subtitle,
         source: subtitleSource
       },
-      audio: []
+      audio: audio || undefined
     }
     this._playerData = currentData
     this._options.firstDataInit()
   }
 
-  parseAudioData(data: NodeData) {
+  async parseAudioData(data: NodeData) {
+    const result = []
+    const dubAudio = await this.parseAudio(data.dubAudio)
+    const backgroundAudio = await this.parseAudio(data.backgroundAudio)
+    dubAudio && result.push(dubAudio)
+    backgroundAudio && result.push(backgroundAudio)
+    return result.length && result
   }
 
-  async loadVideoData(source: string) {
+  async loadMediaData(source: string) {
     const data = await (await fetch(source)).blob()
     this._fileCache.set(source, data)
     return data
@@ -93,15 +99,24 @@ class Compile {
   getBackgroundAudio(pre: NodeData[], nex: Scene) {
     if (this._options.backgroundAudio) {
       const previousTime = pre.reduce((p, n) => p + n.video.duration, 0)
-      const startTime = calculationBackgroundStartTime(previousTime, nex.duration, this._options.backgroundAudio?.duration || 0, this._options.backgroundAudio?.repeat)
+      const startTime = calculationBackgroundStartTime(
+        previousTime, nex.duration,
+        this._options.backgroundAudio?.startTime || 0,
+        this._options.backgroundAudio?.endTime || 0,
+        this._options.backgroundAudio?.repeat)
       if (startTime !== -1) {
-      const startTime = calculationBackgroundStartTime(previousTime, nex.duration, this._options.backgroundAudio?.duration || 0, this._options.backgroundAudio?.repeat)
+        const startTime = calculationBackgroundStartTime(
+          previousTime, nex.duration,
+          this._options.backgroundAudio?.startTime || 0,
+          this._options.backgroundAudio?.endTime || 0,
+          this._options.backgroundAudio?.repeat)
         return {
           source: this._options.backgroundAudio.source,
           startTime: startTime,
           endTime: startTime + nex.duration,
           volume: this._options.backgroundAudio.volume,
-          mute: this._options.backgroundAudio?.mute || false
+          mute: this._options.backgroundAudio?.mute || false,
+          type: 1
         }
       }
     }
@@ -115,10 +130,19 @@ class Compile {
         startTime: nex.dub?.startTime || -1,
         endTime: nex.dub?.endTime || -1,
         volume: nex.dub?.volume || -1,
-        mute: nex.dub?.mute
+        mute: nex.dub?.mute,
+        type: 2
       }
     }
     return undefined
+  }
+  async parseAudio(audio: RenderDataAudio | undefined) {
+    if (!audio) return
+    const source: Blob = this._fileCache.get(audio.source as string) || await this.loadMediaData(audio.source as string)
+    return {
+      ...audio,
+      source,
+    }
   }
 
 }

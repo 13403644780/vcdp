@@ -20,12 +20,16 @@ class Core {
     this._render.initSubtitle()
   }
   public play() {
-    this._render._videoRef?.play()
-    console.log('this._render._videoRef?.play(): ', this._render._videoRef);
+    console.log()
+    this._render._videoRef?.src&&this._render._videoRef?.play()
+    this._render._dubAudio?.src && this._render._dubAudio?.play()
+    this._render._backgroundAudio?.src&&this._render._backgroundAudio?.play()
     this._render._animation?.start()
   }
   public pause() {
-    this._render._videoRef?.pause()
+    this._render._videoRef?.src&&this._render._videoRef?.pause()
+    this._render._dubAudio?.src && this._render._dubAudio?.pause()
+    this._render._backgroundAudio?.src&&this._render._backgroundAudio?.pause()
     this._render._animation?.stop()
   }
 

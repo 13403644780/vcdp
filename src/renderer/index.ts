@@ -1,5 +1,5 @@
 import Konva from 'konva'
-import { merge, debounce } from 'lodash-es'
+import { merge, debounce, DebouncedFunc } from 'lodash-es'
 import { RendererConfig, ListNode, RenderData, parseSubtitle } from '../types'
 import { getCurrentTimeSubtitleText } from '../utils'
 
@@ -18,6 +18,9 @@ class Renderer {
   _subtitleLabel: Konva.Label | undefined
   _subtitleTag: Konva.Tag | undefined
   _proxyTarget: RenderData | undefined
+  _backgroundAudio: HTMLAudioElement | undefined
+  _dubAudio: HTMLAudioElement | undefined
+  _Urls: string[]
   constructor(options: RendererConfig) {
     this._options = options
     this._stage = null
@@ -27,9 +30,11 @@ class Renderer {
     this._imageRef = null
     this._animation = null
     this._scale = 1
+    this._Urls = []
     this.initScale()
     this.initCanvas()
     this.initVideo()
+    this.initAudio()
     this.initAnimation()
     this.proxyCurrent()
   }
@@ -87,6 +92,10 @@ class Renderer {
       this._imageRef?.width(this._options.video.width)
       this._imageRef?.height(this._options.video.height)
     })
+  }
+  initAudio() {
+    this._backgroundAudio = new Audio()
+    this._dubAudio = new Audio()
   }
   initSubtitle() {
     this._subtitleLabel = new Konva.Label({
@@ -150,11 +159,16 @@ class Renderer {
 
   }
   proxyCurrent() {
-    const self = this
-    this._proxyTarget = new Proxy<RenderData>({}, HandleFunc(self))
+    const renderDebounce = debounce(this.updateRenderer.bind(this), 100, {
+      trailing: true,
+      leading: false
+    })
+    this._proxyTarget = new Proxy<RenderData>({}, HandleFunc(renderDebounce))
   }
   updateRenderer() {
     this.updateVideoSource()
+    this.updateAudioSource()
+    this.setMediaStartTime()
   }
   updateVideoSource() {
     if (!this._proxyTarget?.video) return
@@ -162,7 +176,35 @@ class Renderer {
       this._videoRef?.setAttribute('src', this._proxyTarget?.video.source)
     } else {
       const url = URL.createObjectURL(this._proxyTarget?.video.source)
+      this._Urls.push(url)
       this._videoRef?.setAttribute('src', url)
+    }
+  }
+  updateAudioSource() {
+    if (!this._proxyTarget?.audio || !Array.isArray(this._proxyTarget.audio)) return
+    const audio = this._proxyTarget.audio
+    for (let i=0;i<audio.length ;i++) {
+      const target = audio[i].type === 1 ? this._backgroundAudio : this._dubAudio
+      if (typeof audio[i].source === 'string') {
+        target?.setAttribute('src', audio[i].source as string)
+      } else {
+        const url = URL.createObjectURL(audio[i].source as Blob)
+        target?.setAttribute('src', url)
+      }
+    }
+  }
+  setMediaStartTime() {
+    if (this._videoRef) {
+      this._videoRef.currentTime = this._proxyTarget!.video!.startTime / 1000
+    }
+    if (this._proxyTarget?.audio && this._proxyTarget?.audio.length >= 1) {
+      const audio = this._proxyTarget?.audio
+      for(let i = 0; i< audio.length; i++) {
+        const target = audio[i].type === 1 ? this._backgroundAudio : this._dubAudio
+        if (target) {
+          target.currentTime = audio[i].startTime / 1000
+        }
+      }
     }
   }
   public changeCurrentData(data: RenderData) {
@@ -170,13 +212,13 @@ class Renderer {
   }
 }
 
-const HandleFunc = <T extends {}>(self: Renderer) => ({
+const HandleFunc = <T extends {}>(renderFunction: DebouncedFunc<() => void>) => ({
   get(target: T, prop: keyof T, receiver: any) {
     return Reflect.get(target, prop, receiver)
   },
 
   set(target: T, prop: keyof T, value: T[keyof T], receiver: any) {
-    self.updateRenderer()
+    renderFunction()
     return Reflect.set(target, prop, value, receiver)
   }
 })

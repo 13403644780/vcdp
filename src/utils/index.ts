@@ -10,12 +10,18 @@ export class ListNodeFactory {
 }
 
 
-export function getCurrentTimeSubtitleText (videoCurrentTime: number, videoStartTime: number, subtitles: parseSubtitle[]) {
+export function getCurrentTimeSubtitleText(videoCurrentTime: number, videoStartTime: number, subtitles: parseSubtitle[]) {
   const realTime = videoCurrentTime - videoStartTime
-  return subtitles.find((subtitle) => subtitle.startSeconds< realTime && subtitle.endSeconds > realTime)
+  return subtitles.find((subtitle) => subtitle.startSeconds < realTime && subtitle.endSeconds > realTime)
 }
 
-export function calculationBackgroundStartTime(previousTime: number, currentVideoDuration: number, currentAudioDuration: number, isRepeat?: boolean): number {
+export function calculationBackgroundStartTime(
+  previousTime: number,
+  currentVideoDuration: number,
+  currentAudioStartTime: number,
+  currentAudioEndTime: number,
+  isRepeat?: boolean): number {
+  const currentAudioCutDuration = currentAudioEndTime - currentAudioStartTime
   const currentNodeTime = previousTime + currentVideoDuration
-  return currentNodeTime < currentAudioDuration ? previousTime : isRepeat ? Math.abs(currentAudioDuration - currentNodeTime) : -1
+  return currentNodeTime < currentAudioCutDuration ? currentAudioStartTime : isRepeat ? Math.abs(currentAudioCutDuration - currentNodeTime) + currentAudioStartTime : -1
 }
