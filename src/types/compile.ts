@@ -7,7 +7,7 @@ import { parseSubtitle, } from "./renderer"
  */
 export interface ListNode {
   currentData: NodeData,
-  next: ListNode | null
+  next: ListNode | undefined
 }
 
 /**

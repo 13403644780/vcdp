@@ -13,6 +13,9 @@ class Core {
             container: typeof options.container === "string" ? document.querySelector(options.container) as HTMLDivElement : options.container,
             video: options.video,
             other: options.other,
+            callbacks: {
+                updateNext: this.updateNext.bind(this),
+            },
         })
     
     }
@@ -20,13 +23,17 @@ class Core {
         this._render.changeCurrentData(this._compile._playerData as RenderData)
         this._render.initSubtitle()
         this._render.disposeLoading()
-        setTimeout(() => {
-            this._render.startLoading()
-            setTimeout(() => {
-                this._render.disposeLoading()
-            }, 1000)
-        }, 1000)
-        
+    }
+    async updateNext() {
+        console.log("updateNext")
+        const result = await this._compile.updateNextNode()
+        console.log("updateNext", result)
+        if (result) {
+            this._render.changeCurrentData(this._compile._playerData as RenderData)
+            this._render.initSubtitle()
+        }
+        this._render.disposeLoading()
+        this.play()
     }
     public play() {
         this._render._videoRef?.src && this._render._videoRef?.play() 

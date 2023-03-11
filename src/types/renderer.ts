@@ -10,6 +10,9 @@ export interface RendererConfig {
     loadingImage?: string
     background?: string
   }
+  callbacks: {
+    [prop: string]: () => void
+  }
 }
 
 /**

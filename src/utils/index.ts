@@ -1,10 +1,10 @@
-import { ListNode, NodeData, } from "../types/compile"
+import { NodeData, } from "../types/compile"
 import { parseSubtitle, } from "../types"
 export class ListNodeFactory {
-    next: ListNode | null
+    next: ListNodeFactory | undefined
     currentData: NodeData
     constructor(options: NodeData) {
-        this.next = null
+        this.next = undefined
         this.currentData = options
     }
 }

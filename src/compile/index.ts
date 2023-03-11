@@ -141,6 +141,12 @@ class Compile {
             source,
         }
     }
+    async updateNextNode() {
+        this._currentNode = this._currentNode?.next
+        if (!this._currentNode) return false
+        await this.parseData()
+        return true
+    }
 
 }
 
