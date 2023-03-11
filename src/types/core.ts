@@ -1,5 +1,5 @@
-import Konva from 'konva'
-import { Position } from './compile'
+import Konva from "konva"
+import { Position, } from "./compile"
 /**
  * 配置文件
  */
@@ -56,7 +56,7 @@ export interface Scene {
  * 2: 图片元素
  */
 export interface VideoElement {
-  type: 1 | 2,
+  type: 1 | 2
   text?: string
   source: string
   position: Position

@@ -1,6 +1,6 @@
 import Konva from "konva"
-import { Data } from "./core"
-import { parseSubtitle } from "./renderer"
+import { Data, } from "./core"
+import { parseSubtitle, } from "./renderer"
 
 /**
  * 链表节点

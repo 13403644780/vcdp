@@ -1,4 +1,4 @@
-import { VideoConfig } from "./core"
+import { VideoConfig, } from "./core"
 
 /**
  * 初始化
