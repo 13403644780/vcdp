@@ -4,8 +4,12 @@ import { VideoConfig, } from "./core"
  * 初始化
  */
 export interface RendererConfig {
-  container: HTMLDivElement,
+  container: HTMLDivElement
   video: VideoConfig
+  other?: {
+    loadingImage?: string
+    background?: string
+  }
 }
 
 /**

@@ -12,15 +12,23 @@ class Core {
         this._render = new Render({
             container: typeof options.container === "string" ? document.querySelector(options.container) as HTMLDivElement : options.container,
             video: options.video,
+            other: options.other,
         })
     
     }
     initRenderData() {
         this._render.changeCurrentData(this._compile._playerData as RenderData)
         this._render.initSubtitle()
+        this._render.disposeLoading()
+        setTimeout(() => {
+            this._render.startLoading()
+            setTimeout(() => {
+                this._render.disposeLoading()
+            }, 1000)
+        }, 1000)
+        
     }
     public play() {
-        console.log()
         this._render._videoRef?.src && this._render._videoRef?.play() 
         this._render._dubAudio?.src && this._render._dubAudio?.play()
         this._render._backgroundAudio?.src && this._render._backgroundAudio?.play()

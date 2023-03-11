@@ -3,6 +3,7 @@ import JSONEditor from "jsoneditor"
 import "./App.css"
 import "jsoneditor/dist/jsoneditor.min.css"
 import jsonData from "./mock/01.json"
+import loadingImage from "../assets/loading.svg"
 import { Core, Data, } from "@happyPlayer"
 
 const App = () => {
@@ -23,6 +24,9 @@ const App = () => {
                 height: 1080,
             },
             data: jsonData as Data,
+            other: {
+                loadingImage: loadingImage,
+            },
         })
         setPlayerRef(player)
     }, [])

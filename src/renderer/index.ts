@@ -9,11 +9,14 @@ class Renderer {
     _stage: Konva.Stage | null
     _videoLayer: Konva.Layer | null
     _subtitleLayer: Konva.Layer | undefined
-    _containerLayer: Konva.Layer | null
+    _containerLayer: Konva.Layer | undefined
+    _animationLayer: Konva.Layer | undefined
     _imageRef: Konva.Image | null
     _animation: Konva.Animation | null
     _scale: number
     _videoRef: HTMLVideoElement | null
+    _loadingRef: Konva.Image | undefined
+    _animationRef: Konva.Animation | undefined
     _textRef: Konva.Text | undefined
     _subtitleLabel: Konva.Label | undefined
     _subtitleTag: Konva.Tag | undefined
@@ -25,7 +28,6 @@ class Renderer {
         this._options = options
         this._stage = null
         this._videoLayer = null
-        this._containerLayer = null
         this._videoRef = null
         this._imageRef = null
         this._animation = null
@@ -34,6 +36,7 @@ class Renderer {
         this.initScale()
         this.initCanvas()
         this.initVideo()
+        this.initLoading()
         this.initAudio()
         this.initAnimation()
         this.proxyCurrent()
@@ -67,11 +70,23 @@ class Renderer {
             width: this._options.video.width,
             height: this._options.video.height,
         })
+        this._animationLayer = new Konva.Layer({
+            name: "animation-layer",
+            x: this._stage.width() / 2 - this._options.video.width * this._scale / 2,
+            y: this._stage.height() / 2 - this._options.video.height * this._scale / 2,
+            scale: {
+                x: this._scale,
+                y: this._scale,
+            },
+            width: this._options.video.width,
+            height: this._options.video.height,
+        })
         this._stage.container().style.backgroundColor = "#39375B"
         this._videoLayer.zIndex(1)
         this._subtitleLayer.zIndex(2)
         this._stage.add(this._videoLayer)
         this._stage.add(this._subtitleLayer)
+        this._stage.add(this._animationLayer)
     }
     initScale() {
         const { width, height, } = this._options.video
@@ -127,6 +142,45 @@ class Renderer {
         this._animation = new Konva.Animation(() => {
             this.updateSubtitle()
         }, this._videoLayer)
+    }
+    initLoading() {
+        const image = document.createElement("img")
+        image.src = this._options.other?.loadingImage || ""
+        image.onload = () => {
+            this._loadingRef = new Konva.Image({
+                name: "loading-ref",
+                image: image,
+                x: this._options.video.width / 2,
+                y: this._options.video.height / 2,
+                width: 100,
+                height: 100,
+                offset: {
+                    x: 50,
+                    y: 50,
+                },
+            })
+            this._animationLayer?.add(this._loadingRef)
+            this.initOtherAnimation()
+        }
+    }
+    initOtherAnimation(){
+        const speed = 100
+        this._animationRef = new Konva.Animation((frame) => {
+            if (frame !== undefined) {
+                const angleDiff = frame.timeDiff * speed / 1000
+                this._loadingRef?.rotate(angleDiff)
+            }
+        }, this._animationLayer)
+        this._animationRef.start()
+    }
+    public disposeLoading() {
+        this._loadingRef?.remove()
+        this._animationRef?.stop()
+    }
+    public startLoading() {
+        if (!this._loadingRef) return
+        this._animationLayer?.add(this._loadingRef)
+        this._animationRef?.start()
     }
     updateSubtitle() {
         const result = getCurrentTimeSubtitleText(this._videoRef!.currentTime, this._proxyTarget!.video!.startTime, this._proxyTarget!.subtitle!.source as parseSubtitle[])

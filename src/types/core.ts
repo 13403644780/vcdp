@@ -6,7 +6,11 @@ import { Position, } from "./compile"
 export interface Config {
   container: string | HTMLDivElement
   video: VideoConfig
-  data: Data
+  data: Data,
+  other?: {
+    loadingImage?: string
+    background?: string
+  }
 }
 
 /**
