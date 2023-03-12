@@ -24,7 +24,7 @@ export interface VideoConfig {
  * 内容参数
  */
 export interface Data {
-  backgroundAudio?: BackgroundAudio
+  backgroundAudio?: BackgroundAudio[]
   scenes: Scene[]
   elements: VideoElement[]
 }

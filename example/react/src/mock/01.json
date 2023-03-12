@@ -1,17 +1,19 @@
 {
-  "backgroundAudio":{
+  "backgroundAudio":[
+    {
       "source": "https://image.liuyongzhi.cn/video/background.mp3",
       "duration": 325903.673,
-      "startTime": 0,
-      "endTime": 5000,
+      "startTime": 25000,
+      "endTime": 26000,
       "repeat": true,
       "mute": false,
-      "volume": 5
-    },
+      "volume": 10
+    }
+  ],
   "scenes": [
     {
       "duration": 5000,
-      "volume": 80,
+      "volume": 20,
       "mute": false,
       "subtitle": {
         "source": "https://image.liuyongzhi.cn/video/video1subtitle.srt",
@@ -39,7 +41,7 @@
     },
     {
       "duration": 10000,
-      "volume": 80,
+      "volume": 20,
       "mute": false,
       "subtitle": {
         "source": "https://image.liuyongzhi.cn/video/video2subtitle.srt",

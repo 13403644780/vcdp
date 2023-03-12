@@ -20,32 +20,24 @@ class Core {
     
     }
     initRenderData() {
+        this._render.initBackgroundAudios(this._compile._backgrounds)
         this._render.changeCurrentData(this._compile._playerData as RenderData)
         this._render.initSubtitle()
         this._render.disposeLoading()
     }
     async updateNext() {
-        console.log("updateNext")
         const result = await this._compile.updateNextNode()
-        console.log("updateNext", result)
         if (result) {
             this._render.changeCurrentData(this._compile._playerData as RenderData)
             this._render.initSubtitle()
+            this._render.disposeLoading()
         }
-        this._render.disposeLoading()
-        this.play()
     }
     public play() {
-        this._render._videoRef?.src && this._render._videoRef?.play() 
-        this._render._dubAudio?.src && this._render._dubAudio?.play()
-        this._render._backgroundAudio?.src && this._render._backgroundAudio?.play()
-        this._render._animation?.start()
+        this._render.play() 
     }
     public pause() {
-        this._render._videoRef?.src && this._render._videoRef?.pause()
-        this._render._dubAudio?.src && this._render._dubAudio?.pause()
-        this._render._backgroundAudio?.src && this._render._backgroundAudio?.pause()
-        this._render._animation?.stop()
+        this._render.pause() 
     }
 
 }

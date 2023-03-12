@@ -1,5 +1,5 @@
-import { RenderData, Scene, CompileOptions, RenderDataAudio, NodeData, } from "../types"
-import { ListNodeFactory, calculationBackgroundStartTime, } from "../utils"
+import { RenderData, Scene, CompileOptions, NodeData, RenderDataAudio, } from "../types"
+import { ListNodeFactory, } from "../utils"
 import { cloneDeep, } from "lodash-es"
 import srtParse from "srt-parser-2"
 class Compile {
@@ -9,14 +9,16 @@ class Compile {
     _currentNode: ListNodeFactory | undefined
     _playerData: RenderData | undefined
     _BlobUrls: string[] | undefined
+    _backgrounds: RenderDataAudio[]
     constructor(option: CompileOptions) {
         this._fileCache = new Map()
         this._options = option
         this._AllData = null
+        this._backgrounds = []
         this.parseAllData()
     }
 
-    parseAllData() {
+    async parseAllData() {
         const scenes = this._options.scenes.reduce((pre: NodeData[], nex: Scene) => {
             const video = {
                 source: nex.material.source,
@@ -31,12 +33,10 @@ class Compile {
                 style: nex.subtitle?.style || {},
                 position: nex.subtitle?.position || { x: 0, y: 0, },
             }
-            const backgroundAudio = this.getBackgroundAudio(pre, nex)
             const dubAudio = this.getDubAudio(nex)
             pre.push({
                 video,
                 subtitle,
-                backgroundAudio,
                 dubAudio,
             })
             return pre
@@ -49,16 +49,37 @@ class Compile {
             current.next = data
             current = data
         }
+        await this.parseBackgroundAudio()
         this.parseData()
+    }
+    async parseBackgroundAudio() {
+        const bgAudios = this._options.backgroundAudio || []
+        const promises = bgAudios.map(item => this.loadMediaData(item.source))
+        const results = await Promise.all(promises)
+        const data = bgAudios.map((item) => {
+            const blob = results.find(result => result.source === item.source)?.data
+            if (!blob) return
+            const bgUrl = URL.createObjectURL(blob)
+            this._BlobUrls?.push(bgUrl)
+            return {
+                ...item,
+                source: bgUrl,
+                mute: item.mute,
+                volume: item.volume,
+                startTime: item.startTime,
+                endTime: item.endTime,
+                repeat: item.repeat || false,
+            }
+        })
+        this._backgrounds = data.filter(item => item !== undefined) as RenderDataAudio[]
     }
 
 
     async parseData() {
         if (!this._currentNode) return
         const data = cloneDeep(this._currentNode.currentData)
-        const videoSource = this._fileCache.get(data.video.source) || await this.loadMediaData(data.video.source)
+        const videoSource = this._fileCache.get(data.video.source) || await (await this.loadMediaData(data.video.source)).data
         const subtitleSource = this._fileCache.get(data.subtitle.source) || await this.loadSubtitleData(data.subtitle.source)
-        const audio = await this.parseAudioData(data as NodeData)
         const currentData: RenderData = {
             video: {
                 ...data.video,
@@ -68,25 +89,17 @@ class Compile {
                 ...data.subtitle,
                 source: subtitleSource,
             },
-            audio: audio || undefined,
         }
         this._playerData = currentData
         this._options.firstDataInit()
     }
-
-    async parseAudioData(data: NodeData) {
-        const result = []
-        const dubAudio = await this.parseAudio(data.dubAudio)
-        const backgroundAudio = await this.parseAudio(data.backgroundAudio)
-        dubAudio && result.push(dubAudio)
-        backgroundAudio && result.push(backgroundAudio)
-        return result.length && result
-    }
-
     async loadMediaData(source: string) {
         const data = await (await fetch(source)).blob()
         this._fileCache.set(source, data)
-        return data
+        return {
+            source,
+            data,
+        }
     }
 
     async loadSubtitleData(source: string) {
@@ -95,29 +108,6 @@ class Compile {
         const srtData = parser.fromSrt(data)
         this._fileCache.set(source, srtData)
         return srtData
-    }
-
-    getBackgroundAudio(pre: NodeData[], nex: Scene) {
-        if (this._options.backgroundAudio) {
-            const previousTime = pre.reduce((p, n) => p + (n.video.endTime - n.video.startTime), 0)
-            const { startTime, endTime, } = calculationBackgroundStartTime(
-                previousTime,
-                nex.duration,
-                this._options.backgroundAudio?.startTime || 0,
-                this._options.backgroundAudio?.endTime || 0,
-                this._options.backgroundAudio?.repeat)
-            if (startTime !== -1) {
-                return {
-                    source: this._options.backgroundAudio.source,
-                    startTime: startTime,
-                    endTime: endTime,
-                    volume: this._options.backgroundAudio.volume,
-                    mute: this._options.backgroundAudio?.mute || false,
-                    type: 1,
-                }
-            }
-        }
-        return undefined
     }
 
     getDubAudio(nex: Scene) {
@@ -133,19 +123,28 @@ class Compile {
         }
         return undefined
     }
-    async parseAudio(audio: RenderDataAudio | undefined) {
-        if (!audio) return
-        const source: Blob = this._fileCache.get(audio.source as string) || await this.loadMediaData(audio.source as string)
-        return {
-            ...audio,
-            source,
-        }
-    }
     async updateNextNode() {
         this._currentNode = this._currentNode?.next
         if (!this._currentNode) return false
-        await this.parseData()
+        await this.updateParseData()
         return true
+    }
+    async updateParseData() {
+        if (!this._currentNode) return
+        const data = cloneDeep(this._currentNode.currentData)
+        const videoSource = this._fileCache.get(data.video.source) || await (await this.loadMediaData(data.video.source)).data
+        const subtitleSource = this._fileCache.get(data.subtitle.source) || await this.loadSubtitleData(data.subtitle.source)
+        const currentData: RenderData = {
+            video: {
+                ...data.video,
+                source: videoSource,
+            },
+            subtitle: {
+                ...data.subtitle,
+                source: subtitleSource,
+            },
+        }
+        this._playerData = currentData
     }
 
 }

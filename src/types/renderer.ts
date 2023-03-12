@@ -1,11 +1,10 @@
-import { VideoConfig, } from "./core"
-
+import { VideoConfig,} from "./core"
 /**
  * 初始化
  */
 export interface RendererConfig {
   container: HTMLDivElement
-  video: VideoConfig
+  video: VideoConfig,
   other?: {
     loadingImage?: string
     background?: string

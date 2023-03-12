@@ -29,7 +29,6 @@ export interface NodeData {
     }
     position: Position
   }
-  backgroundAudio?: RenderDataAudio
   dubAudio?: RenderDataAudio
 }
 
@@ -69,12 +68,12 @@ export interface RenderDataSubtitle {
   position: Position
 }
 export interface RenderDataAudio {
-  source: string | Blob
+  source: string
   startTime: number
   endTime: number
   volume: number
   mute: boolean
-  type: number, // 1 背景音乐， 2 配音
+  repeat?: boolean
 }
 export interface RenderData {
   video?: RenderDataVideo

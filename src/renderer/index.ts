@@ -1,8 +1,8 @@
 import Konva from "konva"
 import { merge, debounce, DebouncedFunc, throttle, } from "lodash-es"
-import { RendererConfig, RenderData, parseSubtitle, } from "../types"
+import { RendererConfig, RenderData, parseSubtitle, RenderDataAudio, } from "../types"
 import { getCurrentTimeSubtitleText, } from "../utils"
-
+import { Howl, } from "howler"
 
 class Renderer {
     _options: RendererConfig
@@ -21,8 +21,8 @@ class Renderer {
     _subtitleLabel: Konva.Label | undefined
     _subtitleTag: Konva.Tag | undefined
     _proxyTarget: RenderData | undefined
-    _backgroundAudio: HTMLAudioElement | undefined
-    _dubAudio: HTMLAudioElement | undefined
+    _backgroundAudioRefs: Howl[]
+    _dubAudio: Howl | undefined
     _Urls: string[]
     _updateNext: DebouncedFunc<() => void>
     constructor(options: RendererConfig) {
@@ -34,13 +34,12 @@ class Renderer {
         this._animation = null
         this._scale = 1
         this._Urls = []
+        this._backgroundAudioRefs = []
         this.initScale()
         this.initCanvas()
         this.initVideo()
         this.initLoading()
-        this.initAudio()
         this.initAnimation()
-        this.proxyCurrent()
         this._updateNext = throttle(options.callbacks.updateNext, 100, {
             leading: true,
             trailing: false,
@@ -127,11 +126,22 @@ class Renderer {
         })
     }
     /**
-     * 初始化音频节点
+     * 初始化背景音乐
      */
-    initAudio() {
-        this._backgroundAudio = new Audio()
-        this._dubAudio = new Audio()
+    initBackgroundAudios(backgroundAudios: RenderDataAudio[]) {
+        this._backgroundAudioRefs = backgroundAudios.map(item => {
+            return new Howl({
+                src: [item.source,],
+                mute: item.mute,
+                volume: item.volume / 100,
+                loop: item.repeat,
+                format: ["mp3",],
+                sprite: {
+                    main: [item.startTime, item.endTime,],
+                },
+            })
+        })
+        console.log(this._backgroundAudioRefs)
     }
     /**
      * 初始化字幕元素
@@ -167,6 +177,7 @@ class Renderer {
      */
     initAnimation() {
         this._animation = new Konva.Animation(() => {
+            this.setSubtitleOffset()
         }, this._videoLayer)
     }
     /**
@@ -219,7 +230,6 @@ class Renderer {
                 x: this._textRef!.width() / 2,
                 y: this._textRef!.height() / 2,
             })
-            this.setSubtitleOffset()
         })
     }
     /**
@@ -256,18 +266,14 @@ class Renderer {
      * 当前节点更新的副作用
      */
     async updateRenderer() {
-        console.log("updateRender")
-        await this.updateVideoSource()
-        await this.setMediaStartTime()
-        this.updateAudioSource()
+        this.updateVideoSource()
+        this.setMediaStartTime()
+        this.play()
     }
     /**
      * 停止当前节点音视频及字幕，清除画布
      */
     disposeCurrentNode() {
-        this._videoRef?.pause()
-        this._backgroundAudio?.pause()
-        this._dubAudio?.pause()
         this._imageRef?.remove()
         this._subtitleLabel?.remove()
     }
@@ -276,9 +282,7 @@ class Renderer {
      * @returns 
      */
     updateVideoSource() {
-        console.log(!this._imageRef || !this._proxyTarget?.video || !this._videoRef || !this._videoLayer)
         if (!this._imageRef || !this._proxyTarget?.video || !this._videoRef || !this._videoLayer) return
-        console.log("更新视频播放器")
         if (typeof this._proxyTarget.video.source === "string") {
             this._videoRef.setAttribute("src", this._proxyTarget?.video.source)
         } else {
@@ -287,26 +291,7 @@ class Renderer {
             this._videoRef.setAttribute("src", url)
         }
         this._videoLayer.add(this._imageRef)
-    }
-    /**
-     * 更新音频播放器内容
-     * @returns 
-     */
-    updateAudioSource() {
-        if (!this._proxyTarget?.audio || !Array.isArray(this._proxyTarget.audio)) return
-        const audio = this._proxyTarget.audio
-        for (let i = 0; i < audio.length; i++) {
-            const target = audio[i].type === 1 ? this._backgroundAudio : this._dubAudio
-            if (typeof audio[i].source === "string") {
-                target?.setAttribute("src", audio[i].source as string)
-            } else {
-                const url = URL.createObjectURL(audio[i].source as Blob)
-                this._Urls.push(url)
-                target?.setAttribute("src", url)
-            }
-            target!.volume = audio[i].volume / 100
-            target!.muted = audio[i].mute
-        }
+        console.log("更新视频播放器")
     }
     /**
      * 设置媒体播放器开始时间
@@ -315,15 +300,22 @@ class Renderer {
         if (this._videoRef) {
             this._videoRef.currentTime = this._proxyTarget!.video!.startTime / 1000
         }
-        if (this._proxyTarget?.audio && this._proxyTarget?.audio.length >= 1) {
-            const audio = this._proxyTarget?.audio
-            for (let i = 0; i < audio.length; i++) {
-                const target = audio[i].type === 1 ? this._backgroundAudio : this._dubAudio
-                if (target) {
-                    target.currentTime = audio[i].startTime / 1000
-                }
-            }
+        console.log("设置媒体播放器")
+    }
+    /**
+     * 停止媒体播放器
+     */
+    stopMediaStatAttr() {
+        if (this._videoRef) {
+            this._videoRef.volume = 0
         }
+    }
+    startMediaStatAttr() {
+        if (this._proxyTarget?.video) {
+            this._videoRef!.volume = this._proxyTarget.video.volume / 100
+            this._videoRef!.muted = this._proxyTarget.video.mute
+        }
+        
     }
     /**
      * 当前节点播放完毕回调函数
@@ -335,6 +327,7 @@ class Renderer {
         const targetEndTime = this._proxyTarget.video.endTime
         if (currentTime >= targetEndTime) {
             this.disposeCurrentNode()
+            this.pause()
             this.startLoading()
             this._updateNext()
         }
@@ -344,6 +337,7 @@ class Renderer {
      * @param data 
      */
     public changeCurrentData(data: RenderData) {
+        this.proxyCurrent()
         merge(this._proxyTarget, data)
     }
     /**
@@ -361,6 +355,22 @@ class Renderer {
         this._animationLayer?.add(this._loadingRef)
         this._animationRef?.start()
     }
+    public play() {
+        this.startMediaStatAttr()
+        this._animation?.start()
+        this._videoRef?.play()
+        this._backgroundAudioRefs.forEach(item => {
+            item.play("main")
+        })
+    }
+    public pause() {
+        this.stopMediaStatAttr()
+        this._animation?.stop()
+        this._videoRef?.pause()
+        this._backgroundAudioRefs.forEach(item => {
+            item.pause()
+        })
+    }
 }
 
 const HandleFunc = <T extends {}>(renderFunction: DebouncedFunc<() => void>) => ({
@@ -370,7 +380,6 @@ const HandleFunc = <T extends {}>(renderFunction: DebouncedFunc<() => void>) => 
 
     set(target: T, prop: keyof T, value: T[keyof T], receiver: any) {
         renderFunction()
-        console.log("update")
         return Reflect.set(target, prop, value, receiver)
     },
 })
