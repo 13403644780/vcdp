@@ -3,8 +3,12 @@ import { parseSubtitle, } from "../types"
 export class ListNodeFactory {
     next: ListNodeFactory | undefined
     currentData: NodeData
-    constructor(options: NodeData) {
+    head: boolean
+    last: boolean
+    constructor(options: NodeData, head?: boolean, last?: boolean) {
         this.next = undefined
+        this.head = head || false
+        this.last = last || false
         this.currentData = options
     }
 }

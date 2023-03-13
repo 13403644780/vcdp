@@ -1,3 +1,4 @@
+import { Howl, } from "howler"
 import { VideoConfig,} from "./core"
 /**
  * 初始化
@@ -24,4 +25,11 @@ export interface parseSubtitle {
   startSeconds: number
   startTime: string
   text: string
+}
+
+export namespace Background {
+  export interface Ref {
+    ref: Howl
+    id: number
+  }
 }

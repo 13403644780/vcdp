@@ -1,6 +1,6 @@
 import Konva from "konva"
 import { merge, debounce, DebouncedFunc, throttle, } from "lodash-es"
-import { RendererConfig, RenderData, parseSubtitle, RenderDataAudio, } from "../types"
+import { RendererConfig, RenderData, parseSubtitle, RenderDataAudio, Background, } from "../types"
 import { getCurrentTimeSubtitleText, } from "../utils"
 import { Howl, } from "howler"
 
@@ -21,7 +21,7 @@ class Renderer {
     _subtitleLabel: Konva.Label | undefined
     _subtitleTag: Konva.Tag | undefined
     _proxyTarget: RenderData | undefined
-    _backgroundAudioRefs: Howl[]
+    _backgroundAudioRefs: Background.Ref[]
     _dubAudio: Howl | undefined
     _Urls: string[]
     _updateNext: DebouncedFunc<() => void>
@@ -63,8 +63,6 @@ class Renderer {
                 x: this._scale,
                 y: this._scale,
             },
-            width: this._options.video.width,
-            height: this._options.video.height,
         })
         this._subtitleLayer = new Konva.Layer({
             name: "subtitle-layer",
@@ -74,8 +72,6 @@ class Renderer {
                 x: this._scale,
                 y: this._scale,
             },
-            width: this._options.video.width,
-            height: this._options.video.height,
         })
         this._animationLayer = new Konva.Layer({
             name: "animation-layer",
@@ -85,12 +81,8 @@ class Renderer {
                 x: this._scale,
                 y: this._scale,
             },
-            width: this._options.video.width,
-            height: this._options.video.height,
         })
         this._stage.container().style.backgroundColor = "#39375B"
-        this._videoLayer.zIndex(1)
-        this._subtitleLayer.zIndex(2)
         this._stage.add(this._videoLayer)
         this._stage.add(this._subtitleLayer)
         this._stage.add(this._animationLayer)
@@ -130,18 +122,22 @@ class Renderer {
      */
     initBackgroundAudios(backgroundAudios: RenderDataAudio[]) {
         this._backgroundAudioRefs = backgroundAudios.map(item => {
-            return new Howl({
-                src: [item.source,],
-                mute: item.mute,
-                volume: item.volume / 100,
-                loop: item.repeat,
-                format: ["mp3",],
-                sprite: {
-                    main: [item.startTime, item.endTime,],
-                },
-            })
+            return {
+                ref: new Howl({
+                    src: [item.source,],
+                    mute: item.mute,
+                    volume: item.volume / 100,
+                    loop: item.repeat,
+                    format: ["mp3",],
+                    autoplay: false,
+                    html5: true,
+                    sprite: {
+                        main: [item.startTime, item.endTime - item.startTime,],
+                    },
+                }),
+                id: 0,
+            }
         })
-        console.log(this._backgroundAudioRefs)
     }
     /**
      * 初始化字幕元素
@@ -150,6 +146,7 @@ class Renderer {
         this._subtitleLabel = new Konva.Label({
             x: this._proxyTarget?.subtitle?.position.x,
             y: this._proxyTarget?.subtitle?.position.y,
+            visible: false,
         })
         this._subtitleTag = new Konva.Tag({
             fill: this._proxyTarget?.subtitle?.style.backgroundColor,
@@ -226,6 +223,7 @@ class Renderer {
         const { text, } = result
         requestAnimationFrame(() => {
             this._textRef?.text(text)
+            this._subtitleLabel?.visible(true)
             this._subtitleLabel?.offset({
                 x: this._textRef!.width() / 2,
                 y: this._textRef!.height() / 2,
@@ -268,7 +266,9 @@ class Renderer {
     async updateRenderer() {
         this.updateVideoSource()
         this.setMediaStartTime()
-        this.play()
+        if (!this._proxyTarget?.head) {
+            this.play()
+        }
     }
     /**
      * 停止当前节点音视频及字幕，清除画布
@@ -291,7 +291,6 @@ class Renderer {
             this._videoRef.setAttribute("src", url)
         }
         this._videoLayer.add(this._imageRef)
-        console.log("更新视频播放器")
     }
     /**
      * 设置媒体播放器开始时间
@@ -300,7 +299,6 @@ class Renderer {
         if (this._videoRef) {
             this._videoRef.currentTime = this._proxyTarget!.video!.startTime / 1000
         }
-        console.log("设置媒体播放器")
     }
     /**
      * 停止媒体播放器
@@ -326,10 +324,17 @@ class Renderer {
         const currentTime = this._videoRef.currentTime * 1000
         const targetEndTime = this._proxyTarget.video.endTime
         if (currentTime >= targetEndTime) {
-            this.disposeCurrentNode()
-            this.pause()
-            this.startLoading()
-            this._updateNext()
+            if (this._proxyTarget.last) {
+                console.log("last")
+                this.disposeCurrentNode()
+                this.pause()
+            } else {
+                this.disposeCurrentNode()
+                this.pause()
+                this.startLoading()
+                this._updateNext()
+            }
+            
         }
     }
     /**
@@ -360,7 +365,8 @@ class Renderer {
         this._animation?.start()
         this._videoRef?.play()
         this._backgroundAudioRefs.forEach(item => {
-            item.play("main")
+            const id = item.ref.play(item.id === 0 ? "main" : item.id)
+            item.id = id
         })
     }
     public pause() {
@@ -368,8 +374,12 @@ class Renderer {
         this._animation?.stop()
         this._videoRef?.pause()
         this._backgroundAudioRefs.forEach(item => {
-            item.pause()
+            item.ref.pause(item.id)
         })
+    }
+    public done() {
+        this._loadingRef?.remove()
+        this.disposeCurrentNode()
     }
 }
 

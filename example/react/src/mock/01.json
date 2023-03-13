@@ -4,7 +4,7 @@
       "source": "https://image.liuyongzhi.cn/video/background.mp3",
       "duration": 325903.673,
       "startTime": 25000,
-      "endTime": 26000,
+      "endTime": 30000,
       "repeat": true,
       "mute": false,
       "volume": 10
@@ -35,7 +35,7 @@
         "type": 1,
         "duration": 90023.764,
         "startTime": 0,
-        "endTime": 5000,
+        "endTime": 10000,
         "source": "https://image.liuyongzhi.cn/video/video1.mp4"
       }
     },

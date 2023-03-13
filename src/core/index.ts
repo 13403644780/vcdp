@@ -31,6 +31,8 @@ class Core {
             this._render.changeCurrentData(this._compile._playerData as RenderData)
             this._render.initSubtitle()
             this._render.disposeLoading()
+        } else {
+            this._render.done()
         }
     }
     public play() {

@@ -78,7 +78,9 @@ export interface RenderDataAudio {
 export interface RenderData {
   video?: RenderDataVideo
   subtitle?: RenderDataSubtitle
-  audio?: RenderDataAudio[]
+  audio?: RenderDataAudio[],
+  head?: boolean
+  last?: boolean
 }
 export interface CompileOptions extends Data {
   firstDataInit():void

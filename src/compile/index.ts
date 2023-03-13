@@ -41,11 +41,11 @@ class Compile {
             })
             return pre
         }, [])
-        this._AllData = new ListNodeFactory(scenes[0])
+        this._AllData = new ListNodeFactory(scenes[0], true)
         this._currentNode = this._AllData
         let current = this._AllData
         for (let index = 1; index < scenes.length; index++) {
-            const data = new ListNodeFactory(scenes[index])
+            const data = new ListNodeFactory(scenes[index], false, index === scenes.length - 1)
             current.next = data
             current = data
         }
@@ -89,6 +89,8 @@ class Compile {
                 ...data.subtitle,
                 source: subtitleSource,
             },
+            head: this._currentNode.head,
+            last: this._currentNode.last,
         }
         this._playerData = currentData
         this._options.firstDataInit()
@@ -143,6 +145,8 @@ class Compile {
                 ...data.subtitle,
                 source: subtitleSource,
             },
+            head: this._currentNode.head,
+            last: this._currentNode.last,
         }
         this._playerData = currentData
     }
