@@ -82,6 +82,14 @@ class Renderer {
                 y: this._scale,
             },
         })
+        const videoBackground = new Konva.Rect({
+            width: this._options.video.width,
+            height: this._options.video.height,
+            x: 0,
+            y: 0,
+            fill: "#000000",
+        })
+        this._videoLayer.add(videoBackground)
         this._stage.container().style.backgroundColor = "#39375B"
         this._stage.add(this._videoLayer)
         this._stage.add(this._subtitleLayer)
@@ -109,13 +117,39 @@ class Renderer {
         })
         this._videoLayer?.add(this._imageRef)
         this._videoRef.addEventListener("loadedmetadata", () => {
-            this._imageRef?.width(this._options.video.width)
-            this._imageRef?.height(this._options.video.height)
+            this._imageRef?.width(this._videoRef!.videoWidth * this.videoScale(this._videoRef!.videoWidth, this._videoRef!.videoHeight))
+            this._imageRef?.height(this._videoRef!.videoHeight * this.videoScale(this._videoRef!.videoWidth, this._videoRef!.videoHeight))
+            this._imageRef?.setPosition({
+                x: this._options.video.width / 2,
+                y: this._options.video.height / 2,
+            })
+            this._imageRef?.offset({
+                x: this._imageRef.width() / 2,
+                y: this._imageRef.height() / 2,
+            })
         })
         this._videoRef.addEventListener("timeupdate", () => {
             this.updateSubtitle()
             this.validateNext()
         })
+    }
+    videoScale(videoWidth: number, videoHeight: number) {
+        const containerWidth = this._options.video.width
+        const containerHeight = this._options.video.height
+        const containerRatio = containerWidth / containerHeight
+        const videoRatio = videoWidth / videoHeight
+
+        let scale = 1 // 初始化缩放值为1
+
+        // 判断容器的宽高比例和视频的宽高比例的大小关系
+        if (containerRatio > videoRatio) {
+            // 容器的高度比视频的高度要大，按照容器的高度进行缩放
+            scale = containerHeight / videoHeight
+        } else if (containerRatio < videoRatio) {
+            // 容器的宽度比视频的宽度要大，按照容器的宽度进行缩放
+            scale = containerWidth / videoWidth
+        }
+        return scale
     }
     /**
      * 初始化背景音乐
@@ -149,7 +183,6 @@ class Renderer {
             visible: false,
         })
         this._subtitleTag = new Konva.Tag({
-            fill: this._proxyTarget?.subtitle?.style.backgroundColor,
             cornerRadius: 5,
         })
         this._subtitleLabel.add(this._subtitleTag)
@@ -164,6 +197,7 @@ class Renderer {
             verticalAlign: "middle",
             lineHeight: 1.2,
             padding: 10,
+            width: this._options.video.width,
         })
         this._subtitleLabel.add(this._textRef)
         this.setSubtitleOffset()
@@ -224,6 +258,8 @@ class Renderer {
         requestAnimationFrame(() => {
             this._textRef?.text(text)
             this._subtitleLabel?.visible(true)
+            this._subtitleLabel?.width(this._options.video.width)
+            this._subtitleLabel?.height(this._options.video.height)
             this._subtitleLabel?.offset({
                 x: this._textRef!.width() / 2,
                 y: this._textRef!.height() / 2,
@@ -325,7 +361,6 @@ class Renderer {
         const targetEndTime = this._proxyTarget.video.endTime
         if (currentTime >= targetEndTime) {
             if (this._proxyTarget.last) {
-                console.log("last")
                 this.disposeCurrentNode()
                 this.pause()
             } else {
@@ -364,9 +399,13 @@ class Renderer {
         this.startMediaStatAttr()
         this._animation?.start()
         this._videoRef?.play()
-        this._backgroundAudioRefs.forEach(item => {
-            const id = item.ref.play(item.id === 0 ? "main" : item.id)
-            item.id = id
+        this._backgroundAudioRefs.forEach((item) => {
+            const { id, ref, } = item
+            if (id === 0) {
+                item.id = ref.play("main")
+            } else {
+                ref.play(id)
+            }
         })
     }
     public pause() {

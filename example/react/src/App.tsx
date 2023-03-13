@@ -20,8 +20,8 @@ const App = () => {
         const player = new Core({
             container: playerContainer.current as HTMLDivElement,
             video: {
-                width: 1920,
-                height: 1080,
+                width: 1080,
+                height: 1920,
             },
             data: jsonData as Data,
             other: {
