@@ -9,7 +9,6 @@ class Renderer {
     _stage: Konva.Stage | null
     _videoLayer: Konva.Layer | null
     _subtitleLayer: Konva.Layer | undefined
-    _containerLayer: Konva.Layer | undefined
     _animationLayer: Konva.Layer | undefined
     _imageRef: Konva.Image | null
     _animation: Konva.Animation | null
