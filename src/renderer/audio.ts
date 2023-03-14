@@ -1,6 +1,6 @@
 import { Audio, } from "../types"
 import { Howl, } from "howler"
-export class audioRender {
+export class AudioRender {
     _audioGroup: Audio.Group[]
     _audios: Audio.Result[]
     constructor(audios: Audio.Result[]) {

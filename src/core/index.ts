@@ -1,46 +1,22 @@
-import { Config, RenderData, } from "../types"
+import { Config, } from "../types"
 import Compile from "../compile"
-import Render from "../renderer"
+import { Renderer, } from "../renderer"
 class Core {
     _compile: Compile
-    _render: Render
+    _render: Renderer
     constructor(options: Config) {
         this._compile = new Compile({
             ...options.data,
-            firstDataInit: this.initRenderData.bind(this),
+            firstDataInit: () => null,
         })
-        this._render = new Render({
+        this._render = new Renderer({
             container: typeof options.container === "string" ? document.querySelector(options.container) as HTMLDivElement : options.container,
-            video: options.video,
-            other: options.other,
-            callbacks: {
-                updateNext: this.updateNext.bind(this),
-            },
+            videoWidth: options.video.width,
+            videoHeight: options.video.height,
+            loadingImage: options.other?.loadingImage || "",
         })
-    
     }
-    initRenderData() {
-        this._render.initBackgroundAudios(this._compile._backgrounds)
-        this._render.changeCurrentData(this._compile._playerData as RenderData)
-        this._render.initSubtitle()
-        this._render.disposeLoading()
-    }
-    async updateNext() {
-        const result = await this._compile.updateNextNode()
-        if (result) {
-            this._render.changeCurrentData(this._compile._playerData as RenderData)
-            this._render.initSubtitle()
-            this._render.disposeLoading()
-        } else {
-            this._render.done()
-        }
-    }
-    public play() {
-        this._render.play() 
-    }
-    public pause() {
-        this._render.pause() 
-    }
+
 
 }
 

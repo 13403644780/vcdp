@@ -1,35 +1,9 @@
-import { Howl, } from "howler"
-import { VideoConfig,} from "./core"
-/**
- * 初始化
- */
-export interface RendererConfig {
-  container: HTMLDivElement
-  video: VideoConfig,
-  other?: {
-    loadingImage?: string
-    background?: string
-  }
-  callbacks: {
-    [prop: string]: () => void
-  }
-}
 
-/**
- * 字幕解析内容
- */
-export interface parseSubtitle {
-  endSeconds: number
-  endTime: string
-  id: string
-  startSeconds: number
-  startTime: string
-  text: string
-}
-
-export namespace Background {
-  export interface Ref {
-    ref: Howl
-    id: number
-  }
+export namespace Render {
+    export interface Options {
+        container: HTMLDivElement
+        videoWidth: number
+        videoHeight: number
+        loadingImage: string
+    }
 }

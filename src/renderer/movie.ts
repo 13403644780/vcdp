@@ -1,4 +1,5 @@
 import Konva from "konva"
+import { IFrame, } from "konva/lib/types"
 import { Movie, } from "../types"
 export class MovieRender {
     _options: Movie.Options
@@ -7,9 +8,12 @@ export class MovieRender {
     _subtitleLayer: Konva.Layer
     _animationLayer: Konva.Layer
     _fps: Konva.Animation
+    _loadingAnimation: Konva.Animation
     _canvasScale: number
     _videoTarget: HTMLVideoElement
     _imageCurrent: Konva.Image
+    _loadingTarget: HTMLImageElement
+    _loadingCurrent: Konva.Image
     _videoEvents: Movie.VideoEvents[]
     _subtitleLabel: Konva.Label
     _subtitleTab: Konva.Tag
@@ -18,6 +22,7 @@ export class MovieRender {
         this._options = options
         this._canvasScale = 1
         this._videoTarget = document.createElement("video")
+        this._loadingTarget = document.createElement("img")
         this._videoEvents = [
             {
                 eventName: "loadedmetadata",
@@ -57,17 +62,23 @@ export class MovieRender {
             lineHeight: 1.2,
             padding: 10,
         })
+        this._loadingCurrent = new Konva.Image({
+            name: "loading",
+            image: this._loadingTarget,
+        })
         this._subtitleLabel.add(this._subtitleTab)
         this._subtitleLabel.add(this._subtitleText)
         this._subtitleLayer.add(this._subtitleLabel)
-        this._stage.add(this._animationLayer)
         this._stage.add(this._mediaLayer)
         this._stage.add(this._subtitleLayer)
+        this._stage.add(this._animationLayer)
         this._fps = new Konva.Animation(() => {
             // 
         }, this._mediaLayer)
+        this._loadingAnimation = new Konva.Animation(this.initLoadingAnimation.bind(this), this._animationLayer)
         this.initScale()
         this.initLayer()
+        this.initLoading()
     }
     initScale() {
         const { clientWidth, clientHeight, } = this._options.container
@@ -144,5 +155,37 @@ export class MovieRender {
             x: this._options.videoWidth / 2,
             y: this._options.videoHeight/ 2,
         })
+    }
+
+    initLoading() {
+        this._loadingTarget.src = this._options.loadingImage
+        this._loadingTarget.onload = () => {
+            this._loadingCurrent.width(100)
+            this._loadingCurrent.height(100)
+            this._loadingCurrent.setPosition({
+                x: this._options.videoWidth / 2,
+                y: this._options.videoHeight / 2,
+            })
+            this._loadingCurrent.offset({
+                x: this._loadingCurrent.width() / 2,
+                y: this._loadingCurrent.height() / 2,
+            })
+            this.startLoading()
+        }
+    }
+    initLoadingAnimation(frame:IFrame | undefined) {
+        const speed = 100
+        if (frame !== undefined) {
+            const angleDiff = frame.timeDiff * speed / 1000
+            this._loadingCurrent.rotate(angleDiff)
+        }
+    }
+    public stopLoading() {
+        this._loadingAnimation.stop()
+        this._loadingCurrent.remove()
+    }
+    public startLoading() {
+        this._animationLayer.add(this._loadingCurrent)
+        this._loadingAnimation.start()
     }
 }

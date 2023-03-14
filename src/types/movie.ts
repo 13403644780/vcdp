@@ -5,7 +5,8 @@ export namespace Movie {
     width: number
     height: number
     videoWidth: number
-    videoHeight: number
+    videoHeight: number,
+    loadingImage: string
   }
   export interface VideoEvents {
     eventName: string
