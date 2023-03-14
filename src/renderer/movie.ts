@@ -6,10 +6,14 @@ export class MovieRender {
     _mediaLayer: Konva.Layer
     _subtitleLayer: Konva.Layer
     _animationLayer: Konva.Layer
+    _fps: Konva.Animation
     _canvasScale: number
     _videoTarget: HTMLVideoElement
     _imageCurrent: Konva.Image
     _videoEvents: Movie.VideoEvents[]
+    _subtitleLabel: Konva.Label
+    _subtitleTab: Konva.Tag
+    _subtitleText: Konva.Text
     constructor(options: Movie.Options) {
         this._options = options
         this._canvasScale = 1
@@ -43,6 +47,25 @@ export class MovieRender {
             x: 0,
             y: 0,
         })
+        this._subtitleLabel = new Konva.Label({
+            x: 0,
+            y: 0,
+        })
+        this._subtitleTab = new Konva.Tag()
+        this._subtitleText = new Konva.Text({
+            verticalAlign: "middle",
+            lineHeight: 1.2,
+            padding: 10,
+        })
+        this._subtitleLabel.add(this._subtitleTab)
+        this._subtitleLabel.add(this._subtitleText)
+        this._subtitleLayer.add(this._subtitleLabel)
+        this._stage.add(this._animationLayer)
+        this._stage.add(this._mediaLayer)
+        this._stage.add(this._subtitleLayer)
+        this._fps = new Konva.Animation(() => {
+            // 
+        }, this._mediaLayer)
         this.initScale()
         this.initLayer()
     }
