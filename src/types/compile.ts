@@ -32,11 +32,6 @@ export interface NodeData {
   dubAudio?: RenderDataAudio
 }
 
-export interface Audio {
-    source: string
-    volume: number
-}
-
 export interface TextElement {
   text: string
   style: {
