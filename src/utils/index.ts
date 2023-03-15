@@ -1,7 +1,5 @@
-import { NodeData, } from "../types/compile"
-import { parseSubtitle, } from "../types"
-export class ListNodeFactory {
-    next: ListNodeFactory | undefined
+export class FiberFactory {
+    next: FiberFactory | undefined
     currentData: NodeData
     head: boolean
     last: boolean

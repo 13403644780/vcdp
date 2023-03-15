@@ -12,4 +12,11 @@ export namespace Movie {
     eventName: string
     callbacks: (() => void)[]
   }
+  export interface VideoOptions {
+    source: string
+    startTime: number
+    endTime: number
+    volume: number
+    mute: boolean
+  }
 }

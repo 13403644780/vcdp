@@ -7,7 +7,7 @@ class Core {
     constructor(options: Config) {
         this._compile = new Compile({
             ...options.data,
-            firstDataInit: () => null,
+            firstCompileCallback: this.LoadComplete.bind(this),
         })
         this._render = new Renderer({
             container: typeof options.container === "string" ? document.querySelector(options.container) as HTMLDivElement : options.container,
@@ -16,7 +16,14 @@ class Core {
             loadingImage: options.other?.loadingImage || "",
         })
     }
-
+    LoadComplete() {
+        if (!this._compile._playerData) {
+            console.error("暂无场景数据")
+            return
+        }
+        console.log(this._compile._playerData)
+        this._render._movie.updateVideo(this._compile._playerData.video)
+    }
 
 }
 

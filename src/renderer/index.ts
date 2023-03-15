@@ -14,4 +14,7 @@ export class Renderer {
             loadingImage: options.loadingImage,
         })
     }
+    public updateVideo() {
+        
+    }
 }

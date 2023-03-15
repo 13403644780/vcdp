@@ -1,82 +1,41 @@
 import Konva from "konva"
-import { Data, } from "./core"
-import { parseSubtitle, } from "./renderer"
-
-/**
- * 链表节点
- */
-export interface ListNode {
-  currentData: NodeData,
-  next: ListNode | undefined
-}
-
-/**
- * 节点数据
- */
-export interface NodeData {
-  video: {
+export namespace CompileConfig {
+  export interface Options extends MovieData {
+    firstCompileCallback: () => void
+  }
+  interface MovieData {
+    backgroundAudios: BackgroundAudio[]
+    scenes: Scene[]
+    elements: Element[]
+  }
+  interface BackgroundAudio {
     source: string
     startTime: number
     endTime: number
-    duration: number
     volume: number
-    mute: boolean
+    mute?: boolean
+    loop?: boolean
   }
-  subtitle: {
+  interface Scene {
+    duration: number
+    video: Video
+    subtitle?: Subtitle
+    dub?: Dub
+  }
+  interface Subtitle {
     source: string
-    style: {
-      [key: string]: any
-    }
-    position: Position
+    style: TextStyle
   }
-  dubAudio?: RenderDataAudio
-}
+  interface Video {
+    source: string
+    startTime: number
+    endTime: number
+    volume: number
+    mute?: boolean
+  }
 
-export interface TextElement {
-  text: string
-  style: {
-    fontFamily: string,
-    fontSize: number,
-    fontStyle: "italic bold" | "italic" | "bold" | "normal",
-    align: "center" | "left" | "right",
-    stroke: string,
-    strokeWidth: number,
-  },
-  position: Position
-}
-
-export interface Position{
-    x: number
-    y: number
-}
-export interface RenderDataVideo {
-  source: string | Blob
-  startTime: number
-  endTime: number
-  duration: number
-  volume: number
-  mute: boolean
-}
-export interface RenderDataSubtitle {
-  source: string | parseSubtitle[]
-  style: Konva.TextConfig | any
-  position: Position
-}
-export interface RenderDataAudio {
-  source: string
-  startTime: number
-  endTime: number
-  volume: number
-  mute: boolean
-  repeat?: boolean
-}
-export interface RenderData {
-  video?: RenderDataVideo
-  subtitle?: RenderDataSubtitle
-  audio?: RenderDataAudio[],
-  head?: boolean
-  last?: boolean
-}
-export interface CompileOptions extends Data {
-  firstDataInit():void
+  type Dub = Omit<BackgroundAudio, "startTime" | "endTime" | "loop"> 
+  type TextStyle = Konva.TextConfig & {
+    [prop: string] : string | number
+  }
 }

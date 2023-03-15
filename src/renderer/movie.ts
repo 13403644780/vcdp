@@ -188,7 +188,7 @@ export class MovieRender {
         this._animationLayer.add(this._loadingCurrent)
         this._loadingAnimation.start()
     }
-    public updateVideo() {
-        this._videoTarget.src = ""
+    public updateVideo(options: Movie.VideoOptions) {
+        console.log(options)
     }
 }

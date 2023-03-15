@@ -13,6 +13,7 @@
     "allowSyntheticDefaultImports": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
+    "strictPropertyInitialization": false,
     "declarationDir": "./lib/types",
     "baseUrl": "./",
     "paths": {
