@@ -1,9 +1,10 @@
+import { Fiber, } from "../types"
 export class FiberFactory {
     next: FiberFactory | undefined
-    currentData: NodeData
+    currentData: Fiber.FiberData
     head: boolean
     last: boolean
-    constructor(options: NodeData, head?: boolean, last?: boolean) {
+    constructor(options: Fiber.FiberData, head?: boolean, last?: boolean) {
         this.next = undefined
         this.head = head || false
         this.last = last || false
@@ -11,7 +12,7 @@ export class FiberFactory {
     }
 }
 
-export const getCurrentTimeSubtitleText = (videoCurrentTime: number, videoStartTime: number, subtitles: parseSubtitle[])=> {
+export const getCurrentTimeSubtitleText = (videoCurrentTime: number, videoStartTime: number, subtitles: Fiber.SubtitleSource[])=> {
     const realTime = videoCurrentTime - videoStartTime
     return subtitles.find((subtitle) => subtitle.startSeconds < realTime && subtitle.endSeconds > realTime)
 }

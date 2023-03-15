@@ -1,11 +1,10 @@
 {
-  "backgroundAudio":[
+  "backgroundAudios":[
     {
       "source": "https://image.liuyongzhi.cn/video/background.mp3",
-      "duration": 325903.673,
       "startTime": 25000,
       "endTime": 30000,
-      "repeat": true,
+      "loop": true,
       "mute": false,
       "volume": 10
     }
@@ -14,7 +13,6 @@
     {
       "duration": 5000,
       "volume": 20,
-      "mute": false,
       "subtitle": {
         "source": "https://image.liuyongzhi.cn/video/video1subtitle.srt",
         "style": {
@@ -24,16 +22,14 @@
           "stroke": "#7EB09B",
           "strokeWidth": 5,
           "fill": "#FFFFFF",
-          "backgroundColor": "#000000"
-        },
-        "position": {
+          "backgroundColor": "#000000",
           "x": 960,
           "y": 1080
         }
       },
-      "material": {
-        "type": 1,
-        "duration": 90023.764,
+      "video": {
+        "mute": false,
+        "volume": 100,
         "startTime": 0,
         "endTime": 10000,
         "source": "https://image.liuyongzhi.cn/video/video1.mp4"
@@ -41,8 +37,6 @@
     },
     {
       "duration": 10000,
-      "volume": 20,
-      "mute": false,
       "subtitle": {
         "source": "https://image.liuyongzhi.cn/video/video2subtitle.srt",
         "style": {
@@ -52,57 +46,19 @@
           "stroke": "#7EB09B",
           "strokeWidth": 5,
           "fill": "#FFFFFF",
-          "backgroundColor": "#000000"
-        },
-        "position": {
+          "backgroundColor": "#000000",
           "x": 100,
           "y": 100
         }
       },
       "material": {
-        "type": 1,
-        "duration": 90023.764,
         "startTime": 0,
         "endTime": 10000,
-        "source": "https://image.liuyongzhi.cn/video/video2.mp4"
+        "source": "https://image.liuyongzhi.cn/video/video2.mp4",
+        "volume": 20,
+        "mute": false
       }
     }
   ],
-  "elements": [
-    {
-      "type": 1,
-      "text": "element",
-      "style": {
-        "fontFamily": "",
-        "fontSize": 20,
-        "fontStyle": "italic bold",
-        "align": "center",
-        "stroke": "#7EB09B",
-        "strokeWidth": 5
-      },
-      "startAppear": 0,
-      "endAppear": 90023.764,
-      "position": {
-        "x": 20,
-        "y": 40
-      }
-    },
-    {
-      "type": 2,
-      "source": "https://image.liuyongzhi.cn/imagesoffice-word-5.png",
-      "style": {
-        "stroke": "#7EB09B",
-        "strokeWidth": 5,
-        "width": 80,
-        "height": 80,
-        "opacity": 80
-      },
-      "startAppear": 0,
-      "endAppear": 90023.764,
-      "position": {
-        "x": 1500,
-        "y": 700
-      }
-    }
-  ]
+  "elements": []
 }

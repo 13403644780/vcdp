@@ -4,7 +4,7 @@ import "./App.css"
 import "jsoneditor/dist/jsoneditor.min.css"
 import jsonData from "./mock/01.json"
 import loadingImage from "../assets/loading.svg"
-import { Core, Data, } from "@happyPlayer"
+import { Core, CompileConfig, } from "@happyPlayer"
 
 const App = () => {
     const jsonViewRef = useRef<HTMLDivElement>(null)
@@ -19,14 +19,10 @@ const App = () => {
     useEffect(() => {
         const player = new Core({
             container: playerContainer.current as HTMLDivElement,
-            video: {
-                width: 1920,
-                height: 1080,
-            },
-            data: jsonData as Data,
-            other: {
-                loadingImage: loadingImage,
-            },
+            videoHeight: 1080,
+            videoWidth: 1920,
+            movieData: jsonData as CompileConfig.MovieData,
+            loadingImage: loadingImage,
         })
         setPlayerRef(player)
     }, [])

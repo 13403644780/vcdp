@@ -3,7 +3,7 @@ export namespace CompileConfig {
   export interface Options extends MovieData {
     firstCompileCallback: () => void
   }
-  interface MovieData {
+  export interface MovieData {
     backgroundAudios: BackgroundAudio[]
     scenes: Scene[]
     elements: Element[]
@@ -22,11 +22,11 @@ export namespace CompileConfig {
     subtitle?: Subtitle
     dub?: Dub
   }
-  interface Subtitle {
+  export interface Subtitle {
     source: string
     style: TextStyle
   }
-  interface Video {
+  export interface Video {
     source: string
     startTime: number
     endTime: number
@@ -34,7 +34,7 @@ export namespace CompileConfig {
     mute?: boolean
   }
 
-  type Dub = Omit<BackgroundAudio, "startTime" | "endTime" | "loop"> 
+  export type Dub = Omit<BackgroundAudio, "startTime" | "endTime" | "loop"> 
   type TextStyle = Konva.TextConfig & {
     [prop: string] : string | number
   }
