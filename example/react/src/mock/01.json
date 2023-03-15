@@ -36,9 +36,10 @@
       }
     },
     {
-      "duration": 10000,
+      "duration": 5000,
+      "volume": 20,
       "subtitle": {
-        "source": "https://image.liuyongzhi.cn/video/video2subtitle.srt",
+        "source": "https://image.liuyongzhi.cn/video/video1subtitle.srt",
         "style": {
           "fontSize": 100,
           "fontStyle": "italic bold",
@@ -47,16 +48,66 @@
           "strokeWidth": 5,
           "fill": "#FFFFFF",
           "backgroundColor": "#000000",
-          "x": 100,
-          "y": 100
+          "x": 960,
+          "y": 1080
         }
       },
-      "material": {
+      "video": {
+        "mute": false,
+        "volume": 100,
         "startTime": 0,
         "endTime": 10000,
-        "source": "https://image.liuyongzhi.cn/video/video2.mp4",
-        "volume": 20,
-        "mute": false
+        "source": "https://image.liuyongzhi.cn/video/video1.mp4"
+      }
+    },
+    {
+      "duration": 5000,
+      "volume": 20,
+      "subtitle": {
+        "source": "https://image.liuyongzhi.cn/video/video1subtitle.srt",
+        "style": {
+          "fontSize": 100,
+          "fontStyle": "italic bold",
+          "align": "center",
+          "stroke": "#7EB09B",
+          "strokeWidth": 5,
+          "fill": "#FFFFFF",
+          "backgroundColor": "#000000",
+          "x": 960,
+          "y": 1080
+        }
+      },
+      "video": {
+        "mute": false,
+        "volume": 100,
+        "startTime": 0,
+        "endTime": 10000,
+        "source": "https://image.liuyongzhi.cn/video/video1.mp4"
+      }
+    },
+    {
+      "duration": 5000,
+      "volume": 20,
+      "subtitle": {
+        "source": "https://image.liuyongzhi.cn/video/video1subtitle.srt",
+        "style": {
+          "fontSize": 100,
+          "fontStyle": "italic bold",
+          "align": "center",
+          "stroke": "#7EB09B",
+          "strokeWidth": 5,
+          "fill": "#FFFFFF",
+          "backgroundColor": "#000000",
+          "x": 960,
+          "y": 1080
+        }
+      },
+      "video": {
+        "mute": false,
+        "volume": 100,
+        "startTime": 0,
+        "endTime": 10000,
+        "source": "https://image.liuyongzhi.cn/video/video1.mp4"
       }
     }
   ],

@@ -43,3 +43,17 @@ export const  calculationBackgroundStartTime = (
     }
 }
 
+export const loadMediaSource = async (source: string) => (await fetch(source)).blob()
+export const setFileCache= <T>(target: Map<string, T>, key: string, value:T) => {
+    if (!target.get(key)) {
+        target.set(key, value)
+    }
+}
+
+export const setUrlCache = (target: Map<string, string>, key: string, value:Blob) => {
+    const result = target.get(key)
+    if (result) return result
+    const url = URL.createObjectURL(value)
+    target.set(key, url)
+    return url
+}

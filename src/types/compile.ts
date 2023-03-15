@@ -16,7 +16,7 @@ export namespace CompileConfig {
     mute?: boolean
     loop?: boolean
   }
-  interface Scene {
+  export interface Scene {
     duration: number
     video: Video
     subtitle?: Subtitle

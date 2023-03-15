@@ -2,8 +2,11 @@ import { CompileConfig, } from "./compile"
 export namespace Fiber {
   export interface FiberData {
     video: CompileConfig.Video
+    subtitle?: CompileConfig.Subtitle
+    dub?: CompileConfig.Dub
+  }
+  export type PlayFiberNode = Omit<FiberData, "subtitle"> & {
     subtitle: Subtitle
-    dub: CompileConfig.Dub
   }
   type Subtitle = Omit<CompileConfig.Subtitle, "source"> & {
     source: SubtitleSource[]
@@ -17,3 +20,4 @@ export namespace Fiber {
     text: string
   }
 }
+

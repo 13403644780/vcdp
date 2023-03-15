@@ -1,6 +1,6 @@
 import { Howl, } from "howler"
 
-export namespace Audio {
+export namespace AudioConfig {
   export interface Result {
     source: string
     volume: number
