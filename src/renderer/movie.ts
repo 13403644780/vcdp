@@ -56,15 +56,18 @@ export class MovieRender {
             y: 0,
         })
         this._subtitleLabel = new Konva.Label({
-            x: 0,
-            y: 0,
+            x: options.subtitleStyle.x || 0,
+            y: options.subtitleStyle.y || 0,
         })
         this._subtitleTab = new Konva.Tag()
         this._subtitleText = new Konva.Text({
             verticalAlign: "middle",
             lineHeight: 1.2,
             padding: 10,
-            ...options.subtitleStyle
+            ...options.subtitleStyle,
+            x: 0,
+            y: 0
+            
         })
         this._loadingCurrent = new Konva.Image({
             name: "loading",
@@ -168,6 +171,26 @@ export class MovieRender {
         if (!currentSubtitleData) return
         const { text } = currentSubtitleData
         this._subtitleText.text(text)
+        this.initSubtitlePosition(text)
+    }
+    initSubtitlePosition(text: string) {
+        this._subtitleLabel?.offset({
+            x: this._subtitleText.width() / 2,
+            y: this._subtitleText.height() / 2,
+        })
+        const textWidth = this._subtitleText!.width()
+        const textHeight = this._subtitleText!.height()
+        const maxWidth = this._options.videoWidth
+        const maxHeight = this._options.videoHeight
+        const styleX = this._subtitleData.style.x || 0
+        const styleY = this._subtitleData.style.y || 0
+        this._subtitleLabel?.setPosition({
+            x: Math.max(textWidth / 2, Math.min(styleX, maxWidth - textWidth / 2)),
+            y: Math.max(textHeight / 2, Math.min(styleY, maxHeight - textHeight / 2)),
+        })
+        if (textWidth > maxWidth) {
+            this._subtitleText.width(maxWidth)
+        }
     }
     initLoading() {
         this._loadingTarget.src = this._options.loadingImage
