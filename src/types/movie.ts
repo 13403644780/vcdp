@@ -1,12 +1,13 @@
-
+import { CompileConfig } from "../types"
 export namespace Movie {
   export interface Options {
     container: HTMLDivElement
     width: number
     height: number
     videoWidth: number
-    videoHeight: number,
+    videoHeight: number
     loadingImage: string
+    subtitleStyle: CompileConfig.TextStyle
   }
   export interface VideoEvents {
     eventName: string

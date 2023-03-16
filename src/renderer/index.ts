@@ -1,4 +1,4 @@
-import { Render, } from "../types"
+import { Fiber, Render, } from "../types"
 import { MovieRender, } from "./movie"
 export class Renderer {
     _options: Render.Options
@@ -12,9 +12,11 @@ export class Renderer {
             width: options.container.clientWidth,
             height: options.container.clientHeight,
             loadingImage: options.loadingImage,
+            subtitleStyle: options.subtitleStyle
         })
     }
-    public updateVideo() {
-        
+    public update(playFiberNode: Fiber.PlayFiberNode) {
+        this._movie.updateVideo(playFiberNode.video)
+        this._movie.updateSubtitleSource(playFiberNode.subtitle)
     }
 }

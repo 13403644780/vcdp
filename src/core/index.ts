@@ -14,6 +14,7 @@ class Core {
             videoWidth: options.videoWidth,
             videoHeight: options.videoHeight,
             loadingImage: options.loadingImage || "",
+            subtitleStyle: options.movieData.scenes[0].subtitle?.style || {}
         })
     }
     LoadComplete() {
@@ -21,7 +22,11 @@ class Core {
             console.error("暂无场景数据")
             return
         }
-
+        this._render.update(this._compile._playFiberNode)
+        this._render._movie.stopLoading()
+        this._render._movie._videoTarget.play()
+        this._render._movie._fps.start()
+        console.log(this._render)
     }
 
 }

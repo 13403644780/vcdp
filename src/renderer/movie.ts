@@ -1,6 +1,7 @@
 import Konva from "konva"
 import { IFrame, } from "konva/lib/types"
-import { Movie, } from "../types"
+import { AudioConfig, CompileConfig, Fiber, Movie, } from "../types"
+import { getCurrentTimeSubtitleText } from "../utils"
 export class MovieRender {
     _options: Movie.Options
     _stage: Konva.Stage
@@ -18,6 +19,8 @@ export class MovieRender {
     _subtitleLabel: Konva.Label
     _subtitleTab: Konva.Tag
     _subtitleText: Konva.Text
+    _subtitleData: Fiber.Subtitle
+    _videoData: Movie.VideoOptions
     constructor(options: Movie.Options) {
         this._options = options
         this._canvasScale = 1
@@ -26,11 +29,11 @@ export class MovieRender {
         this._videoEvents = [
             {
                 eventName: "loadedmetadata",
-                callbacks: [this.resetImage,],
+                callbacks: [this.resetImage.bind(this),],
             },
             {
                 eventName: "timeupdate",
-                callbacks: [],
+                callbacks: [this.initSubtitle.bind(this)],
             },
         ]
         this._stage = new Konva.Stage({
@@ -61,6 +64,7 @@ export class MovieRender {
             verticalAlign: "middle",
             lineHeight: 1.2,
             padding: 10,
+            ...options.subtitleStyle
         })
         this._loadingCurrent = new Konva.Image({
             name: "loading",
@@ -78,6 +82,7 @@ export class MovieRender {
         this._loadingAnimation = new Konva.Animation(this.initLoadingAnimation.bind(this), this._animationLayer)
         this.initScale()
         this.initLayer()
+        this.initVideoEvent()
         this.initLoading()
     }
     initScale() {
@@ -94,7 +99,7 @@ export class MovieRender {
         let scale = 1
         if (containerRatio > videoRatio) {
             scale = containerHeight / videoHeight
-        } else if (containerRatio < videoRatio) {
+        } else {
             scale = containerWidth / videoWidth
         }
         return scale
@@ -129,16 +134,17 @@ export class MovieRender {
             fill: "#000000",
         })
         this._mediaLayer.add(videoBackground)
+        this._mediaLayer.add(this._imageCurrent)
     }
     initVideoEvent() {
         for (let i = 0; i < this._videoEvents.length; i++) {
             this._videoTarget.addEventListener(
                 this._videoEvents[i].eventName,
-                this.videoEventCallback.bind(this, this._videoEvents[i].callbacks)
+                this.videoEventCallback.bind(this, this._videoEvents[i].callbacks, this._videoEvents[i].eventName)
             )
         }
     }
-    videoEventCallback(callbacks: (() => void)[]) {
+    videoEventCallback(callbacks: (() => void)[], name: string) {
         for (let i = 0; i < callbacks.length; i++) {
             callbacks[i]()
         }
@@ -156,7 +162,13 @@ export class MovieRender {
             y: this._options.videoHeight/ 2,
         })
     }
-
+    initSubtitle() {
+        const currentTime = this._videoTarget.currentTime
+        const currentSubtitleData = getCurrentTimeSubtitleText(currentTime, this._videoData.startTime, this._subtitleData.source)
+        if (!currentSubtitleData) return
+        const { text } = currentSubtitleData
+        this._subtitleText.text(text)
+    }
     initLoading() {
         this._loadingTarget.src = this._options.loadingImage
         this._loadingTarget.onload = () => {
@@ -189,6 +201,19 @@ export class MovieRender {
         this._loadingAnimation.start()
     }
     public updateVideo(options: Movie.VideoOptions) {
-        console.log(options)
+        this._videoData = options
+        this._videoTarget.src = options.source
+        this._videoTarget.muted = options.mute
+        this._videoTarget.volume = options.volume / 100
+        this._videoTarget.currentTime = options.startTime / 1000
     }
+    public updateSubtitleSource(options: Fiber.Subtitle) {
+        this._subtitleData = options
+    }
+
+    public updateDub(options: CompileConfig.Dub) {}
+
+    public updateBackgroundAudio(options: AudioConfig.Result[]) {}
+
+    public updateDubAudio(options: AudioConfig.Result[]) {}
 }

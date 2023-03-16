@@ -20,7 +20,7 @@ class Compile {
         this.initFiber()
         this._currentFiberNode = this._fiber
         Promise.all([this.parseBackgroundAudio(), this.parseCurrentFiberData(),]).then(() => {
-            console.log(this._playFiberNode)
+            options.firstCompileCallback()
         })
     }
     initFiber() {

@@ -31,11 +31,11 @@ export namespace CompileConfig {
     startTime: number
     endTime: number
     volume: number
-    mute?: boolean
+    mute: boolean
   }
 
   export type Dub = Omit<BackgroundAudio, "startTime" | "endTime" | "loop"> 
-  type TextStyle = Konva.TextConfig & {
+  export type TextStyle = Konva.TextConfig & {
     [prop: string] : string | number
   }
 }

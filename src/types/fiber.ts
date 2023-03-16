@@ -8,7 +8,7 @@ export namespace Fiber {
   export type PlayFiberNode = Omit<FiberData, "subtitle"> & {
     subtitle: Subtitle
   }
-  type Subtitle = Omit<CompileConfig.Subtitle, "source"> & {
+  export type Subtitle = Omit<CompileConfig.Subtitle, "source"> & {
     source: SubtitleSource[]
   }
   export interface SubtitleSource {
