@@ -12,7 +12,8 @@ export class Renderer {
             width: options.container.clientWidth,
             height: options.container.clientHeight,
             loadingImage: options.loadingImage,
-            subtitleStyle: options.subtitleStyle
+            subtitleStyle: options.subtitleStyle,
+            updateNextNode: options.updateNextNode
         })
     }
     public update(playFiberNode: Fiber.PlayFiberNode) {

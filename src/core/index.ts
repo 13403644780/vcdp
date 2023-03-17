@@ -14,7 +14,8 @@ class Core {
             videoWidth: options.videoWidth,
             videoHeight: options.videoHeight,
             loadingImage: options.loadingImage || "",
-            subtitleStyle: options.movieData.scenes[0].subtitle?.style || {}
+            subtitleStyle: options.movieData.scenes[0].subtitle?.style || {},
+            updateNextNode: this.updateNextNode.bind(this)
         })
     }
     LoadComplete() {
@@ -29,7 +30,15 @@ class Core {
         this._render._movie.stopLoading()
         this._render._movie._fps.start()
         if (!this._compile._currentFiberNode.head) {
-            this._render._movie._videoTarget.play()
+            this._render.play()
+        }
+    }
+    async updateNextNode() {
+        const result = await this._compile.updateNextNode()
+        if (result) {
+            this.LoadComplete()
+        } else {
+            this._render._movie.stopLoading()
         }
     }
     public play() {

@@ -82,6 +82,12 @@ class Compile {
             },
         }
     }
+    public async updateNextNode() {
+        if (!this._currentFiberNode.next) return false
+        this._currentFiberNode = this._currentFiberNode.next
+        await this.parseCurrentFiberData()
+        return true
+    }
     async parseBackgroundAudio() {
         this._backgroundAudios = []
         const bgAudio = this._movieData.backgroundAudios

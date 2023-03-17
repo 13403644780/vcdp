@@ -24,7 +24,6 @@ export class AudioRender {
                 howlId: 0,
             }
         })
-        console.log(this._audioGroup)
     }
     public play() {
         for (let i = 0; i < this._audioGroup.length; i++) {

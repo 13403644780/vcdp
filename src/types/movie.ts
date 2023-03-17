@@ -8,6 +8,7 @@ export namespace Movie {
     videoHeight: number
     loadingImage: string
     subtitleStyle: CompileConfig.TextStyle
+    updateNextNode: () => void
   }
   export interface VideoEvents {
     eventName: string

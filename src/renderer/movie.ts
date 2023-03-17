@@ -35,7 +35,7 @@ export class MovieRender {
             },
             {
                 eventName: "timeupdate",
-                callbacks: [this.initSubtitle.bind(this)],
+                callbacks: [this.initSubtitle.bind(this), this.validateNextNode.bind(this)],
             },
         ]
         this._stage = new Konva.Stage({
@@ -199,9 +199,17 @@ export class MovieRender {
             x: Math.max(textWidth / 2, Math.min(styleX, maxWidth - textWidth / 2)),
             y: Math.max(textHeight / 2, Math.min(styleY, maxHeight - textHeight / 2)),
         })
-        console.table([["textWidth","textHeight","maxWidth","maxHeight","x","y"], [textWidth, textHeight,maxWidth,maxHeight, Math.max(textWidth / 2, Math.min(styleX, maxWidth - textWidth / 2)),Math.max(textHeight / 2, Math.min(styleY, maxHeight - textHeight / 2))]])
+        // console.table([["textWidth","textHeight","maxWidth","maxHeight","x","y"], [textWidth, textHeight,maxWidth,maxHeight, Math.max(textWidth / 2, Math.min(styleX, maxWidth - textWidth / 2)),Math.max(textHeight / 2, Math.min(styleY, maxHeight - textHeight / 2))]])
         if (textWidth > maxWidth) {
             this._subtitleText.width(maxWidth)
+        }
+    }
+    validateNextNode() {
+        const currentTime = this._videoTarget.currentTime * 1000
+        if (currentTime >= this._videoData.endTime) {
+            this._backgroundAudio.pause()
+            this._videoTarget.pause()
+            this._options.updateNextNode()
         }
     }
     initLoading() {

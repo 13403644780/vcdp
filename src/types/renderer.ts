@@ -7,6 +7,7 @@ export namespace Render {
         videoWidth: number
         videoHeight: number
         loadingImage: string
-        subtitleStyle: CompileConfig.TextStyle
+        subtitleStyle: CompileConfig.TextStyle,
+        updateNextNode: () => void
     }
 }
