@@ -30,8 +30,10 @@ const App = () => {
         console.log("jsonControl.get(): ", jsonControl?.get())
     }
     const play = () => {
+        playerRef?.play()
     }
     const pause = () => {
+        playerRef?.pause()
     }
     return (
         <div className="container">

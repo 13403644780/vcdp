@@ -24,9 +24,16 @@ class Core {
         }
         this._render.update(this._compile._playFiberNode)
         this._render._movie.stopLoading()
-        this._render._movie._videoTarget.play()
         this._render._movie._fps.start()
-        console.log(this._render)
+        if (!this._compile._currentFiberNode.head) {
+            this._render._movie._videoTarget.play()
+        }
+    }
+    public play() {
+        this._render._movie._videoTarget.play()
+    }
+    public pause() {
+        this._render._movie._videoTarget.pause()
     }
 
 }

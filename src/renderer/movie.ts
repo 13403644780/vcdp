@@ -66,7 +66,8 @@ export class MovieRender {
             padding: 10,
             ...options.subtitleStyle,
             x: 0,
-            y: 0
+            y: 0,
+            wrap: "word"
             
         })
         this._loadingCurrent = new Konva.Image({
@@ -82,6 +83,7 @@ export class MovieRender {
         this._fps = new Konva.Animation(() => {
             // 
         }, this._mediaLayer)
+        
         this._loadingAnimation = new Konva.Animation(this.initLoadingAnimation.bind(this), this._animationLayer)
         this.initScale()
         this.initLayer()
@@ -171,15 +173,19 @@ export class MovieRender {
         if (!currentSubtitleData) return
         const { text } = currentSubtitleData
         this._subtitleText.text(text)
-        this.initSubtitlePosition(text)
+        this.initSubtitlePosition()
     }
-    initSubtitlePosition(text: string) {
+    initSubtitlePosition() {
         this._subtitleLabel?.offset({
             x: this._subtitleText.width() / 2,
             y: this._subtitleText.height() / 2,
         })
-        const textWidth = this._subtitleText!.width()
-        const textHeight = this._subtitleText!.height()
+        this._subtitleLabel.scale({
+            x: this._canvasScale,
+            y: this._canvasScale
+        })
+        const textWidth = this._subtitleText.width()
+        const textHeight = this._subtitleText.height()
         const maxWidth = this._options.videoWidth
         const maxHeight = this._options.videoHeight
         const styleX = this._subtitleData.style.x || 0
@@ -188,6 +194,7 @@ export class MovieRender {
             x: Math.max(textWidth / 2, Math.min(styleX, maxWidth - textWidth / 2)),
             y: Math.max(textHeight / 2, Math.min(styleY, maxHeight - textHeight / 2)),
         })
+        console.table([["textWidth","textHeight","maxWidth","maxHeight","x","y"], [textWidth, textHeight,maxWidth,maxHeight, Math.max(textWidth / 2, Math.min(styleX, maxWidth - textWidth / 2)),Math.max(textHeight / 2, Math.min(styleY, maxHeight - textHeight / 2))]])
         if (textWidth > maxWidth) {
             this._subtitleText.width(maxWidth)
         }
