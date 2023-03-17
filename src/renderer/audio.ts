@@ -1,9 +1,9 @@
-import { Audio, } from "../types"
+import { AudioConfig, } from "../types"
 import { Howl, } from "howler"
 export class AudioRender {
-    _audioGroup: Audio.Group[]
-    _audios: Audio.Result[]
-    constructor(audios: Audio.Result[]) {
+    _audioGroup: AudioConfig.Group[]
+    _audios: AudioConfig.Result[]
+    constructor(audios: AudioConfig.Result[]) {
         this._audioGroup = []
         this._audios = audios
         this.initPlayer()

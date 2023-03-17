@@ -2,6 +2,7 @@ import Konva from "konva"
 import { IFrame, } from "konva/lib/types"
 import { AudioConfig, CompileConfig, Fiber, Movie, } from "../types"
 import { getCurrentTimeSubtitleText } from "../utils"
+import { AudioRender } from "./audio"
 export class MovieRender {
     _options: Movie.Options
     _stage: Konva.Stage
@@ -21,6 +22,7 @@ export class MovieRender {
     _subtitleText: Konva.Text
     _subtitleData: Fiber.Subtitle
     _videoData: Movie.VideoOptions
+    _backgroundAudio: AudioRender
     constructor(options: Movie.Options) {
         this._options = options
         this._canvasScale = 1
@@ -149,6 +151,9 @@ export class MovieRender {
             )
         }
     }
+    initBackground(bgAudio: AudioConfig.Result[]) {
+        this._backgroundAudio = new AudioRender(bgAudio)
+    }
     videoEventCallback(callbacks: (() => void)[], name: string) {
         for (let i = 0; i < callbacks.length; i++) {
             callbacks[i]()
@@ -243,7 +248,9 @@ export class MovieRender {
 
     public updateDub(options: CompileConfig.Dub) {}
 
-    public updateBackgroundAudio(options: AudioConfig.Result[]) {}
+    public updateBackgroundAudio(options: AudioConfig.Result[]) {
+        this.initBackground(options)
+    }
 
     public updateDubAudio(options: AudioConfig.Result[]) {}
 }

@@ -23,6 +23,9 @@ class Core {
             return
         }
         this._render.update(this._compile._playFiberNode)
+        if (this._compile._currentFiberNode.head) {
+            this._render.updateBackground(this._compile._backgroundAudios)
+        }
         this._render._movie.stopLoading()
         this._render._movie._fps.start()
         if (!this._compile._currentFiberNode.head) {

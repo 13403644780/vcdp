@@ -1,4 +1,4 @@
-import { Fiber, Render, } from "../types"
+import { AudioConfig, Fiber, Render, } from "../types"
 import { MovieRender, } from "./movie"
 export class Renderer {
     _options: Render.Options
@@ -18,5 +18,8 @@ export class Renderer {
     public update(playFiberNode: Fiber.PlayFiberNode) {
         this._movie.updateVideo(playFiberNode.video)
         this._movie.updateSubtitleSource(playFiberNode.subtitle)
+    }
+    public updateBackground(bgAudio: AudioConfig.Result[]) {
+        this._movie.updateBackgroundAudio(bgAudio)
     }
 }
