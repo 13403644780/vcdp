@@ -22,7 +22,6 @@ const App = () => {
             videoHeight: 1080,
             videoWidth: 1920,
             movieData: jsonData as CompileConfig.MovieData,
-            loadingImage: loadingImage,
         })
         setPlayerRef(player)
     }, [])

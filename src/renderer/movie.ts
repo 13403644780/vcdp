@@ -3,6 +3,9 @@ import { IFrame, } from "konva/lib/types"
 import { AudioConfig, CompileConfig, Fiber, Movie, } from "../types"
 import { getCurrentTimeSubtitleText } from "../utils"
 import { AudioRender } from "./audio"
+import { debounce, DebouncedFunc } from "lodash-es"
+import LoadingImage from "../assets/loading.svg"
+import PauseImage from "../assets/pause.svg"
 export class MovieRender {
     _options: Movie.Options
     _stage: Konva.Stage
@@ -15,7 +18,9 @@ export class MovieRender {
     _videoTarget: HTMLVideoElement
     _imageCurrent: Konva.Image
     _loadingTarget: HTMLImageElement
+    _pauseTarget: HTMLImageElement
     _loadingCurrent: Konva.Image
+    _pauseCurrent: Konva.Image
     _videoEvents: Movie.VideoEvents[]
     _subtitleLabel: Konva.Label
     _subtitleTab: Konva.Tag
@@ -23,11 +28,13 @@ export class MovieRender {
     _subtitleData: Fiber.Subtitle
     _videoData: Movie.VideoOptions
     _backgroundAudio: AudioRender
+    _debounceSwitchScene: DebouncedFunc<() => void>
     constructor(options: Movie.Options) {
         this._options = options
         this._canvasScale = 1
         this._videoTarget = document.createElement("video")
         this._loadingTarget = document.createElement("img")
+        this._pauseTarget = document.createElement("img")
         this._videoEvents = [
             {
                 eventName: "loadedmetadata",
@@ -76,6 +83,10 @@ export class MovieRender {
             name: "loading",
             image: this._loadingTarget,
         })
+        this._pauseCurrent = new Konva.Image({
+            name: "pause",
+            image: this._pauseTarget,
+        })
         this._subtitleLabel.add(this._subtitleTab)
         this._subtitleLabel.add(this._subtitleText)
         this._subtitleLayer.add(this._subtitleLabel)
@@ -87,10 +98,15 @@ export class MovieRender {
         }, this._mediaLayer)
         
         this._loadingAnimation = new Konva.Animation(this.initLoadingAnimation.bind(this), this._animationLayer)
+        this._debounceSwitchScene = debounce(this.switchScene.bind(this), 100, {
+            leading: true,
+            trailing: false
+        })
         this.initScale()
         this.initLayer()
         this.initVideoEvent()
         this.initLoading()
+        this.initPause()
     }
     initScale() {
         const { clientWidth, clientHeight, } = this._options.container
@@ -207,13 +223,16 @@ export class MovieRender {
     validateNextNode() {
         const currentTime = this._videoTarget.currentTime * 1000
         if (currentTime >= this._videoData.endTime) {
-            this._backgroundAudio.pause()
-            this._videoTarget.pause()
-            this._options.updateNextNode()
+            this._debounceSwitchScene()
         }
     }
+    switchScene() {
+        this._backgroundAudio.pause()
+        this._videoTarget.pause()
+        this._options.updateNextNode()
+    }
     initLoading() {
-        this._loadingTarget.src = this._options.loadingImage
+        this._loadingTarget.src = this._options.loadingImage || LoadingImage
         this._loadingTarget.onload = () => {
             this._loadingCurrent.width(100)
             this._loadingCurrent.height(100)
@@ -226,6 +245,21 @@ export class MovieRender {
                 y: this._loadingCurrent.height() / 2,
             })
             this.startLoading()
+        }
+    }
+    initPause() {
+        this._pauseTarget.src = this._options.loadingImage || PauseImage
+        this._pauseTarget.onload = () => {
+            this._pauseCurrent.width(100)
+            this._pauseCurrent.height(100)
+            this._pauseCurrent.setPosition({
+                x: this._options.videoWidth / 2,
+                y: this._options.videoHeight / 2,
+            })
+            this._pauseCurrent.offset({
+                x: this._loadingCurrent.width() / 2,
+                y: this._loadingCurrent.height() / 2,
+            })
         }
     }
     initLoadingAnimation(frame:IFrame | undefined) {
@@ -241,6 +275,14 @@ export class MovieRender {
     }
     public startLoading() {
         this._animationLayer.add(this._loadingCurrent)
+        this._loadingAnimation.start()
+    }
+    public stopPause() {
+        this._loadingAnimation.stop()
+        this._pauseCurrent.remove()
+    }
+    public startPause() {
+        this._animationLayer.add(this._pauseCurrent)
         this._loadingAnimation.start()
     }
     public updateVideo(options: Movie.VideoOptions) {

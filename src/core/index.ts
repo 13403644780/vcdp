@@ -30,15 +30,19 @@ class Core {
         this._render._movie.stopLoading()
         this._render._movie._fps.start()
         if (!this._compile._currentFiberNode.head) {
-            this._render.play()
+            Promise.resolve().then(() => {
+                this._render.play()
+            })
         }
     }
     async updateNextNode() {
         const result = await this._compile.updateNextNode()
+        console.log(result, this._compile._currentFiberNode)
         if (result) {
             this.LoadComplete()
         } else {
             this._render._movie.stopLoading()
+            this._render._movie.startPause()
         }
     }
     public play() {
