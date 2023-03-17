@@ -38,24 +38,25 @@ class Core {
     }
     async updateNextNode() {
         const result = await this._compile.updateNextNode()
-        console.log(result, this._compile._currentFiberNode)
         if (result) {
             this.LoadComplete()
         } else {
             this._render._movie.stopLoading()
-            this._render._movie.startPause()
+            this._render._movie.startReplay()
         }
     }
     public play() {
-        const result = this._render._movie._animationLayer.findOne((element: Konva.Image) => element.name() === "pause")
+        const result = this._render._movie._animationLayer.findOne((element: Konva.Image) => element.name() === "done")
         if (result !== undefined) {
             console.warn("场景已播放完毕")
             return
         }
         this._render.play()
+        this._render._movie.stopPause()
     }
     public pause() {
         this._render.pause()
+        this._render._movie.startPause()
     }
 
 }

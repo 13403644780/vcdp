@@ -18,9 +18,11 @@ export class MovieRender {
     _videoTarget: HTMLVideoElement
     _imageCurrent: Konva.Image
     _loadingTarget: HTMLImageElement
-    _pauseTarget: HTMLImageElement
     _loadingCurrent: Konva.Image
+    _pauseTarget: HTMLImageElement
     _pauseCurrent: Konva.Image
+    _replayTarget: HTMLImageElement
+    _replayCurrent: Konva.Image
     _videoEvents: Movie.VideoEvents[]
     _subtitleLabel: Konva.Label
     _subtitleTab: Konva.Tag
@@ -35,6 +37,7 @@ export class MovieRender {
         this._videoTarget = document.createElement("video")
         this._loadingTarget = document.createElement("img")
         this._pauseTarget = document.createElement("img")
+        this._replayTarget = document.createElement("img")
         this._videoEvents = [
             {
                 eventName: "loadedmetadata",
@@ -87,6 +90,10 @@ export class MovieRender {
             name: "pause",
             image: this._pauseTarget,
         })
+        this._replayCurrent = new Konva.Image({
+            name: "done",
+            image: this._replayTarget,
+        })
         this._subtitleLabel.add(this._subtitleTab)
         this._subtitleLabel.add(this._subtitleText)
         this._subtitleLayer.add(this._subtitleLabel)
@@ -107,6 +114,7 @@ export class MovieRender {
         this.initVideoEvent()
         this.initLoading()
         this.initPause()
+        this.initReplay()
     }
     initScale() {
         const { clientWidth, clientHeight, } = this._options.container
@@ -262,6 +270,21 @@ export class MovieRender {
             })
         }
     }
+    initReplay() {
+        this._replayTarget.src = this._options.loadingImage || PauseImage
+        this._replayTarget.onload = () => {
+            this._replayCurrent.width(100)
+            this._replayCurrent.height(100)
+            this._replayCurrent.setPosition({
+                x: this._options.videoWidth / 2,
+                y: this._options.videoHeight / 2,
+            })
+            this._replayCurrent.offset({
+                x: this._loadingCurrent.width() / 2,
+                y: this._loadingCurrent.height() / 2,
+            })
+        }
+    }
     initLoadingAnimation(frame:IFrame | undefined) {
         const speed = 100
         if (frame !== undefined) {
@@ -283,6 +306,14 @@ export class MovieRender {
     }
     public startPause() {
         this._animationLayer.add(this._pauseCurrent)
+        this._loadingAnimation.start()
+    }
+    public stopReplay() {
+        this._loadingAnimation.stop()
+        this._replayCurrent.remove()
+    }
+    public startReplay() {
+        this._animationLayer.add(this._replayCurrent)
         this._loadingAnimation.start()
     }
     public updateVideo(options: Movie.VideoOptions) {
