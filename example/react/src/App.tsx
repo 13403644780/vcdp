@@ -19,8 +19,8 @@ const App = () => {
     useEffect(() => {
         const player = new Core({
             container: playerContainer.current as HTMLDivElement,
-            videoHeight: 1920,
-            videoWidth: 1080,
+            videoHeight: 1080,
+            videoWidth: 1920,
             movieData: jsonData as CompileConfig.MovieData,
             loadingImage: loadingImage,
         })

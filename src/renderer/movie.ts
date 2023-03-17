@@ -185,10 +185,10 @@ export class MovieRender {
             x: this._subtitleText.width() / 2,
             y: this._subtitleText.height() / 2,
         })
-        this._subtitleLabel.scale({
-            x: this._canvasScale,
-            y: this._canvasScale
-        })
+        // this._subtitleLabel.scale({
+        //     x: this._canvasScale,
+        //     y: this._canvasScale
+        // })
         const textWidth = this._subtitleText.width()
         const textHeight = this._subtitleText.height()
         const maxWidth = this._options.videoWidth

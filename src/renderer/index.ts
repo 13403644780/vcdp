@@ -22,4 +22,12 @@ export class Renderer {
     public updateBackground(bgAudio: AudioConfig.Result[]) {
         this._movie.updateBackgroundAudio(bgAudio)
     }
+    public play() {
+        this._movie._backgroundAudio.play()
+        this._movie._videoTarget.play()
+    }
+    public pause() {
+        this._movie._backgroundAudio.pause()
+        this._movie._videoTarget.pause()
+    }
 }

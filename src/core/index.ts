@@ -33,10 +33,10 @@ class Core {
         }
     }
     public play() {
-        this._render._movie._videoTarget.play()
+        this._render.play()
     }
     public pause() {
-        this._render._movie._videoTarget.pause()
+        this._render.pause()
     }
 
 }

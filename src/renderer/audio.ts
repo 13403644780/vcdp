@@ -16,6 +16,7 @@ export class AudioRender {
                     volume: item.volume / 100,
                     mute: item.mute,
                     loop: item.loop,
+                    format: "mp3",
                     sprite: {
                         main: [item.startTime, item.endTime - item.startTime,],
                     },
@@ -23,6 +24,7 @@ export class AudioRender {
                 howlId: 0,
             }
         })
+        console.log(this._audioGroup)
     }
     public play() {
         for (let i = 0; i < this._audioGroup.length; i++) {
