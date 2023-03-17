@@ -1,6 +1,7 @@
 import { CoreConfig, } from "../types"
 import Compile from "../compile"
 import { Renderer, } from "../renderer"
+import Konva from "konva"
 class Core {
     _compile: Compile
     _render: Renderer
@@ -46,6 +47,11 @@ class Core {
         }
     }
     public play() {
+        const result = this._render._movie._animationLayer.findOne((element: Konva.Image) => element.name() === "pause")
+        if (result !== undefined) {
+            console.warn("场景已播放完毕")
+            return
+        }
         this._render.play()
     }
     public pause() {
