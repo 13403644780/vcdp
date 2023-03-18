@@ -9,6 +9,7 @@ class Compile {
     _playFiberNode: Fiber.PlayFiberNode
     _movieData: CompileConfig.MovieData
     _backgroundAudios: AudioConfig.Result[]
+    _videoElement: CompileConfig.VideoElement[]
     constructor(options: CompileConfig.Options) {
         this._cache = new Map()
         this._urlsCache = new Map()
@@ -19,7 +20,7 @@ class Compile {
         }
         this.initFiber()
         this._currentFiberNode = this._fiber
-        Promise.all([this.parseBackgroundAudio(), this.parseCurrentFiberData(),]).then(() => {
+        Promise.all([this.parseBackgroundAudio(), this.parseCurrentFiberData(), this.parseVideoElement()]).then(() => {
             options.firstCompileCallback()
         })
     }
@@ -116,7 +117,23 @@ class Compile {
             }
         }
     }
-
+    async parseVideoElement() {
+        this._videoElement = []
+        const elements = this._movieData.elements
+        for (let i = 0; i < elements.length; i ++) {
+            if (elements[i].type === 1) {
+                // 图片logo
+                const element = {
+                    ...elements[i],
+                    source: await this.parseSceneMedia(elements[i].source)
+                }
+                this._videoElement.push(element)
+            } else {
+                // 文字logo
+                this._videoElement.push(elements[i])
+            }
+        }
+    }
     async parseSceneMedia(source: string) {
         const url = this._urlsCache.get(source)
         if (url) {
@@ -132,7 +149,6 @@ class Compile {
             }
         }
     }
-
     async parseSceneSubtitle(source: string) {
         try {
             const subtitleText = await (await fetch(source)).text()

@@ -6,7 +6,7 @@ export namespace CompileConfig {
   export interface MovieData {
     backgroundAudios: BackgroundAudio[]
     scenes: Scene[]
-    elements: Element[]
+    elements: VideoElement[]
   }
   interface BackgroundAudio {
     source: string
@@ -37,5 +37,11 @@ export namespace CompileConfig {
   export type Dub = Omit<BackgroundAudio, "startTime" | "endTime" | "loop"> 
   export type TextStyle = Konva.TextConfig & {
     [prop: string] : string | number
+  }
+
+  export interface VideoElement {
+    source: string
+    type: 0 | 1  // 0 文本 1 图片
+    style: Konva.TextConfig | Konva.ImageConfig
   }
 }

@@ -111,5 +111,30 @@
       }
     }
   ],
-  "elements": []
+  "elements": [
+    {
+      "source": "三国演义",
+      "type": 0,
+      "style": {
+        "fontSize": 30,
+        "fontStyle":"italic bold",
+        "align": "center",
+        "fill": "#FFFFFF",
+        "stroke": "#7EB09B",
+        "strokeWidth": 5,
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "source": "https://image.liuyongzhi.cn/video/ai-draw.tokyo_en_.png",
+      "type": 1,
+      "style": {
+        "width": 200,
+        "height": 256,
+        "x": 960,
+        "y": 540
+      }
+    }
+  ]
 }
