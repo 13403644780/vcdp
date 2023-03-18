@@ -29,11 +29,14 @@ class Core {
             this._render.updateBackground(this._compile._backgroundAudios)
         }
         this._render._movie.stopLoading()
+        
         this._render._movie._fps.start()
         if (!this._compile._currentFiberNode.head) {
             Promise.resolve().then(() => {
                 this._render.play()
             })
+        } else {
+            this._render._movie.startPause()
         }
     }
     async updateNextNode() {

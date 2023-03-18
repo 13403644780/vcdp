@@ -6,6 +6,7 @@ import { AudioRender } from "./audio"
 import { debounce, DebouncedFunc } from "lodash-es"
 import LoadingImage from "../assets/loading.svg"
 import PauseImage from "../assets/pause.svg"
+import ReplayImage from "../assets/pause.svg"
 export class MovieRender {
     _options: Movie.Options
     _stage: Konva.Stage
@@ -256,7 +257,7 @@ export class MovieRender {
         }
     }
     initPause() {
-        this._pauseTarget.src = this._options.loadingImage || PauseImage
+        this._pauseTarget.src = PauseImage
         this._pauseTarget.onload = () => {
             this._pauseCurrent.width(100)
             this._pauseCurrent.height(100)
@@ -271,7 +272,7 @@ export class MovieRender {
         }
     }
     initReplay() {
-        this._replayTarget.src = this._options.loadingImage || PauseImage
+        this._replayTarget.src = ReplayImage
         this._replayTarget.onload = () => {
             this._replayCurrent.width(100)
             this._replayCurrent.height(100)
