@@ -1,10 +1,10 @@
 import Konva from "konva"
 import { IFrame, } from "konva/lib/types"
 import { AudioConfig, CompileConfig, Fiber, Movie, } from "../types"
-import { getCurrentTimeSubtitleText } from "../utils"
-import { AudioRender } from "./audio"
-import { debounce, DebouncedFunc } from "lodash-es"
-import { Element } from "./element"
+import { getCurrentTimeSubtitleText, } from "../utils"
+import { AudioRender, } from "./audio"
+import { debounce, DebouncedFunc, } from "lodash-es"
+import { Element, } from "./element"
 import LoadingImage from "../assets/loading.svg"
 import PauseImage from "../assets/pause.svg"
 import ReplayImage from "../assets/pause.svg"
@@ -49,7 +49,7 @@ export class MovieRender {
             },
             {
                 eventName: "timeupdate",
-                callbacks: [this.initSubtitle.bind(this), this.validateNextNode.bind(this)],
+                callbacks: [this.initSubtitle.bind(this), this.validateNextNode.bind(this),],
             },
         ]
         this._stage = new Konva.Stage({
@@ -86,7 +86,7 @@ export class MovieRender {
             ...options.subtitleStyle,
             x: 0,
             y: 0,
-            wrap: "word"
+            wrap: "word",
             
         })
         this._loadingCurrent = new Konva.Image({
@@ -115,7 +115,7 @@ export class MovieRender {
         this._loadingAnimation = new Konva.Animation(this.initLoadingAnimation.bind(this), this._animationLayer)
         this._debounceSwitchScene = debounce(this.switchScene.bind(this), 100, {
             leading: true,
-            trailing: false
+            trailing: false,
         })
         this.initScale()
         this.initLayer()
@@ -199,7 +199,7 @@ export class MovieRender {
         }
         this._videoElement = new Element(options, this._elementsLayer, this._options.videoHeight, this._options.videoWidth)
     }
-    videoEventCallback(callbacks: (() => void)[], name: string) {
+    videoEventCallback(callbacks: (() => void)[],) {
         for (let i = 0; i < callbacks.length; i++) {
             callbacks[i]()
         }
@@ -221,7 +221,7 @@ export class MovieRender {
         const currentTime = this._videoTarget.currentTime
         const currentSubtitleData = getCurrentTimeSubtitleText(currentTime, this._videoData.startTime, this._subtitleData.source)
         if (!currentSubtitleData) return
-        const { text } = currentSubtitleData
+        const { text, } = currentSubtitleData
         this._subtitleText.text(text)
         this.initSubtitlePosition()
     }

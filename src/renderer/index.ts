@@ -13,7 +13,7 @@ export class Renderer {
             height: options.container.clientHeight,
             loadingImage: options.loadingImage,
             subtitleStyle: options.subtitleStyle,
-            updateNextNode: options.updateNextNode
+            updateNextNode: options.updateNextNode,
         })
     }
     public update(playFiberNode: Fiber.PlayFiberNode) {
