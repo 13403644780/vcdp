@@ -355,5 +355,12 @@ export class MovieRender {
     public updateVideoElement(options: CompileConfig.VideoElement[]) {
         this.initVideoElements(options)
     }
+    public dispose() {
+        this._animationLayer.clear()
+        this._mediaLayer.clear()
+        this._subtitleLayer.clear()
+        this._backgroundAudio.dispose()
+        this._elementsLayer.clear()
+    }
 
 }

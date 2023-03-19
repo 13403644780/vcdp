@@ -71,6 +71,7 @@ class Core {
         this._render._movie.startPause()
     }
     public update(options: CompileConfig.Options) {
+        this._render._movie.dispose()
         this._compile.init(options)
     }
 

@@ -9,6 +9,7 @@ export class AudioRender {
         this.initPlayer()
     }
     initPlayer() {
+        this.dispose()
         this._audioGroup = this._audios.map(item => {
             return {
                 howl: new Howl({
@@ -57,5 +58,6 @@ export class AudioRender {
             this._audioGroup[i].howl.unload()
             this._audioGroup[i].howlId = 0
         }
+        this._audioGroup = []
     }
 }

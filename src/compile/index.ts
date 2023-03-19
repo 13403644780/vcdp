@@ -25,7 +25,7 @@ class Compile {
         }
         this.initFiber()
         this._currentFiberNode = this._fiber
-        Promise.all([this.parseBackgroundAudio(), this.parseCurrentFiberData(), this.parseVideoElement()]).then(() => {
+        Promise.all([this.parseBackgroundAudio(), this.parseCurrentFiberData(), this.parseVideoElement(),]).then(() => {
             this._firstCompileCallback()
         })
     }
@@ -130,7 +130,7 @@ class Compile {
                 // 图片logo
                 const element = {
                     ...elements[i],
-                    source: await this.parseSceneMedia(elements[i].source)
+                    source: await this.parseSceneMedia(elements[i].source),
                 }
                 this._videoElement.push(element)
             } else {
