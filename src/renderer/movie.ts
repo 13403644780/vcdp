@@ -348,7 +348,6 @@ export class MovieRender {
         this._subtitleData = options
     }
 
-    public updateDub(options: CompileConfig.Dub) {}
 
     public updateBackgroundAudio(options: AudioConfig.Result[]) {
         this.initBackground(options)
@@ -357,5 +356,4 @@ export class MovieRender {
         this.initVideoElements(options)
     }
 
-    public updateDubAudio(options: AudioConfig.Result[]) {}
 }
