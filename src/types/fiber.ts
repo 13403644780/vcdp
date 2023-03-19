@@ -12,7 +12,7 @@ export namespace Fiber {
     source: SubtitleSource[]
   }
   export interface SubtitleSource {
-    id : string
+    id: string
     startTime: string
     endTime: string
     startSeconds: number
@@ -20,4 +20,3 @@ export namespace Fiber {
     text: string
   }
 }
-

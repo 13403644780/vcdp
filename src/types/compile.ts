@@ -34,9 +34,9 @@ export namespace CompileConfig {
     mute: boolean
   }
 
-  export type Dub = Omit<BackgroundAudio, "startTime" | "endTime" | "loop"> 
+  export type Dub = Omit<BackgroundAudio, "startTime" | "endTime" | "loop">
   export type TextStyle = Konva.TextConfig & {
-    [prop: string] : string | number
+    [prop: string]: string | number
   }
 
   export interface VideoElement {

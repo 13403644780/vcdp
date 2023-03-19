@@ -1,6 +1,6 @@
 import typescript2 from 'rollup-plugin-typescript2';
 import dts from 'rollup-plugin-dts';
-
+import image from '@rollup/plugin-image'
 const isProduction = process.env.NODE_ENV === 'production';
 
 const config = [
@@ -27,7 +27,8 @@ const config = [
             target: isProduction ? 'es5' : 'es2015'
           }
         }
-      })
+      }),
+      image()
     ]
   },
   {
