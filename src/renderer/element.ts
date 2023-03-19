@@ -4,34 +4,55 @@ import { CompileConfig } from "src/types"
 export class Element {
   _options: CompileConfig.VideoElement[]
   _layer: Konva.Layer
-  _elements: (Konva.Text | Konva.Image) []
-  constructor(options: CompileConfig.VideoElement[], layer: Konva.Layer) {
+  _elements: (Konva.Text | Konva.Image)[]
+  _maxWidth: number
+  _maxHeight: number
+  constructor(options: CompileConfig.VideoElement[], layer: Konva.Layer, maxHeight: number, maxWidth: number) {
     this._options = options
     this._layer = layer
     this._elements = []
+    this._maxWidth = maxWidth
+    this._maxHeight = maxHeight
     this.init()
     this.render()
   }
   init() {
-    for (let i = 0; i < this._options.length; i ++) {
+    for (let i = 0; i < this._options.length; i++) {
       if (this._options[i].type === 0) {
-        this._elements.push(new Konva.Text({
+        const element = new Konva.Text({
           text: this._options[i].source,
           ...this._options[i].style
-        }))
+        })
+        this.initPosition(element, this._options[i].style.x || 0, this._options[i].style.y || 0)
+        this._elements.push(element)
       } else {
         const target = document.createElement("img")
         target.src = this._options[i].source
-        this._elements.push(new Konva.Image({
+        const element = new Konva.Image({
           image: target,
           ...this._options[i].style
-        }))
+        })
+        console.log(this._options[i])
+        this.initPosition(element, this._options[i].style.x || 0, this._options[i].style.y || 0)
+        this._elements.push(element)
       }
     }
   }
   render() {
-    for (let i = 0; i < this._elements.length; i ++) {
+    for (let i = 0; i < this._elements.length; i++) {
       this._layer.add(this._elements[i])
     }
+  }
+  initPosition(element: Konva.Text | Konva.Image, styleX: number, styleY: number) {
+    const currentWidth = element.width()
+    const currentHeight = element.height()
+    element.offset({
+      x: currentWidth / 2,
+      y: currentHeight / 2,
+    })
+    element.setPosition({
+      x: Math.max(currentWidth / 2, Math.min(styleX, this._maxWidth - currentHeight / 2)),
+      y: Math.max(currentHeight / 2, Math.min(styleY, this._maxHeight - currentHeight / 2)),
+    })
   }
 }

@@ -194,7 +194,7 @@ export class MovieRender {
         this._backgroundAudio = new AudioRender(bgAudio)
     }
     initVideoElements(options: CompileConfig.VideoElement[]) {
-        this._videoElement = new Element(options, this._elementsLayer)
+        this._videoElement = new Element(options, this._elementsLayer, this._options.videoHeight, this._options.videoWidth)
     }
     videoEventCallback(callbacks: (() => void)[], name: string) {
         for (let i = 0; i < callbacks.length; i++) {
