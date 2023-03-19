@@ -116,12 +116,13 @@
       "source": "三国演义",
       "type": 0,
       "style": {
-        "fontSize": 30,
+        "fontSize": 70,
         "fontStyle":"italic bold",
         "align": "center",
         "fill": "#FFFFFF",
         "stroke": "#7EB09B",
         "strokeWidth": 5,
+        "opacity": 0.5,
         "x": 0,
         "y": 0
       }
@@ -132,6 +133,7 @@
       "style": {
         "width": 200,
         "height": 256,
+        "opacity": 0.5,
         "x": 960,
         "y": 540
       }

@@ -1,4 +1,4 @@
-import { AudioConfig, Fiber, Render, } from "../types"
+import { AudioConfig, CompileConfig, Fiber, Render, } from "../types"
 import { MovieRender, } from "./movie"
 export class Renderer {
     _options: Render.Options
@@ -22,6 +22,9 @@ export class Renderer {
     }
     public updateBackground(bgAudio: AudioConfig.Result[]) {
         this._movie.updateBackgroundAudio(bgAudio)
+    }
+    public updateVideoElement(elements: CompileConfig.VideoElement[]) {
+        this._movie.updateVideoElement(elements)
     }
     public play() {
         this._movie._backgroundAudio.play()

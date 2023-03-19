@@ -42,6 +42,7 @@ export namespace CompileConfig {
   export interface VideoElement {
     source: string
     type: 0 | 1  // 0 文本 1 图片
-    style: Konva.TextConfig | Konva.ImageConfig
+    style: Konva.TextConfig | imageConfig
   }
+  type imageConfig = Omit<Konva.ImageConfig, "image">
 }

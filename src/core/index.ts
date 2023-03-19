@@ -27,6 +27,7 @@ class Core {
         this._render.update(this._compile._playFiberNode)
         if (this._compile._currentFiberNode.head) {
             this._render.updateBackground(this._compile._backgroundAudios)
+            this._render.updateVideoElement(this._compile._videoElement)
         }
         this._render._movie.stopLoading()
         

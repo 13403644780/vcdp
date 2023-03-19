@@ -4,6 +4,7 @@ import { AudioConfig, CompileConfig, Fiber, Movie, } from "../types"
 import { getCurrentTimeSubtitleText } from "../utils"
 import { AudioRender } from "./audio"
 import { debounce, DebouncedFunc } from "lodash-es"
+import { Element } from "./element"
 import LoadingImage from "../assets/loading.svg"
 import PauseImage from "../assets/pause.svg"
 import ReplayImage from "../assets/pause.svg"
@@ -13,6 +14,7 @@ export class MovieRender {
     _mediaLayer: Konva.Layer
     _subtitleLayer: Konva.Layer
     _animationLayer: Konva.Layer
+    _elementsLayer: Konva.Layer
     _fps: Konva.Animation
     _loadingAnimation: Konva.Animation
     _canvasScale: number
@@ -31,6 +33,7 @@ export class MovieRender {
     _subtitleData: Fiber.Subtitle
     _videoData: Movie.VideoOptions
     _backgroundAudio: AudioRender
+    _videoElement: Element
     _debounceSwitchScene: DebouncedFunc<() => void>
     constructor(options: Movie.Options) {
         this._options = options
@@ -62,6 +65,9 @@ export class MovieRender {
         })
         this._animationLayer = new Konva.Layer({
             name: "animationLayer",
+        })
+        this._elementsLayer = new Konva.Layer({
+            name: "elementsLayer",
         })
         this._imageCurrent = new Konva.Image({
             image: this._videoTarget,
@@ -101,6 +107,7 @@ export class MovieRender {
         this._stage.add(this._mediaLayer)
         this._stage.add(this._subtitleLayer)
         this._stage.add(this._animationLayer)
+        this._stage.add(this._elementsLayer)
         this._fps = new Konva.Animation(() => {
             // 
         }, this._mediaLayer)
@@ -158,6 +165,13 @@ export class MovieRender {
             x: this._canvasScale,
             y: this._canvasScale,
         })
+        this._elementsLayer.setPosition({
+            x: this._stage.width() / 2 - this._options.videoWidth * this._canvasScale / 2,
+            y: this._stage.height() / 2 - this._options.videoHeight * this._canvasScale / 2,
+        }).scale({
+            x: this._canvasScale,
+            y: this._canvasScale,
+        })
         const videoBackground = new Konva.Rect({
             width: this._options.videoWidth,
             height: this._options.videoHeight,
@@ -178,6 +192,9 @@ export class MovieRender {
     }
     initBackground(bgAudio: AudioConfig.Result[]) {
         this._backgroundAudio = new AudioRender(bgAudio)
+    }
+    initVideoElements(options: CompileConfig.VideoElement[]) {
+        this._videoElement = new Element(options, this._elementsLayer)
     }
     videoEventCallback(callbacks: (() => void)[], name: string) {
         for (let i = 0; i < callbacks.length; i++) {
@@ -332,6 +349,9 @@ export class MovieRender {
 
     public updateBackgroundAudio(options: AudioConfig.Result[]) {
         this.initBackground(options)
+    }
+    public updateVideoElement(options: CompileConfig.VideoElement[]) {
+        this.initVideoElements(options)
     }
 
     public updateDubAudio(options: AudioConfig.Result[]) {}
