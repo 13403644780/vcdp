@@ -1,21 +1,27 @@
-import { CoreConfig, } from "../types"
+import { CoreConfig, CompileConfig, } from "../types"
 import Compile from "../compile"
 import { Renderer, } from "../renderer"
 import Konva from "konva"
+import { MovieRender } from "src/renderer/movie"
 class Core {
     _compile: Compile
     _render: Renderer
+    _options: CoreConfig.Options
     constructor(options: CoreConfig.Options) {
+        this._options = options
+        this.init()
+    }
+    init() {
         this._compile = new Compile({
-            ...options.movieData,
+            ...this._options.movieData,
             firstCompileCallback: this.LoadComplete.bind(this),
         })
         this._render = new Renderer({
-            container: typeof options.container === "string" ? document.querySelector(options.container) as HTMLDivElement : options.container,
-            videoWidth: options.videoWidth,
-            videoHeight: options.videoHeight,
-            loadingImage: options.loadingImage || "",
-            subtitleStyle: options.movieData.scenes[0].subtitle?.style || {},
+            container: typeof this._options.container === "string" ? document.querySelector(this._options.container) as HTMLDivElement : this._options.container,
+            videoWidth: this._options.videoWidth,
+            videoHeight: this._options.videoHeight,
+            loadingImage: this._options.loadingImage || "",
+            subtitleStyle: this._options.movieData.scenes[0].subtitle?.style || {},
             updateNextNode: this.updateNextNode.bind(this)
         })
     }
@@ -49,6 +55,9 @@ class Core {
             this._render._movie.startReplay()
         }
     }
+    public getElement(name: string) {
+        return this._render._movie._videoElement.findElement(name)
+    }
     public play() {
         const result = this._render._movie._animationLayer.findOne((element: Konva.Image) => element.name() === "done")
         if (result !== undefined) {
@@ -61,6 +70,9 @@ class Core {
     public pause() {
         this._render.pause()
         this._render._movie.startPause()
+    }
+    public update(options: CompileConfig.Options) {
+        this._compile.init(options)
     }
 
 }

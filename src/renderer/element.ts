@@ -13,8 +13,10 @@ export class Element {
     this._elements = []
     this._maxWidth = maxWidth
     this._maxHeight = maxHeight
+    this.dispose()
     this.init()
     this.render()
+    
   }
   init() {
     for (let i = 0; i < this._options.length; i++) {
@@ -54,5 +56,13 @@ export class Element {
       x: Math.max(currentWidth / 2, Math.min(styleX, this._maxWidth - currentHeight / 2)),
       y: Math.max(currentHeight / 2, Math.min(styleY, this._maxHeight - currentHeight / 2)),
     })
+  }
+  dispose() {
+    this._elements.forEach(element => {
+      element.remove()
+    })
+  }
+  public findElement(name: string) {
+    return this._elements.find(element => element.name() === name)
   }
 }

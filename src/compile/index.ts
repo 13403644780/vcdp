@@ -10,9 +10,14 @@ class Compile {
     _movieData: CompileConfig.MovieData
     _backgroundAudios: AudioConfig.Result[]
     _videoElement: CompileConfig.VideoElement[]
+    _firstCompileCallback: () => void
     constructor(options: CompileConfig.Options) {
         this._cache = new Map()
         this._urlsCache = new Map()
+        this._firstCompileCallback = options.firstCompileCallback
+        this.init(options)
+    }
+    init(options: CompileConfig.Options) {
         this._movieData = {
             backgroundAudios: options.backgroundAudios,
             scenes: options.scenes,
@@ -21,7 +26,7 @@ class Compile {
         this.initFiber()
         this._currentFiberNode = this._fiber
         Promise.all([this.parseBackgroundAudio(), this.parseCurrentFiberData(), this.parseVideoElement()]).then(() => {
-            options.firstCompileCallback()
+            this._firstCompileCallback()
         })
     }
     initFiber() {

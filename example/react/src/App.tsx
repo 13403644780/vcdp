@@ -26,7 +26,8 @@ const App = () => {
         setPlayerRef(player)
     }, [])
     const updatePlayer = () => {
-        console.log("jsonControl.get(): ", jsonControl?.get())
+        console.log("jsonControl.get(): ", jsonControl?.get().elements)
+        playerRef?.update(jsonControl?.get())
     }
     const play = () => {
         playerRef?.play()
