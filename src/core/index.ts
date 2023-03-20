@@ -74,6 +74,19 @@ class Core {
         this._render._movie.dispose()
         this._compile.init(options)
     }
+    /**
+     * 获取/设置音量
+     * @param volume 0-100
+     * @returns 
+     */
+    public videoVolume(volume?: number) {
+        if (volume === undefined) {
+            return this._render._movie._videoTarget.volume * 100
+        } else {
+            this._render._movie._videoTarget.volume = volume / 100
+            return this._render._movie._videoTarget.volume * 100
+        }
+    }
 
 }
 
