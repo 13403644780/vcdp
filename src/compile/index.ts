@@ -164,12 +164,25 @@ class Compile {
             return []
         }
     }
+    /**
+     * 更新视频音量
+     * @param volume 0-100
+     */
     public updateVideoVolume(volume: number) {
         let currentFiber: FiberFactory | undefined = this._fiber
         while(currentFiber) {
             currentFiber.currentData.video.volume = volume
             currentFiber = currentFiber.next
         }
+    }
+    /**
+     * 更新背景音乐音量
+     * @param volume 0-100
+     */
+    public updateBackgroundAudioVolume(volume: number) {
+        this._backgroundAudios.forEach((audio) => {
+            audio.volume = volume
+        })
     }
 }
 

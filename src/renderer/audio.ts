@@ -60,4 +60,9 @@ export class AudioRender {
         }
         this._audioGroup = []
     }
+    public updateVolume(volume: number) {
+        this._audioGroup.forEach(audio => {
+            audio.howl.volume(volume / 100, audio.howlId)
+        })
+    }
 }

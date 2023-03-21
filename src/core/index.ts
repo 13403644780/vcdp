@@ -75,7 +75,7 @@ class Core {
         this._compile.init(options)
     }
     /**
-     * 获取/设置音量
+     * 获取/设置视频音量
      * @param volume 0-100
      * @returns 
      */
@@ -86,6 +86,23 @@ class Core {
             this._render._movie._videoTarget.volume = volume / 100
             this._compile.updateVideoVolume(volume)
             return this._render._movie._videoTarget.volume * 100
+        }
+    }
+    /**
+     * 获取/设置背景音乐音量
+     * @param volume 0-100
+     * @returns { number }
+     */
+    public backgroundVolume(volume?: number) {
+        if (this._compile._backgroundAudios.length === 0) {
+            console.warn("暂无背景音乐")
+            return
+        }
+        if (volume === undefined) {
+            return this._compile._backgroundAudios[0].volume
+        } else {
+            this._render._movie._backgroundAudio.updateVolume(volume)
+            return this._compile._backgroundAudios[0].volume
         }
     }
 
