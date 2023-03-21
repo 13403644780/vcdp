@@ -87,7 +87,7 @@ export class MovieRender {
             x: 0,
             y: 0,
             wrap: "word",
-            
+
         })
         this._loadingCurrent = new Konva.Image({
             name: "loading",
@@ -109,9 +109,9 @@ export class MovieRender {
         this._stage.add(this._animationLayer)
         this._stage.add(this._elementsLayer)
         this._fps = new Konva.Animation(() => {
-            // 
+            //
         }, this._mediaLayer)
-        
+
         this._loadingAnimation = new Konva.Animation(this.initLoadingAnimation.bind(this), this._animationLayer)
         this._debounceSwitchScene = debounce(this.switchScene.bind(this), 100, {
             leading: true,

@@ -84,6 +84,7 @@ class Core {
             return this._render._movie._videoTarget.volume * 100
         } else {
             this._render._movie._videoTarget.volume = volume / 100
+            this._compile.updateVideoVolume(volume)
             return this._render._movie._videoTarget.volume * 100
         }
     }

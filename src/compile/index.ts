@@ -164,6 +164,13 @@ class Compile {
             return []
         }
     }
+    public updateVideoVolume(volume: number) {
+        let currentFiber: FiberFactory | undefined = this._fiber
+        while(currentFiber) {
+            currentFiber.currentData.video.volume = volume
+            currentFiber = currentFiber.next
+        }
+    }
 }
 
 export default Compile
