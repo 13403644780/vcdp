@@ -9,6 +9,11 @@
     "react": "vite --mode=react",
     "vue": "vite --mode=vue"
   },
+  "config": {
+    "commitizen": {
+      "path": "node_modules/cz-git"
+    }
+  },
   "keywords": [],
   "author": "yongzhiliu<yz@overdev.cn>",
   "license": "ISC",
@@ -16,7 +21,7 @@
     "@babel/core": "^7.21.3",
     "@babel/preset-env": "^7.20.2",
     "@rollup/plugin-babel": "^6.0.3",
-    "@rollup/plugin-commonjs": "^24.0.1", 
+    "@rollup/plugin-commonjs": "^24.0.1",
     "@rollup/plugin-image": "^3.0.2",
     "@rollup/plugin-node-resolve": "^15.0.1",
     "@rollup/plugin-typescript": "^11.0.0",
@@ -31,6 +36,7 @@
     "@vitejs/plugin-react-swc": "^3.0.0",
     "@vitejs/plugin-vue": "^4.0.0",
     "core-js": "^3.29.1",
+    "cz-git": "^1.6.1",
     "eslint": "^8.35.0",
     "rollup": "^3.18.0",
     "rollup-plugin-dts": "^5.2.0",

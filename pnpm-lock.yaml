@@ -19,6 +19,7 @@ specifiers:
   '@vitejs/plugin-react-swc': ^3.0.0
   '@vitejs/plugin-vue': ^4.0.0
   core-js: ^3.29.1
+  cz-git: ^1.6.1
   eslint: ^8.35.0
   howler: ^2.2.3
   jsoneditor: ^9.10.0
@@ -68,6 +69,7 @@ devDependencies:
   '@vitejs/plugin-react-swc': 3.2.0_vite@4.1.4
   '@vitejs/plugin-vue': 4.0.0_vite@4.1.4+vue@3.2.47
   core-js: 3.29.1
+  cz-git: 1.6.1
   eslint: 8.35.0
   rollup: 3.18.0
   rollup-plugin-dts: 5.2.0_fn2onl6nbsljlgjr3jlzr6w7we
@@ -2324,6 +2326,10 @@ packages:
 
   /csstype/3.1.1:
     resolution: {integrity: sha512-DJR/VvkAvSZW9bTouZue2sSxDwdTN92uHjqeKVm+0dAqdfNykRzQ95tay8aXMBAAPpUiq4Qcug2L7neoRh2Egw==}
+    dev: true
+
+  /cz-git/1.6.1:
+    resolution: {integrity: sha512-+ohk/MFETERw4o/WpN3hUk7GM8oAwnaQI/uDuREGm4/B+G3DghGvNZQ/0MbFqZHWgKWvMzNZI6eKmPo0uPCu1A==}
     dev: true
 
   /de-indent/1.0.2:
