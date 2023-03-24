@@ -62,7 +62,7 @@ class Core {
     public play() {
         const result = this._render._movie._animationLayer.findOne((element: Konva.Image) => element.name() === "done")
         if (result !== undefined) {
-            console.warn("场景已播放完毕")
+            console.warn("场景已播放完毕,请切换场景或者重新播放")
             return
         }
         this._render.play()
