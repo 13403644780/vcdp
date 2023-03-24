@@ -20,6 +20,8 @@ class Core {
             videoWidth: this._options.videoWidth,
             videoHeight: this._options.videoHeight,
             loadingImage: this._options.loadingImage || "",
+            pauseImage: this._options.pauseImage || "",
+            replayImage: this._options.replayImage || "",
             subtitleStyle: this._options.movieData.scenes[0].subtitle?.style || {},
             updateNextNode: this.updateNextNode.bind(this),
         })

@@ -7,6 +7,8 @@ export namespace Movie {
     videoWidth: number
     videoHeight: number
     loadingImage: string
+    pauseImage: string
+    replayImage: string
     subtitleStyle: CompileConfig.TextStyle
     updateNextNode: () => void
   }

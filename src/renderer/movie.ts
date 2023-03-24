@@ -277,7 +277,7 @@ export class MovieRender {
         }
     }
     initPause() {
-        this._pauseTarget.src = PauseImage
+        this._pauseTarget.src = this._options.pauseImage || PauseImage
         this._pauseTarget.onload = () => {
             this._pauseCurrent.width(100)
             this._pauseCurrent.height(100)
@@ -292,7 +292,7 @@ export class MovieRender {
         }
     }
     initReplay() {
-        this._replayTarget.src = ReplayImage
+        this._replayTarget.src = this._options.replayImage || ReplayImage
         this._replayTarget.onload = () => {
             this._replayCurrent.width(100)
             this._replayCurrent.height(100)

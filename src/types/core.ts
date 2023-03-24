@@ -5,5 +5,7 @@ export namespace CoreConfig {
     movieData: CompileConfig.MovieData,
     container: string | HTMLDivElement
     loadingImage?: string
+    pauseImage?: string
+    replayImage?: string
   }
 }

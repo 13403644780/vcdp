@@ -12,8 +12,11 @@ export class Renderer {
             width: options.container.clientWidth,
             height: options.container.clientHeight,
             loadingImage: options.loadingImage,
+            pauseImage: options.pauseImage,
+            replayImage: options.replayImage,
             subtitleStyle: options.subtitleStyle,
             updateNextNode: options.updateNextNode,
+            
         })
     }
     public update(playFiberNode: Fiber.PlayFiberNode) {
