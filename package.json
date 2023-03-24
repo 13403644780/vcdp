@@ -1,8 +1,8 @@
 {
-  "name": "happy-player",
-  "version": "1.0.0",
+  "name": "vcdp",
+  "version": "0.0.1",
   "description": "",
-  "main": "index.js",
+  "main": "lib/vcdp.esm.min.js",
   "type": "module",
   "scripts": {
     "build": "rollup -c",
@@ -10,13 +10,13 @@
     "vue": "vite --mode=vue"
   },
   "keywords": [],
-  "author": "",
+  "author": "yongzhiliu<yz@overdev.cn>",
   "license": "ISC",
   "devDependencies": {
     "@babel/core": "^7.21.3",
     "@babel/preset-env": "^7.20.2",
     "@rollup/plugin-babel": "^6.0.3",
-    "@rollup/plugin-commonjs": "^24.0.1",
+    "@rollup/plugin-commonjs": "^24.0.1", 
     "@rollup/plugin-image": "^3.0.2",
     "@rollup/plugin-node-resolve": "^15.0.1",
     "@rollup/plugin-typescript": "^11.0.0",
