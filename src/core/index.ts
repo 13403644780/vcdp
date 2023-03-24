@@ -79,7 +79,7 @@ class Core {
     /**
      * 获取/设置视频音量
      * @param volume 0-100
-     * @returns 
+     * @returns
      */
     public videoVolume(volume?: number) {
         if (volume === undefined) {
@@ -108,6 +108,22 @@ class Core {
         }
     }
 
+    /**
+     * 获取当前播放时间
+     */
+    public getCurrentTime(): number {
+        let current = this._compile._fiber
+        let pastTime = 0
+        while (current !== undefined) {
+            if (current === this._compile._currentFiberNode) {
+                // 查询到当前节点
+                break
+            }
+            pastTime += current.currentData.video.endTime - current.currentData.video.startTime
+            current = current.next
+        }
+        return pastTime + (this._render._movie._videoTarget.currentTime / 1000 - this._compile._currentFiberNode.currentData.video.startTime)
+    }
 }
 
 export default Core

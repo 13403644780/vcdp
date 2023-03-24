@@ -4,7 +4,7 @@ import srtParse from "srt-parser-2"
 class Compile {
     _cache: Map<string, Blob>
     _urlsCache: Map<string, string>
-    _fiber: FiberFactory
+    _fiber: FiberFactory | undefined
     _currentFiberNode: FiberFactory
     _playFiberNode: Fiber.PlayFiberNode
     _movieData: CompileConfig.MovieData
@@ -84,7 +84,7 @@ class Compile {
             dub: {
                 ...this._currentFiberNode.currentData.dub,
                 source: await this.parseSceneMedia(this._currentFiberNode.currentData?.dub?.source || ""),
-                volume: this._currentFiberNode.currentData?.dub?.volume || 100, 
+                volume: this._currentFiberNode.currentData?.dub?.volume || 100,
             },
         }
     }
