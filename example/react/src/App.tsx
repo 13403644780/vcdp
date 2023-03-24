@@ -34,6 +34,9 @@ const App = () => {
     const pause = () => {
         playerRef?.pause()
     }
+    const replay = () => {
+        playerRef?.replay()
+    }
     return (
         <div className="container">
             <div className='topView'>
@@ -42,6 +45,7 @@ const App = () => {
                         <button onClick={updatePlayer}>更新</button>
                         <button onClick={play}>播放</button>
                         <button onClick={pause}>暂停</button>
+                        <button onClick={replay}>重播</button>
                     </div>
                     <div className='jsonContainer' ref={jsonViewRef}></div>
                 </div>

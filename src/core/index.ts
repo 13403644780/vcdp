@@ -2,6 +2,7 @@ import { CoreConfig, CompileConfig, } from "../types"
 import Compile from "../compile"
 import { Renderer, } from "../renderer"
 import Konva from "konva"
+import { FiberFactory } from '../utils'
 class Core {
     _compile: Compile
     _render: Renderer
@@ -37,7 +38,6 @@ class Core {
             this._render.updateVideoElement(this._compile._videoElement)
         }
         this._render._movie.stopLoading()
-
         this._render._movie._fps.start()
         if (!this._compile._currentFiberNode.head) {
             Promise.resolve().then(() => {
@@ -74,6 +74,7 @@ class Core {
     }
     public update(options: CompileConfig.Options) {
         this._render._movie.dispose()
+        this._render._movie.stopReplay()
         this._compile.init(options)
     }
     /**
@@ -112,7 +113,7 @@ class Core {
      * 获取当前播放时间
      */
     public getCurrentTime(): number {
-        let current = this._compile._fiber
+        let current: FiberFactory | undefined = this._compile._fiber
         let pastTime = 0
         while (current !== undefined) {
             if (current === this._compile._currentFiberNode) {
@@ -123,6 +124,14 @@ class Core {
             current = current.next
         }
         return pastTime + (this._render._movie._videoTarget.currentTime / 1000 - this._compile._currentFiberNode.currentData.video.startTime)
+    }
+    public replay() {
+        this._render._movie.dispose()
+        this._render._movie.stopReplay()
+        this._compile.init({
+            ...this._options.movieData,
+            firstCompileCallback: this.LoadComplete.bind(this),
+        })
     }
 }
 

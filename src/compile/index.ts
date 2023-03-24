@@ -4,7 +4,7 @@ import srtParse from "srt-parser-2"
 class Compile {
     _cache: Map<string, Blob>
     _urlsCache: Map<string, string>
-    _fiber: FiberFactory | undefined
+    _fiber: FiberFactory
     _currentFiberNode: FiberFactory
     _playFiberNode: Fiber.PlayFiberNode
     _movieData: CompileConfig.MovieData

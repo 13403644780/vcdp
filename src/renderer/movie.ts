@@ -7,7 +7,7 @@ import { debounce, DebouncedFunc, } from "lodash-es"
 import { Element, } from "./element"
 import LoadingImage from "../assets/loading.svg"
 import PauseImage from "../assets/pause.svg"
-import ReplayImage from "../assets/pause.svg"
+import ReplayImage from "../assets/replay.svg"
 export class MovieRender {
     _options: Movie.Options
     _stage: Konva.Stage
