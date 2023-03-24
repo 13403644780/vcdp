@@ -1,7 +1,7 @@
 import typescript2 from "rollup-plugin-typescript2"
 import dts from "rollup-plugin-dts"
 import image from "@rollup/plugin-image"
-import { terser } from 'rollup-plugin-terser'
+import terser from '@rollup/plugin-terser'
 import { nodeResolve } from '@rollup/plugin-node-resolve'
 import babel from '@rollup/plugin-babel'
 import commonjs from '@rollup/plugin-commonjs'
