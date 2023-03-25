@@ -1,10 +1,11 @@
-import { CoreConfig, CompileConfig, } from "../types"
+import {CompileConfig, CoreConfig,} from "../types"
 import Compile from "../compile"
-import { Renderer, } from "../renderer"
+import {Renderer,} from "../renderer"
 import Konva from "konva"
-import { FiberFactory, } from "../utils"
-import { EventEmitter, } from "../eventEmitter"
-import { events } from "../utils/config"
+import {FiberFactory,} from "../utils"
+import {EventEmitter,} from "../eventEmitter"
+import {events,} from "../utils/config"
+
 class Core {
     _compile: Compile
     _render: Renderer
