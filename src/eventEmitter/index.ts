@@ -3,6 +3,7 @@ export class EventEmitter {
     _eventsMap: Map<string, Function[]> = new Map()
     constructor(events: string[]) {
         this._events = events
+        this.init()
     }
     init() {
         this._events.forEach((eventName) => {
