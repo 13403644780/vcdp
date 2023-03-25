@@ -2,16 +2,20 @@ import { CoreConfig, CompileConfig, } from "../types"
 import Compile from "../compile"
 import { Renderer, } from "../renderer"
 import Konva from "konva"
-import { FiberFactory } from '../utils'
+import { FiberFactory, } from "../utils"
+import { EventEmitter, } from "../eventEmitter"
+import { events } from "../utils/config"
 class Core {
     _compile: Compile
     _render: Renderer
     _options: CoreConfig.Options
+    _eventEmitter: EventEmitter
     constructor(options: CoreConfig.Options) {
         this._options = options
         this.init()
     }
     init() {
+        this._eventEmitter = new EventEmitter(events)
         this._compile = new Compile({
             ...this._options.movieData,
             firstCompileCallback: this.LoadComplete.bind(this),

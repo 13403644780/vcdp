@@ -3,7 +3,7 @@ export class FiberFactory {
   next: FiberFactory | undefined
   currentData: Fiber.FiberData
   head: boolean
-  last: boolean
+    last: boolean
   constructor(options: Fiber.FiberData, head?: boolean, last?: boolean) {
     this.next = undefined
     this.head = head || false
