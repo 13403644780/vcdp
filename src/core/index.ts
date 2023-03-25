@@ -50,15 +50,18 @@ class Core {
             })
         } else {
             this._render._movie.startPause()
+            this._eventEmitter.emit("init")
         }
     }
     async updateNextNode() {
         const result = await this._compile.updateNextNode()
         if (result) {
             this.LoadComplete()
+            this._eventEmitter.emit("switchScene")
         } else {
             this._render._movie.stopLoading()
             this._render._movie.startReplay()
+            this._eventEmitter.emit("done")
         }
     }
     public getElement(name: string) {
@@ -72,15 +75,18 @@ class Core {
         }
         this._render.play()
         this._render._movie.stopPause()
+        this._eventEmitter.emit("play")
     }
     public pause() {
         this._render.pause()
         this._render._movie.startPause()
+        this._eventEmitter.emit("pause")
     }
     public update(options: CompileConfig.Options) {
         this._render._movie.dispose()
         this._render._movie.stopReplay()
         this._compile.init(options)
+        this._eventEmitter.emit("update")
     }
     /**
      * 获取/设置视频音量
@@ -132,11 +138,14 @@ class Core {
     }
     public replay() {
         this._render._movie.dispose()
-        this._render._movie.stopReplay()
-        this._compile.init({
-            ...this._options.movieData,
-            firstCompileCallback: this.LoadComplete.bind(this),
-        })
+        this._compile._currentFiberNode = this._compile._fiber as FiberFactory
+        this._render.update(this._compile._playFiberNode)
+        if (this._compile._currentFiberNode.head) {
+            this._render.updateBackground(this._compile._backgroundAudios)
+            this._render.updateVideoElement(this._compile._videoElement)
+        }
+        this.play()
+        this._eventEmitter.emit("replay")
     }
 }
 
