@@ -147,6 +147,15 @@ class Core {
         this.play()
         this._eventEmitter.emit("replay")
     }
+    public on(event: string, callback: Function) {
+        this._eventEmitter.on(event, callback)
+    }
+    public once(event: string, callback: Function) {
+        this._eventEmitter.once(event, callback)
+    }
+    public off(event: string, callback: Function) {
+        this._eventEmitter.off(event, callback)
+    }
 }
 
 export default Core
