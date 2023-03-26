@@ -1,9 +1,9 @@
-import React, { useEffect, useRef, useState, } from "react"
+import React, {useEffect, useRef, useState,} from "react"
 import JSONEditor from "jsoneditor"
 import "./App.css"
 import "jsoneditor/dist/jsoneditor.min.css"
 import jsonData from "./mock/01.json"
-import { Core, CompileConfig, } from "@happyPlayer"
+import {CompileConfig, Core,} from "@happyPlayer"
 
 const App = () => {
     const jsonViewRef = useRef<HTMLDivElement>(null)
@@ -22,6 +22,9 @@ const App = () => {
             videoWidth: 1920,
             movieData: jsonData as CompileConfig.MovieData,
         })
+        player.on("init", initCallback)
+        player.on("pause", pauseCallback)
+        player.on("play", playCallback)
         setPlayerRef(player)
     }, [])
     const updatePlayer = () => {
@@ -36,6 +39,15 @@ const App = () => {
     }
     const replay = () => {
         playerRef?.replay()
+    }
+    const initCallback = () => {
+        console.log("initCallback")
+    }
+    const pauseCallback = () => {
+        console.log("pauseCallback")
+    }
+    const playCallback = () => {
+        console.log("playCallback")
     }
     return (
         <div className="container">
