@@ -10,6 +10,7 @@ class Compile {
     _movieData: CompileConfig.MovieData
     _backgroundAudios: AudioConfig.Result[]
     _videoElement: CompileConfig.VideoElement[]
+    _httpWorker: Worker
     _firstCompileCallback: () => void
     constructor(options: CompileConfig.Options) {
         this._cache = new Map()
@@ -27,6 +28,7 @@ class Compile {
         this._currentFiberNode = this._fiber
         Promise.all([this.parseBackgroundAudio(), this.parseCurrentFiberData(), this.parseVideoElement(),]).then(() => {
             this._firstCompileCallback()
+            this.initHttpWorker()
         })
     }
     initFiber() {
@@ -70,6 +72,9 @@ class Compile {
             }
         }
         return result as Fiber.FiberData
+    }
+    initHttpWorker() {
+        console.log("initHttpWorker")
     }
     async parseCurrentFiberData () {
         this._playFiberNode = {
