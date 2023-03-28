@@ -30,7 +30,7 @@
     "no-self-assign": 2,
     "no-self-compare": 2,
     "no-unused-expressions": 0,
-    "init-declarations": 2,
+    "init-declarations": 0,
     "no-unused-vars": 2,
     "comma-dangle": [2, "always"],
     "func-style": 2,
