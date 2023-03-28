@@ -17,6 +17,8 @@ export class MovieRender {
     _elementsLayer: Konva.Layer
     _fps: Konva.Animation
     _loadingAnimation: Konva.Animation
+    _mediaAnimation: Konva.Animation
+    _elementAnimation: Konva.Animation
     _canvasScale: number
     _videoTarget: HTMLVideoElement
     _imageCurrent: Konva.Image
@@ -50,6 +52,18 @@ export class MovieRender {
             {
                 eventName: "timeupdate",
                 callbacks: [this.initSubtitle.bind(this), this.validateNextNode.bind(this),],
+            },
+            {
+                eventName: "play",
+                callbacks: [this.startMediaAnimation.bind(this),],
+            },
+            {
+                eventName: "pause",
+                callbacks: [this.stopMediaAnimation.bind(this),],
+            },
+            {
+                eventName: "ended",
+                callbacks: [this.stopMediaAnimation.bind(this),],
             },
         ]
         this._stage = new Konva.Stage({
@@ -113,6 +127,7 @@ export class MovieRender {
         }, this._mediaLayer)
 
         this._loadingAnimation = new Konva.Animation(this.initLoadingAnimation.bind(this), this._animationLayer)
+        this._mediaAnimation = new Konva.Animation(this.initMediaAnimation.bind(this), this._mediaLayer)
         this._debounceSwitchScene = debounce(this.switchScene.bind(this), 100, {
             leading: true,
             trailing: false,
@@ -225,6 +240,12 @@ export class MovieRender {
         this._subtitleText.text(text)
         this.initSubtitlePosition()
     }
+    startMediaAnimation() {
+        this._mediaAnimation.start()
+    }
+    stopMediaAnimation() {
+        this._mediaAnimation.stop()
+    }
     initSubtitlePosition() {
         this._subtitleLabel?.offset({
             x: this._subtitleText.width() / 2,
@@ -311,6 +332,11 @@ export class MovieRender {
         if (frame !== undefined) {
             const angleDiff = frame.timeDiff * speed / 1000
             this._loadingCurrent.rotate(angleDiff)
+        }
+    }
+    initMediaAnimation(frame: IFrame | undefined) {
+        if (frame !== undefined) {
+            console.log(frame, "mediaAnimation")
         }
     }
     public stopLoading() {
