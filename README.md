@@ -1,12 +1,21 @@
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="https://lf3-static.bytednsdoc.com/obj/eden-cn/dhozeh7vhpebvog/rspack-banner-1610-dark.png">
-  <img alt="Vcdp Banner" src="https://image.liuyongzhi.cn/vcdp/Vcdp-banner.png">
-</picture>
+<div align="center">
+  <a href="https://vcdp.overdev.cn" target="_blank">
+    <img alt="vcdp Logo" src="https://image.liuyongzhi.cn/vcdp/Vcdp-banner.png"/>
+  </a>
+</div>
+<div align="center">
+  <h1>Vcdp</h1>
+</div>
 
-<h2 align="center">Vcdp</h2>
+<div align="center">
 
+快速构建所见即所得视频编辑器
 
+<img src="https://img.shields.io/github/stars/overdev-l/vcdp" alt="stars">
+<!-- <img src="https://img.shields.io/npm/v/vcdp/cli.svg?style=flat-square" alt="stars"> -->
+<img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="licence">
 
+</div>
 
 
 ## 介绍
