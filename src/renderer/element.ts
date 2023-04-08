@@ -24,6 +24,7 @@ export class Element {
                 const element = new Konva.Text({
                     text: this._options[i].source,
                     ...this._options[i].style,
+                    padding: (this._options[i].style.padding || 0) + (this._options[i].style.strokeWidth || 0),
                 })
                 this.initPosition(element, this._options[i].style.x || 0, this._options[i].style.y || 0)
                 this._elements.push(element)
@@ -34,7 +35,6 @@ export class Element {
                     image: target,
                     ...this._options[i].style,
                 })
-                console.log(this._options[i])
                 this.initPosition(element, this._options[i].style.x || 0, this._options[i].style.y || 0)
                 this._elements.push(element)
             }

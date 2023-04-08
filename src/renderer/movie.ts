@@ -96,8 +96,8 @@ export class MovieRender {
         this._subtitleText = new Konva.Text({
             verticalAlign: "middle",
             lineHeight: 1.2,
-            padding: 10,
             ...options.subtitleStyle,
+            padding: (options.subtitleStyle.padding || 10) + (options.subtitleStyle.strokeWidth || 0),
             x: 0,
             y: 0,
             wrap: "word",
