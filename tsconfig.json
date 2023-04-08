@@ -17,7 +17,7 @@
     "declarationDir": "./lib/types",
     "baseUrl": "./",
     "paths": {
-      "@happyPlayer": ["./src/index.ts"],
+      "@happyPlayer": ["./lib/types/index.d.js"],
       "tslib" : ["node_modules/tslib/tslib.d.ts"]
     }
     

@@ -29,6 +29,7 @@ class Compile {
         Promise.all([this.parseBackgroundAudio(), this.parseCurrentFiberData(), this.parseVideoElement(),]).then(() => {
             this._firstCompileCallback()
             this.initHttpWorker()
+            this.preLoad()
         })
     }
     initFiber() {
@@ -167,6 +168,21 @@ class Compile {
         } catch (error) {
             console.error("解析字幕文件失败:", error)
             return []
+        }
+    }
+    /**
+     * 预加载资源
+     */
+    preLoad() {
+        let currentFiber: FiberFactory | undefined = this._currentFiberNode.next
+        while(currentFiber) {
+            if (currentFiber.currentData.video.source) {
+                this.parseSceneMedia(currentFiber.currentData.video.source)
+            }
+            if (currentFiber.currentData.dub?.source) {
+                this.parseSceneMedia(currentFiber.currentData.dub.source)
+            }
+            currentFiber = currentFiber.next
         }
     }
     /**
