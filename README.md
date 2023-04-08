@@ -1,6 +1,6 @@
 <div align="center">
   <a href="https://vcdp.overdev.cn" target="_blank">
-    <img alt="vcdp Logo" src="https://image.liuyongzhi.cn/vcdp/Vcdp-banner.png"/>
+    <img alt="vcdp Logo" width="200" src="https://image.liuyongzhi.cn/vcdp/logo.svg"/>
   </a>
 </div>
 <div align="center">
