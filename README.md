@@ -9,7 +9,7 @@
 
 <div align="center">
 
-快速构建所见即所得视频编辑器
+Quickly build WYSIWYG video editors
 
 <img src="https://img.shields.io/github/stars/overdev-l/vcdp" alt="stars">
 <!-- <img src="https://img.shields.io/npm/v/vcdp/cli.svg?style=flat-square" alt="stars"> -->
@@ -17,21 +17,24 @@
 
 </div>
 
+<div align="center">
+English | [简体中文](./README.zh-CN.md)
+</div>
 
-## 介绍
-开源视频编辑器，开箱即用配置简单，支持JS Vue React。Vcdp 项目目前仍在积极开发中，一些API可能不稳定，我们正在努力补齐这些 API，并不断地提升 Vcdp 的稳定性，如果您有任何建议或意见，欢迎随时提交 PR 或 Issue，我们将不胜感激。
+## Introduction
+Open source video editor, easy to configure out of the box, supports JS Vue React. vcdp project is still under active development, some APIs may not be stable, we are trying to make up for these APIs and constantly improve the stability of Vcdp, if you have any suggestions or comments, please feel free to submit a PR or Issue, we would appreciate it.
 
-## 快速上手
+## Quick Start
 
-- [快速上手](https://vcdp.overdev.cn)
+To check out docs, visit [vcdp.overdev.cn](https://vcdp.overdev.cn/).
 ## DEMO
 
-1. 克隆项目
+1. Cloning Project
 ```bash
 git clone https://github.com/overdev-l/vcdp.git my-project
 ```
 
-2. 下载依赖
+2. Download Dependencies
 ```bash
 pnpm install
 ```
@@ -39,10 +42,10 @@ pnpm install
 ```bash
 npm install
 ```
-3.启动DEMO
+3. Launch DEMO
 ```bash
 pnpm react
 ```
-## 交流
-- [提交问题或建议](https://github.com/overdev-l/vcdp/issues)
-- 请在Issue留下问题和邮箱或其他联系方式，看到就会联系你
+## Communication
+- [Submit a question or suggestion](https://github.com/overdev-l/vcdp/issues)
+- Please leave your question and email or other contact information in Issue, and we will contact you when we see it!
