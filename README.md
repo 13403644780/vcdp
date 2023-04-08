@@ -38,7 +38,7 @@ git clone https://github.com/overdev-l/vcdp.git my-project
 ```bash
 pnpm install
 ```
-或
+OR
 ```bash
 npm install
 ```
