@@ -1,4 +1,4 @@
-import { CompileConfig } from "../types"
+import { CompileConfig, } from "../types"
 export namespace Movie {
   export interface Options {
     container: HTMLDivElement

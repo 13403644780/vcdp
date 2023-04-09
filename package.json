@@ -7,7 +7,7 @@
   "scripts": {
     "build": "rollup -c rollup.build.js",
     "watch": "esbuild --bundle --sourcemap --watch --target=es2015 --loader:.svg=text --format=esm --outdir=lib src/index.ts && npm run ts-types",
-    "ts-types": " tsc --emitDeclarationOnly --outDir lib",
+    "ts-types": " tsc -w --emitDeclarationOnly --outDir lib",
     "react": "vite --mode=react",
     "vue": "vite --mode=vue",
     "commitlint": "commitlint --config .commitlintrc.js -e -V"
