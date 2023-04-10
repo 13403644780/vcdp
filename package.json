@@ -10,6 +10,7 @@
     "ts-types": " tsc -w --emitDeclarationOnly --outDir lib",
     "react": "vite --mode=react",
     "vue": "vite --mode=vue",
+    "lint": "npx eslint src --fix",
     "commitlint": "commitlint --config .commitlintrc.js -e -V"
   },
   "config": {

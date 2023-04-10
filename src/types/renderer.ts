@@ -1,5 +1,4 @@
-import { CompileConfig } from "./compile"
-import { Fiber } from "./fiber"
+import { CompileConfig, } from "./compile"
 
 export namespace Render {
     export interface Options {
