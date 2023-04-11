@@ -11,7 +11,8 @@
     "react": "vite --mode=react",
     "vue": "vite --mode=vue",
     "lint": "npx eslint src --fix",
-    "commitlint": "commitlint --config .commitlintrc.js -e -V"
+    "commitlint": "commitlint --config .commitlintrc.js -e -V",
+    "release": "standard-version"
   },
   "config": {
     "commitizen": {
@@ -44,16 +45,17 @@
     "@vitejs/plugin-vue": "^4.0.0",
     "core-js": "^3.29.1",
     "cz-git": "^1.6.1",
+    "esbuild": "^0.17.15",
     "eslint": "^8.35.0",
     "husky": "^8.0.3",
     "rollup": "^3.18.0",
     "rollup-plugin-dts": "^5.2.0",
     "rollup-plugin-typescript2": "^0.34.1",
+    "standard-version": "^9.5.0",
     "tslib": "^2.5.0",
     "typescript": "^4.9.5",
     "unbuild": "^1.2.0",
     "vite": "^4.1.0",
-    "esbuild": "^0.17.15",
     "vue-tsc": "^1.0.24"
   },
   "dependencies": {
