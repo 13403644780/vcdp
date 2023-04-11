@@ -38,7 +38,8 @@
                 "startTime": 0,
                 "endTime": 51000,
                 "mute": false,
-                "volume": 100
+                "volume": 100,
+                "duration": 51000
             }
         }
     ],

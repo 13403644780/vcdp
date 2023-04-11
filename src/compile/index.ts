@@ -80,7 +80,6 @@ class Compile {
         console.log("initHttpWorker")
     }
     async parseCurrentFiberData() {
-        console.log(this._currentFiberNode, "this._currentFiberNode")
         this._playFiberNode = {
             video: {
                 ...this._currentFiberNode.currentData.video,

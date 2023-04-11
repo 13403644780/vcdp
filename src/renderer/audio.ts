@@ -11,11 +11,10 @@ export class AudioRender {
     initPlayer() {
         this.dispose()
         this._audioGroup = this._audios.map(item => {
-            console.log(item.volume / 100, "item.volume")
             return {
                 howl: new Howl({
                     src: item.source,
-                    volume: 0.1,
+                    volume: item.volume / 100,
                     mute: item.mute,
                     loop: item.loop,
                     format: "mp3",

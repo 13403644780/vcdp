@@ -20,14 +20,19 @@ export class Renderer {
         })
     }
     public update(playFiberNode: Fiber.PlayFiberNode) {
+        this._movie._sceneDuration = 0
         this._movie.updateVideo(playFiberNode.video)
         this._movie.updateSubtitleSource(playFiberNode.subtitle)
         if (playFiberNode.dub) {
+            this._movie._duration = playFiberNode.dub.duration
             this._movie.updateDubbing([{
-                ...playFiberNode!.dub,
+                ...playFiberNode.dub,
                 loop: false,
-                mute: playFiberNode!.dub.mute || false,
+                mute: playFiberNode.dub.mute || false,
             },])
+            console.log(playFiberNode)
+        } else {
+            this._movie._duration = playFiberNode.video.duration
         }
     }
     public updateBackground(bgAudio: AudioConfig.Result[]) {

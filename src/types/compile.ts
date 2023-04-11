@@ -33,6 +33,7 @@ export namespace CompileConfig {
     endTime: number
     volume: number
     mute: boolean
+    duration: number
   }
 
   export type Dub = Omit<BackgroundAudio, "loop">

@@ -38,6 +38,8 @@ export class MovieRender {
     _dubAudio: AudioRender
     _videoElement: Element
     _debounceSwitchScene: DebouncedFunc<() => void>
+    _duration: number
+    _sceneDuration: number
     constructor(options: Movie.Options) {
         this._options = options
         this._canvasScale = 1
@@ -211,7 +213,6 @@ export class MovieRender {
     }
     initDub(dubAudio: AudioConfig.Result[]) {
         this._dubAudio = new AudioRender(dubAudio)
-        console.log(this._dubAudio, "this._dubAudio")
     }
     initVideoElements(options: CompileConfig.VideoElement[]) {
         if (this._videoElement) {
@@ -270,7 +271,6 @@ export class MovieRender {
             x: Math.max(textWidth / 2, Math.min(styleX, maxWidth - textWidth / 2)),
             y: Math.max(textHeight / 2, Math.min(styleY, maxHeight - textHeight / 2)),
         })
-        // console.table([["textWidth","textHeight","maxWidth","maxHeight","x","y"], [textWidth, textHeight,maxWidth,maxHeight, Math.max(textWidth / 2, Math.min(styleX, maxWidth - textWidth / 2)),Math.max(textHeight / 2, Math.min(styleY, maxHeight - textHeight / 2))]])
         if (textWidth > maxWidth) {
             this._subtitleText.width(maxWidth)
         }
@@ -278,7 +278,7 @@ export class MovieRender {
     validateNextNode() {
         const currentTime = this._videoTarget.currentTime * 1000
         if (currentTime >= this._videoData.endTime) {
-            this._debounceSwitchScene()
+            // 是否要循环播放当前素材
         }
     }
     switchScene() {
