@@ -17,7 +17,7 @@
     "declarationDir": "example/react/src/lib/types",
     "baseUrl": "./",
     "paths": {
-      "@happyPlayer": ["example/react/src/lib/types/index.d.js"],
+      "@happyPlayer": ["lib/types/index.d.ts"],
       "tslib" : ["node_modules/tslib/tslib.d.ts"]
     }
     

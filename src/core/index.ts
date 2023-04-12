@@ -65,6 +65,15 @@ class Core {
             this._eventEmitter.emit("done")
         }
     }
+    /**
+     * 修改画布大小
+     */
+    public resize() {
+        //
+    }
+    /**
+     * 获取元素
+     * */
     public getElement(name: string) {
         return this._render._movie._videoElement.findElement(name)
     }
