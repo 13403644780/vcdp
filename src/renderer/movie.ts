@@ -190,14 +190,6 @@ export class MovieRender {
             x: this._canvasScale,
             y: this._canvasScale,
         })
-        const videoBackground = new Konva.Rect({
-            width: this._options.videoWidth,
-            height: this._options.videoHeight,
-            x: 0,
-            y: 0,
-            fill: "#000000",
-        })
-        this._mediaLayer.add(videoBackground)
         this._mediaLayer.add(this._imageCurrent)
     }
     initVideoEvent() {
@@ -219,6 +211,9 @@ export class MovieRender {
             this._videoElement.dispose()
         }
         this._videoElement = new Element(options, this._elementsLayer, this._options.videoHeight, this._options.videoWidth)
+    }
+    initSceneBackground(options?: CompileConfig.SceneBackground) {
+        console.log(options)
     }
     videoEventCallback(callbacks: (() => void)[],) {
         for (let i = 0; i < callbacks.length; i++) {

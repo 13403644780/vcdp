@@ -89,7 +89,7 @@ class Compile {
                 source: await this.parseSceneSubtitle(this._currentFiberNode.currentData.subtitle?.source || ""),
                 style: this._currentFiberNode.currentData.subtitle?.style || {},
             },
-            dub: {
+            dub:this._currentFiberNode.currentData.dub ? {
                 ...this._currentFiberNode.currentData.dub,
                 source: await this.parseSceneMedia(this._currentFiberNode.currentData?.dub?.source || ""),
                 volume: this._currentFiberNode.currentData?.dub?.volume || 100,
@@ -97,7 +97,11 @@ class Compile {
                 endTime: this._currentFiberNode.currentData.dub?.endTime || 0,
                 mute: this._currentFiberNode.currentData.dub?.mute || false,
                 duration: this._currentFiberNode.currentData.dub?.duration || 0,
-            },
+            } : undefined,
+            sceneBackground: this._currentFiberNode.currentData.sceneBackground ? {
+                ...this._currentFiberNode.currentData.sceneBackground,
+                source: this._currentFiberNode.currentData.sceneBackground.type !== 1 ? await this.parseSceneMedia(this._currentFiberNode.currentData.sceneBackground.source) : this._currentFiberNode.currentData.sceneBackground.source,
+            } : undefined,
         }
     }
     public async updateNextNode() {
