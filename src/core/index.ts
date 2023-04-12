@@ -37,6 +37,7 @@ class Core {
             console.error("暂无场景数据")
             return
         }
+        console.log(this._compile._playFiberNode, "this._compile._playFiberNode")
         this._render.update(this._compile._playFiberNode)
         if (this._compile._currentFiberNode.head) {
             this._render.updateBackground(this._compile._backgroundAudios)
@@ -67,6 +68,10 @@ class Core {
     public getElement(name: string) {
         return this._render._movie._videoElement.findElement(name)
     }
+    /**
+    * 播放函数
+    * @returns 
+    */
     public play() {
         const result = this._render._movie._animationLayer.findOne((element: Konva.Image) => element.name() === "done")
         if (result !== undefined) {
@@ -77,16 +82,30 @@ class Core {
         this._render._movie.stopPause()
         this._eventEmitter.emit("play")
     }
+    /**
+    * 暂停
+    * @returns 
+    */
     public pause() {
         this._render.pause()
         this._render._movie.startPause()
         this._eventEmitter.emit("pause")
     }
+    /**
+    * 更新场景
+    * @returns 
+    */
     public update(options: CompileConfig.Options) {
         this._render._movie.dispose()
         this._render._movie.stopReplay()
         this._compile.init(options)
         this._eventEmitter.emit("update")
+    }
+    /**
+     * 设置背景
+     */
+    public setBackground(options: CompileConfig.SceneBackground) {
+        this._render.updateSceneBackground(options)
     }
     /**
    * 获取/设置视频音量

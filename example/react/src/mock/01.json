@@ -40,6 +40,11 @@
                 "mute": false,
                 "volume": 100,
                 "duration": 51000
+            },
+            "sceneBackground": {
+                "type": 2,
+                "source": "https://image.liuyongzhi.cn/video/bg1.jpg",
+                "alpha": 0.5
             }
         }
     ],

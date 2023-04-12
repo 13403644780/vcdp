@@ -45,6 +45,9 @@ export class Renderer {
     public updateDubbing(dubbing: AudioConfig.Result[]) {
         this._movie.updateDubbing(dubbing)
     }
+    public updateSceneBackground(sceneBackground: CompileConfig.SceneBackground){
+        this._movie.initSceneBackground(sceneBackground)
+    }
     public play() {
         this._movie._backgroundAudio.play()
         this._movie._dubAudio.play()

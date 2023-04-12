@@ -6,7 +6,8 @@ export namespace CompileConfig {
   export interface MovieData {
     backgroundAudios: BackgroundAudio[]
     scenes: Scene[]
-    elements: VideoElement[]
+    elements: VideoElement[],
+    sceneBackground?: SceneBackground
   }
   interface BackgroundAudio {
     source: string
@@ -22,7 +23,7 @@ export namespace CompileConfig {
     video: Video
     subtitle?: Subtitle
     dub?: Dub,
-    background?: SceneBackground
+    sceneBackground?: SceneBackground
   }
   export interface SceneBackground {
     type: 1 | 2 | 3 // 1 颜色 2 图片 3 视频

@@ -49,6 +49,7 @@ class Compile {
             video: {},
             dub: {},
             subtitle: {},
+            sceneBackground: scene.sceneBackground ? {} : undefined,
         }
         const { source, startTime, endTime, volume, mute, } = scene.video
         result.video = {
@@ -72,6 +73,11 @@ class Compile {
             result.subtitle = {
                 source: scene.subtitle.source,
                 style: scene.subtitle.style,
+            }
+        }
+        if (scene.sceneBackground) {
+            result.sceneBackground = {
+                ...scene.sceneBackground,
             }
         }
         return result as Fiber.FiberData

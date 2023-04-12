@@ -107,6 +107,7 @@ export class MovieRender {
             x: 0,
             y: 0,
         })
+        this._sceneBackgroundLayer.add(this._sceneBackgroundRect)
         this._subtitleTab = new Konva.Tag()
         this._subtitleText = new Konva.Text({
             verticalAlign: "middle",
