@@ -2,8 +2,9 @@ import Konva from "konva"
 import { IFrame, } from "konva/lib/types"
 import { AudioConfig, CompileConfig, Fiber, Movie, } from "../types"
 import { getCurrentTimeSubtitleText, } from "../utils"
+import { defaultSceneBackground, } from "../utils/config"
 import { AudioRender, } from "./audio"
-import { debounce, DebouncedFunc, } from "lodash-es"
+import { debounce, DebouncedFunc, merge, } from "lodash-es"
 import { Element, } from "./element"
 import LoadingImage from "../assets/loading.svg"
 import PauseImage from "../assets/pause.svg"
@@ -213,6 +214,16 @@ export class MovieRender {
         this._videoElement = new Element(options, this._elementsLayer, this._options.videoHeight, this._options.videoWidth)
     }
     initSceneBackground(options?: CompileConfig.SceneBackground) {
+        const sceneOptions: CompileConfig.SceneBackground = {
+            type: 1,
+            source: "",
+            alpha: 1,
+        }
+        if (!options) {
+            sceneOptions.source = defaultSceneBackground
+        }else {
+            merge(sceneOptions, options)
+        }
         console.log(options)
     }
     videoEventCallback(callbacks: (() => void)[],) {

@@ -4,3 +4,5 @@ export const animations = {
       
     },
 }
+
+export const defaultSceneBackground = "#000000"
