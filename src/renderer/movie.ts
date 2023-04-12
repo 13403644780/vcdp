@@ -16,6 +16,7 @@ export class MovieRender {
     _subtitleLayer: Konva.Layer
     _animationLayer: Konva.Layer
     _elementsLayer: Konva.Layer
+    _sceneBackgroundLayer: Konva.Layer
     _fps: Konva.Animation
     _loadingAnimation: Konva.Animation
     _mediaAnimation: Konva.Animation
@@ -41,6 +42,7 @@ export class MovieRender {
     _debounceSwitchScene: DebouncedFunc<() => void>
     _duration: number
     _sceneDuration: number
+    _sceneBackgroundRect: Konva.Rect
     constructor(options: Movie.Options) {
         this._options = options
         this._canvasScale = 1
@@ -75,6 +77,9 @@ export class MovieRender {
             width: options.width,
             height: options.height,
         })
+        this._sceneBackgroundLayer = new Konva.Layer({
+            name: "sceneBackgroundLayer",
+        })
         this._mediaLayer = new Konva.Layer({
             name: "mediaLayer",
         })
@@ -95,6 +100,12 @@ export class MovieRender {
         this._subtitleLabel = new Konva.Label({
             x: options.subtitleStyle.x || 0,
             y: options.subtitleStyle.y || 0,
+        })
+        this._sceneBackgroundRect = new Konva.Rect({
+            width: options.videoWidth,
+            height: options.videoHeight,
+            x: 0,
+            y: 0,
         })
         this._subtitleTab = new Konva.Tag()
         this._subtitleText = new Konva.Text({
@@ -122,6 +133,7 @@ export class MovieRender {
         this._subtitleLabel.add(this._subtitleTab)
         this._subtitleLabel.add(this._subtitleText)
         this._subtitleLayer.add(this._subtitleLabel)
+        this._stage.add(this._sceneBackgroundLayer)
         this._stage.add(this._mediaLayer)
         this._stage.add(this._subtitleLayer)
         this._stage.add(this._animationLayer)
@@ -163,6 +175,13 @@ export class MovieRender {
         return scale
     }
     initLayer() {
+        this._sceneBackgroundLayer.setPosition({
+            x: this._stage.width() / 2 - this._options.videoWidth * this._canvasScale / 2,
+            y: this._stage.height() / 2 - this._options.videoHeight * this._canvasScale / 2,
+        }).scale({
+            x: this._canvasScale,
+            y: this._canvasScale,
+        })
         this._mediaLayer.setPosition({
             x: this._stage.width() / 2 - this._options.videoWidth * this._canvasScale / 2,
             y: this._stage.height() / 2 - this._options.videoHeight * this._canvasScale / 2,
@@ -201,6 +220,7 @@ export class MovieRender {
             )
         }
     }
+    
     initBackground(bgAudio: AudioConfig.Result[]) {
         this._backgroundAudio = new AudioRender(bgAudio)
     }
@@ -225,6 +245,16 @@ export class MovieRender {
             merge(sceneOptions, options)
         }
         console.log(options)
+    }
+    initMoveBackground(options: CompileConfig.SceneBackground) {
+        if (options.type === 1) {
+            this._sceneBackgroundRect.fill(options.source)
+            this._sceneBackgroundRect.alpha(options.alpha)
+        } else {
+            const image = new Image()
+            image.src = options.source
+            this._sceneBackgroundRect.fillPatternImage(image)
+        }
     }
     videoEventCallback(callbacks: (() => void)[],) {
         for (let i = 0; i < callbacks.length; i++) {
