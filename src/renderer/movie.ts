@@ -244,7 +244,7 @@ export class MovieRender {
         }else {
             merge(sceneOptions, options)
         }
-        console.log(options)
+        this.initMoveBackground(sceneOptions)
     }
     initMoveBackground(options: CompileConfig.SceneBackground) {
         if (options.type === 1) {
@@ -254,6 +254,7 @@ export class MovieRender {
             const image = new Image()
             image.src = options.source
             this._sceneBackgroundRect.fillPatternImage(image)
+            this._sceneBackgroundRect.alpha(options.alpha)
         }
     }
     videoEventCallback(callbacks: (() => void)[],) {
