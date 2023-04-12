@@ -44,7 +44,7 @@
             "sceneBackground": {
                 "type": 2,
                 "source": "https://image.liuyongzhi.cn/video/bg1.jpg",
-                "alpha": 0.5
+                "alpha": 1
             }
         }
     ],

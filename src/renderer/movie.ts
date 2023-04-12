@@ -251,11 +251,13 @@ export class MovieRender {
         if (options.type === 1) {
             this._sceneBackgroundRect.fill(options.source)
             this._sceneBackgroundRect.alpha(options.alpha)
-        } else {
+        } else if(options.type === 2) {
             const image = new Image()
             image.src = options.source
-            this._sceneBackgroundRect.fillPatternImage(image)
-            this._sceneBackgroundRect.alpha(options.alpha)
+            image.onload = () => {
+                this._sceneBackgroundRect.fillPatternImage(image)
+                this._sceneBackgroundRect.alpha(options.alpha)
+            }
         }
     }
     videoEventCallback(callbacks: (() => void)[],) {
@@ -295,10 +297,10 @@ export class MovieRender {
             x: this._subtitleText.width() / 2,
             y: this._subtitleText.height() / 2,
         })
-        // this._subtitleLabel.scale({
-        //     x: this._canvasScale,
-        //     y: this._canvasScale
-        // })
+        this._subtitleLabel.scale({
+            x: this._canvasScale,
+            y: this._canvasScale,
+        })
         const textWidth = this._subtitleText.width()
         const textHeight = this._subtitleText.height()
         const maxWidth = this._options.videoWidth
