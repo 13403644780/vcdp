@@ -114,7 +114,7 @@ class Core {
     /**
      * 设置背景
      */
-    public setBackground(options: CompileConfig.SceneBackground) {
+    public setSceneBackground(options: CompileConfig.SceneBackground) {
         this._render.updateSceneBackground(options)
     }
     /**

@@ -1,71 +1,47 @@
 import React, {useEffect, useRef, useState,} from "react"
-import JSONEditor from "jsoneditor"
-import "./App.css"
+import "./index.less"
 import "jsoneditor/dist/jsoneditor.min.css"
-import jsonData from "./mock/01.json"
+import "antd/dist/reset.css"
+import data from "./mock/01.json"
 import {CompileConfig, Core,} from "@happyPlayer"
+import Tab from "./tabMenus"
 
 const App = () => {
-    const jsonViewRef = useRef<HTMLDivElement>(null)
-    const playerContainer = useRef<HTMLDivElement>(null)
-    const [ jsonControl, setJsonControl, ] = useState<JSONEditor>()
-    const [playerRef, setPlayerRef,] = useState<Core>()
+    const Divider = useRef<HTMLDivElement>(null)
+    const TopContainer = useRef<HTMLDivElement>(null)
+    const BottomContainer = useRef<HTMLDivElement>(null)
+    const Player = useRef<HTMLDivElement>(null)
+    const [v, setV,] = useState<Core>()
     useEffect(() => {
-        const jsonView = new JSONEditor(jsonViewRef.current as HTMLDivElement, {})
-        setJsonControl(jsonView)
-        jsonView.set(jsonData)
-    }, [])
-    useEffect(() => {
-        const player = new Core({
-            container: playerContainer.current as HTMLDivElement,
-            videoHeight: 1920,
-            videoWidth: 1080,
-            movieData: jsonData as CompileConfig.MovieData,
+        const V = new Core({
+            container: Player.current as HTMLDivElement,
+            movieData: data as CompileConfig.MovieData,
+            videoHeight: 1080,
+            videoWidth: 1920,
         })
-        player.on("init", initCallback)
-        player.on("pause", pauseCallback)
-        player.on("play", playCallback)
-        setPlayerRef(player)
+        setV(V)
     }, [])
-    const updatePlayer = () => {
-        console.log("jsonControl.get(): ", jsonControl?.get().elements)
-        playerRef?.update(jsonControl?.get())
+    const update = (data: CompileConfig.Options) => {
+        v?.update(data)
     }
-    const play = () => {
-        playerRef?.play()
-    }
-    const pause = () => {
-        playerRef?.pause()
-    }
-    const replay = () => {
-        playerRef?.replay()
-    }
-    const initCallback = () => {
-        console.log("initCallback")
-    }
-    const pauseCallback = () => {
-        console.log("pauseCallback")
-    }
-    const playCallback = () => {
-        console.log("playCallback")
+    const setSceneBackground = (data: CompileConfig.SceneBackground) => {
+        v?.setSceneBackground(data)
     }
     return (
         <div className="container">
-            <div className='topView'>
-                <div className='data'>
-                    <div className='buttonGroup'>
-                        <button onClick={updatePlayer}>更新</button>
-                        <button onClick={play}>播放</button>
-                        <button onClick={pause}>暂停</button>
-                        <button onClick={replay}>重播</button>
-                    </div>
-                    <div className='jsonContainer' ref={jsonViewRef}></div>
+            <div className="top layoutContainer" ref={TopContainer}>
+                <div className="topLeft">
+                    <Tab
+                        update={update}
+                    />
                 </div>
-                <div className='player' ref={playerContainer}></div>
+                <div className="topDivider"></div>
+                <div className="topRight">
+                    <div className="player" ref={Player}></div>
+                </div>
             </div>
-            <div className='bottomView'>
-                
-            </div>
+            <div className="divider" ref={Divider}/>
+            <div className="button layoutContainer" ref={BottomContainer}></div>
         </div>
     )
 }

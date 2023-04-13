@@ -9,6 +9,11 @@
             "volume": 10
         }
     ],
+    "sceneBackground": {
+        "type": 2,
+        "source": "https://image.liuyongzhi.cn/video/bg1.jpg",
+        "alpha": 1
+    },
     "scenes": [
         {
             "duration": 51000,
@@ -40,11 +45,6 @@
                 "mute": false,
                 "volume": 100,
                 "duration": 51000
-            },
-            "sceneBackground": {
-                "type": 2,
-                "source": "https://image.liuyongzhi.cn/video/bg1.jpg",
-                "alpha": 1
             }
         }
     ],
