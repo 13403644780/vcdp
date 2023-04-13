@@ -9,6 +9,7 @@ class Compile {
     _playFiberNode: Fiber.PlayFiberNode
     _movieData: CompileConfig.MovieData
     _backgroundAudios: AudioConfig.Result[]
+    _sceneBackground: CompileConfig.SceneBackground
     _videoElement: CompileConfig.VideoElement[]
     _httpWorker: Worker
     _firstCompileCallback: () => void
@@ -23,10 +24,11 @@ class Compile {
             backgroundAudios: options.backgroundAudios,
             scenes: options.scenes,
             elements: options.elements,
+            sceneBackground: options.sceneBackground,
         }
         this.initFiber()
         this._currentFiberNode = this._fiber
-        Promise.all([this.parseBackgroundAudio(), this.parseCurrentFiberData(), this.parseVideoElement(),]).then(() => {
+        Promise.all([this.parseBackgroundAudio(), this.parseCurrentFiberData(), this.parseVideoElement(), this.parseSceneBackground(),]).then(() => {
             this._firstCompileCallback()
             this.preLoad()
         })
@@ -49,7 +51,6 @@ class Compile {
             video: {},
             dub: {},
             subtitle: {},
-            sceneBackground: scene.sceneBackground ? {} : undefined,
         }
         const { source, startTime, endTime, volume, mute, } = scene.video
         result.video = {
@@ -75,11 +76,6 @@ class Compile {
                 style: scene.subtitle.style,
             }
         }
-        if (scene.sceneBackground) {
-            result.sceneBackground = {
-                ...scene.sceneBackground,
-            }
-        }
         return result as Fiber.FiberData
     }
     initHttpWorker() {
@@ -103,10 +99,6 @@ class Compile {
                 endTime: this._currentFiberNode.currentData.dub?.endTime || 0,
                 mute: this._currentFiberNode.currentData.dub?.mute || false,
                 duration: this._currentFiberNode.currentData.dub?.duration || 0,
-            } : undefined,
-            sceneBackground: this._currentFiberNode.currentData.sceneBackground ? {
-                ...this._currentFiberNode.currentData.sceneBackground,
-                source: this._currentFiberNode.currentData.sceneBackground.type !== 1 ? await this.parseSceneMedia(this._currentFiberNode.currentData.sceneBackground.source) : this._currentFiberNode.currentData.sceneBackground.source,
             } : undefined,
         }
     }
@@ -184,6 +176,26 @@ class Compile {
         } catch (error) {
             console.error("解析字幕文件失败:", error)
             return []
+        }
+    }
+    async parseSceneBackground() {
+        switch (this._movieData.sceneBackground?.type) {
+        case 1:
+            this._sceneBackground = this._movieData.sceneBackground
+            break
+        case 2:
+            this._sceneBackground = {
+                ...this._movieData.sceneBackground,
+                source: await this.parseSceneMedia(this._movieData.sceneBackground.source),
+            }
+            break
+        default:
+            this._sceneBackground = {
+                source: "#000000",
+                type: 1,
+                alpha: 1,
+            }
+            break
         }
     }
     /**

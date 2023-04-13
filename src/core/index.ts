@@ -42,6 +42,7 @@ class Core {
         if (this._compile._currentFiberNode.head) {
             this._render.updateBackground(this._compile._backgroundAudios)
             this._render.updateVideoElement(this._compile._videoElement)
+            this._render.updateSceneBackground(this._compile._sceneBackground)
         }
         this._render._movie.stopLoading()
         this._render._movie._fps.start()

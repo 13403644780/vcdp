@@ -63,7 +63,9 @@ const App = () => {
                 </div>
                 <div className='player' ref={playerContainer}></div>
             </div>
-            <div className='bottomView'></div>
+            <div className='bottomView'>
+                
+            </div>
         </div>
     )
 }

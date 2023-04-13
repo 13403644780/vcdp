@@ -4,7 +4,6 @@ export namespace Fiber {
     video: CompileConfig.Video
     subtitle?: CompileConfig.Subtitle
     dub?: CompileConfig.Dub
-    sceneBackground?: CompileConfig.SceneBackground
   }
   export type PlayFiberNode = Omit<FiberData, "subtitle"> & {
     subtitle: Subtitle

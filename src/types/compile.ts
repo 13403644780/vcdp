@@ -22,8 +22,7 @@ export namespace CompileConfig {
     duration: number
     video: Video
     subtitle?: Subtitle
-    dub?: Dub,
-    sceneBackground?: SceneBackground
+    dub?: Dub
   }
   export interface SceneBackground {
     type: 1 | 2 | 3 // 1 颜色 2 图片 3 视频
