@@ -13,13 +13,13 @@ const App = () => {
     const Player = useRef<HTMLDivElement>(null)
     const [v, setV,] = useState<Core>()
     useEffect(() => {
-        const V = new Core({
-            container: Player.current as HTMLDivElement,
-            movieData: data as CompileConfig.MovieData,
-            videoHeight: 1080,
-            videoWidth: 1920,
-        })
-        setV(V)
+        // const V = new Core({
+        //     container: Player.current as HTMLDivElement,
+        //     movieData: data as CompileConfig.MovieData,
+        //     videoHeight: 1080,
+        //     videoWidth: 1920,
+        // })
+        // setV(V)
     }, [])
     const update = (data: CompileConfig.Options) => {
         v?.update(data)
@@ -33,6 +33,7 @@ const App = () => {
                 <div className="topLeft">
                     <Tab
                         update={update}
+                        setSceneBackground={setSceneBackground}
                     />
                 </div>
                 <div className="topDivider"></div>

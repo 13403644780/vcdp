@@ -6,6 +6,7 @@
             "endTime": 30000,
             "loop": true,
             "mute": false,
+            "duration": 5000,
             "volume": 10
         }
     ],
@@ -36,6 +37,7 @@
                 "volume": 10,
                 "startTime": 0,
                 "endTime": 10000,
+                "duration": 10000,
                 "source": "https://image.liuyongzhi.cn/video/video1.mp4"
             },
             "dub": {

@@ -5,7 +5,7 @@
     "moduleResolution": "node",
     "sourceMap": true,
     "declaration": true,
-    "outDir": "example/react/src/lib",
+    "outDir": "lib",
     "strict": true,
     "jsx": "react",
     "noImplicitAny": true,
@@ -14,7 +14,7 @@
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "strictPropertyInitialization": false,
-    "declarationDir": "example/react/src/lib/types",
+    "declarationDir": "lib/types",
     "baseUrl": "./",
     "paths": {
       "@happyPlayer": ["lib/types/index.d.ts"],
