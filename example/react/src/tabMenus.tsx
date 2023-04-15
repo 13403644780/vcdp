@@ -8,22 +8,17 @@ export default function Tab(props: Props) {
         {
             key: "1",
             label: "场景",
-            children: <props.Scene />,
+            children: <props.Scene data={props.SceneData} update={props.updateScene} />,
         },
         {
             key: "2",
             label: "背景音乐",
-            children: <props.BgAudio />,
-        },
-        {
-            key: "3",
-            label: "配音",
-            children: <props.Dub />,
+            children: <props.BgAudio data={props.BgAudioData} update={props.updateSceneBgAudio} />,
         },
         {
             key: "4",
             label: "背场景背景",
-            children: <props.SceneBg />,
+            children: <props.SceneBg data={props.SceneBgData} update={props.updateSceneBackground}/>,
         },
     ]
     return <Tabs

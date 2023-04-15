@@ -6,6 +6,9 @@ import data from "./mock/01.json"
 import {CompileConfig, Core,} from "@happyPlayer"
 import Tab from "./tabMenus"
 import Scene from "./components/scene"
+import BgAudio from "./components/bgAudio"
+import SceneBg from "./components/sceneBackground"
+import Dub from "./components/dub"
 const App = () => {
     const Divider = useRef<HTMLDivElement>(null)
     const TopContainer = useRef<HTMLDivElement>(null)
@@ -21,18 +24,25 @@ const App = () => {
         // })
         // setV(V)
     }, [])
-    const update = (data: CompileConfig.Options) => {
-        v?.update(data)
-    }
-    const setSceneBackground = (data: CompileConfig.SceneBackground) => {
-        v?.setSceneBackground(data)
-    }
+
+    const update = () => {}
+    const updateScene = (data: any) => {}
+    const updateSceneBgAudio = (data: any) => {}
+    const updateSceneBg = (data: any) => {}
     return (
         <div className="container">
             <div className="top layoutContainer" ref={TopContainer}>
                 <div className="topLeft">
                     <Tab
-                        Scene={<Scene></Scene>}
+                        Scene={Scene}
+                        SceneData={data.scenes}
+                        updateScene={updateScene}
+                        BgAudio={BgAudio}
+                        BgAudioData={data.backgroundAudios}
+                        updateSceneBgAudio={updateSceneBgAudio}
+                        SceneBg={SceneBg}
+                        SceneBgData={data.sceneBackground}
+                        updateSceneBg={updateSceneBg}
                     />
                 </div>
                 <div className="topDivider"></div>

@@ -3,15 +3,12 @@ export interface Props {
     Scene: React.FC<SceneProps>
     BgAudio: React.FC<BgAudioProps>
     SceneBg: React.FC<SceneBgProps>
-    Dub: React.FC<DubProps>
     SceneData: CompileConfig.Scene[]
     BgAudioData: CompileConfig.BackgroundAudio[]
     SceneBgData: CompileConfig.SceneBackground
-    DubDAta: CompileConfig.Dub
     updateScene: (scene: CompileConfig.Scene) => void
     updateSceneBgAudio: (scene: CompileConfig.BackgroundAudio[]) => void
     updateSceneBackground: (scene: CompileConfig.SceneBackground) => void
-    updateSceneDub: (scene: CompileConfig.Dub) => void
 }
 
 export interface SceneProps {
