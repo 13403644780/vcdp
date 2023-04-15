@@ -5,7 +5,7 @@ import "antd/dist/reset.css"
 import data from "./mock/01.json"
 import {CompileConfig, Core,} from "@happyPlayer"
 import Tab from "./tabMenus"
-
+import Scene from "./components/scene"
 const App = () => {
     const Divider = useRef<HTMLDivElement>(null)
     const TopContainer = useRef<HTMLDivElement>(null)
@@ -32,8 +32,7 @@ const App = () => {
             <div className="top layoutContainer" ref={TopContainer}>
                 <div className="topLeft">
                     <Tab
-                        update={update}
-                        setSceneBackground={setSceneBackground}
+                        Scene={<Scene></Scene>}
                     />
                 </div>
                 <div className="topDivider"></div>
