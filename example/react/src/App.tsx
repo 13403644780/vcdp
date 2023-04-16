@@ -3,12 +3,12 @@ import "./index.less"
 import "jsoneditor/dist/jsoneditor.min.css"
 import "antd/dist/reset.css"
 import data from "./mock/01.json"
-import {CompileConfig, Core,} from "@happyPlayer"
+import { CompileConfig, Core,} from "@happyPlayer"
 import Tab from "./tabMenus"
 import Scene from "./components/scene"
 import BgAudio from "./components/bgAudio"
 import SceneBg from "./components/sceneBackground"
-import Dub from "./components/dub"
+import BroadcastControl from "./components/broadcastControl"
 const App = () => {
     const Divider = useRef<HTMLDivElement>(null)
     const TopContainer = useRef<HTMLDivElement>(null)
@@ -16,19 +16,46 @@ const App = () => {
     const Player = useRef<HTMLDivElement>(null)
     const [v, setV,] = useState<Core>()
     useEffect(() => {
-        // const V = new Core({
-        //     container: Player.current as HTMLDivElement,
-        //     movieData: data as CompileConfig.MovieData,
-        //     videoHeight: 1080,
-        //     videoWidth: 1920,
-        // })
-        // setV(V)
+        const V = new Core({
+            container: Player.current as HTMLDivElement,
+            movieData: data as CompileConfig.MovieData,
+            videoHeight: 1080,
+            videoWidth: 1920,
+        })
+        setV(V)
     }, [])
 
-    const update = () => {}
-    const updateScene = (data: any) => {}
-    const updateSceneBgAudio = (data: any) => {}
-    const updateSceneBg = (data: any) => {}
+    const update = (data: CompileConfig.MovieData) => {
+        v?.update(data)
+    }
+    const updateScene = (scene: CompileConfig.Scene[]) => {
+        update({
+            scenes: scene,
+            backgroundAudios: data.backgroundAudios,
+            sceneBackground: data.sceneBackground,
+            elements: data.elements as CompileConfig.VideoElement[],
+        })
+    }
+    const updateSceneBgAudio = (backgroundAudios: CompileConfig.BackgroundAudio[]) => {
+        update({
+            scenes: data.scenes,
+            backgroundAudios: backgroundAudios,
+            sceneBackground: data.sceneBackground,
+            elements: data.elements as CompileConfig.VideoElement[],
+        })
+    }
+    const updateSceneBg = (data: CompileConfig.SceneBackground) => {
+        v?.setSceneBackground(data)
+    }
+    const play = () => {
+        v?.play()
+    }
+    const pause = () => {
+        v?.pause()
+    }
+    const replay = () => {
+        v?.replay()
+    }
     return (
         <div className="container">
             <div className="top layoutContainer" ref={TopContainer}>
@@ -42,7 +69,11 @@ const App = () => {
                         updateSceneBgAudio={updateSceneBgAudio}
                         SceneBg={SceneBg}
                         SceneBgData={data.sceneBackground}
-                        updateSceneBg={updateSceneBg}
+                        updateSceneBackground={updateSceneBg}
+                        Broadcast={BroadcastControl}
+                        play={play}
+                        pause={pause}
+                        replay={replay}
                     />
                 </div>
                 <div className="topDivider"></div>

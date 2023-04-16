@@ -17,8 +17,13 @@ export default function Tab(props: Props) {
         },
         {
             key: "4",
-            label: "背场景背景",
+            label: "视频背景",
             children: <props.SceneBg data={props.SceneBgData} update={props.updateSceneBackground}/>,
+        },
+        {
+            key: "5",
+            label: "播控",
+            children: <props.Broadcast pause={props.pause} play={props.play} replay={props.replay}/>,
         },
     ]
     return <Tabs
