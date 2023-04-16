@@ -46,6 +46,8 @@ npm install
 ```
 3. Launch DEMO
 ```bash
+pnpm watch
+pnpm ts-types
 pnpm react
 ```
 ## Communication
