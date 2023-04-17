@@ -1,3 +1,5 @@
 lib
 node_modules
 .idea
+package-lock.json
+pnpm-lock.yaml
