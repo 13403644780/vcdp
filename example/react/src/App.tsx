@@ -15,9 +15,12 @@ const App = () => {
     const BottomContainer = useRef<HTMLDivElement>(null)
     const Player = useRef<HTMLDivElement>(null)
     const [v, setV,] = useState<Core>()
+  
+
     useEffect(() => {
+        if (!Player.current) return
         const V = new Core({
-            container: Player.current as HTMLDivElement,
+            container: "#Player",
             movieData: data as CompileConfig.MovieData,
             videoHeight: 1080,
             videoWidth: 1920,
@@ -46,6 +49,18 @@ const App = () => {
     }
     const updateSceneBg = (data: CompileConfig.SceneBackground) => {
         v?.setSceneBackground(data)
+    }
+    const handleMouseDown = () => {
+        document.addEventListener("mousemove", handleMouseMove)
+        document.addEventListener("mouseup", handleMouseUp)
+    }
+    const handleMouseMove = (event: { clientX: React.SetStateAction<number>; clientY: React.SetStateAction<number> }) => {
+        TopContainer.current!.style!.height = event.clientY + "px"
+    }
+    
+    const handleMouseUp = () => {
+        document.removeEventListener("mousemove", handleMouseMove)
+        document.removeEventListener("mouseup", handleMouseUp)
     }
     const play = () => {
         v?.play()
@@ -78,10 +93,10 @@ const App = () => {
                 </div>
                 <div className="topDivider"></div>
                 <div className="topRight">
-                    <div className="player" ref={Player}></div>
+                    <div className="player" ref={Player} id="Player"></div>
                 </div>
             </div>
-            <div className="divider" ref={Divider}/>
+            <div className="divider" onMouseDown={handleMouseDown} ref={Divider}/>
             <div className="button layoutContainer" ref={BottomContainer}></div>
         </div>
     )
