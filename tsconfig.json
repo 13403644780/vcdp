@@ -15,7 +15,7 @@
     "emitDecoratorMetadata": true,
     "strictPropertyInitialization": false,
     "declarationDir": "lib/types",
-    "baseUrl": "./",
+    "baseUrl": ".",
     "paths": {
       "@happyPlayer": ["lib/types/index.d.ts"],
       "tslib" : ["node_modules/tslib/tslib.d.ts"]

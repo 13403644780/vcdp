@@ -7,9 +7,11 @@ export class Element {
     _elements: (Konva.Text | Konva.Image)[]
     _maxWidth: number
     _maxHeight: number
-    constructor(options: CompileConfig.VideoElement[], layer: Konva.Layer, maxHeight: number, maxWidth: number) {
+    _scale: number
+    constructor(options: CompileConfig.VideoElement[], layer: Konva.Layer, maxHeight: number, maxWidth: number, scale: number) {
         this._options = options
         this._layer = layer
+        this._scale = scale
         this._elements = []
         this._maxWidth = maxWidth
         this._maxHeight = maxHeight
@@ -48,10 +50,15 @@ export class Element {
     initPosition(element: Konva.Text | Konva.Image, styleX: number, styleY: number) {
         const currentWidth = element.width()
         const currentHeight = element.height()
+        element.scale({
+            x: this._scale,
+            y: this._scale,
+        })
         element.offset({
             x: currentWidth / 2,
             y: currentHeight / 2,
         })
+        
         element.setPosition({
             x: Math.max(currentWidth / 2, Math.min(styleX, this._maxWidth - currentHeight / 2)),
             y: Math.max(currentHeight / 2, Math.min(styleY, this._maxHeight - currentHeight / 2)),

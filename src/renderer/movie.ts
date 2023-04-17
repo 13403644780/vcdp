@@ -232,7 +232,7 @@ export class MovieRender {
         if (this._videoElement) {
             this._videoElement.dispose()
         }
-        this._videoElement = new Element(options, this._elementsLayer, this._options.videoHeight, this._options.videoWidth)
+        this._videoElement = new Element(options, this._elementsLayer, this._options.videoHeight, this._options.videoWidth, this._canvasScale)
     }
     initSceneBackground(options?: CompileConfig.SceneBackground) {
         const sceneOptions: CompileConfig.SceneBackground = {
