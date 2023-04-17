@@ -2,19 +2,20 @@ import React from "react"
 import "./broadcast.less"
 import { Button, Stack, } from "@chakra-ui/react"
 import { BroadcastProps, } from "../../types"
+import { Pause, Play, Replay, } from "../icons"
 export default function (props: BroadcastProps) {
-
+    
     return (
         <div className="broadcastContainer">
             <Stack direction='row' spacing={4} align='center'>
 
-                <Button colorScheme='teal' variant='ghost' onClick={props.play}>
+                <Button leftIcon={<Play />} colorScheme='teal' variant='solid' onClick={props.play}>
                     Play
                 </Button>
-                <Button colorScheme='teal' variant='ghost' onClick={props.pause}>
+                <Button leftIcon={<Pause />} colorScheme='teal' variant='solid' onClick={props.pause}>
                     Pause
                 </Button>
-                <Button colorScheme='teal' variant='ghost' onClick={props.replay}>
+                <Button leftIcon={<Replay />} colorScheme='teal' variant='solid' onClick={props.replay}>
                     Replay
                 </Button>
 
