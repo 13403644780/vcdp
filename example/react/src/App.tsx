@@ -5,6 +5,7 @@ import "antd/dist/reset.css"
 import data from "./mock/01.json"
 import {CompileConfig, Core,} from "@happyPlayer"
 import Tab from "./tabMenus"
+import { log, } from "console"
 
 const App = () => {
     const Divider = useRef<HTMLDivElement>(null)
@@ -12,14 +13,10 @@ const App = () => {
     const BottomContainer = useRef<HTMLDivElement>(null)
     const Player = useRef<HTMLDivElement>(null)
     const [v, setV,] = useState<Core>()
+  
+
     useEffect(() => {
-        // const V = new Core({
-        //     container: Player.current as HTMLDivElement,
-        //     movieData: data as CompileConfig.MovieData,
-        //     videoHeight: 1080,
-        //     videoWidth: 1920,
-        // })
-        // setV(V)
+        console.log(TopContainer)
     }, [])
     const update = (data: CompileConfig.Options) => {
         v?.update(data)
@@ -27,10 +24,23 @@ const App = () => {
     const setSceneBackground = (data: CompileConfig.SceneBackground) => {
         v?.setSceneBackground(data)
     }
+    const handleMouseDown = () => {
+        document.addEventListener("mousemove", handleMouseMove)
+        document.addEventListener("mouseup", handleMouseUp)
+    }
+    const handleMouseMove = (event: { clientX: React.SetStateAction<number>; clientY: React.SetStateAction<number> }) => {
+        TopContainer.current.style.height = event.clientY + "px"
+    }
+    
+    const handleMouseUp = () => {
+        document.removeEventListener("mousemove", handleMouseMove)
+        document.removeEventListener("mouseup", handleMouseUp)
+    }
     return (
         <div className="container">
             <div className="top layoutContainer" ref={TopContainer}>
-                <div className="topLeft">
+                <div className="topLeft"  
+                >
                     <Tab
                         update={update}
                         setSceneBackground={setSceneBackground}
@@ -41,7 +51,7 @@ const App = () => {
                     <div className="player" ref={Player}></div>
                 </div>
             </div>
-            <div className="divider" ref={Divider}/>
+            <div className="divider" onMouseDown={handleMouseDown} ref={Divider}/>
             <div className="button layoutContainer" ref={BottomContainer}></div>
         </div>
     )
