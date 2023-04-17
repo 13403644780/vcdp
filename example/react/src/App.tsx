@@ -4,11 +4,11 @@ import "jsoneditor/dist/jsoneditor.min.css"
 import "antd/dist/reset.css"
 import data from "./mock/01.json"
 import { CompileConfig, Core,} from "@happyPlayer"
-import Tab from "./tabMenus"
-import Scene from "./components/scene"
+import Scene from "./components/scene/scene"
 import BgAudio from "./components/bgAudio"
 import SceneBg from "./components/sceneBackground"
-import BroadcastControl from "./components/broadcastControl"
+import BroadcastControl from "./components/controls"
+import TabMenus from "./components/tabs"
 const App = () => {
     const Divider = useRef<HTMLDivElement>(null)
     const TopContainer = useRef<HTMLDivElement>(null)
@@ -60,7 +60,7 @@ const App = () => {
         <div className="container">
             <div className="top layoutContainer" ref={TopContainer}>
                 <div className="topLeft">
-                    <Tab
+                    <TabMenus
                         Scene={Scene}
                         SceneData={data.scenes}
                         updateScene={updateScene}

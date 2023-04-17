@@ -59,7 +59,11 @@
     "vue-tsc": "^1.0.24"
   },
   "dependencies": {
+    "@chakra-ui/react": "^2.5.5",
+    "@emotion/react": "^11.10.6",
+    "@emotion/styled": "^11.10.6",
     "antd": "^5.4.2",
+    "framer-motion": "^10.12.2",
     "howler": "^2.2.3",
     "jsoneditor": "^9.10.0",
     "konva": "^8.4.2",

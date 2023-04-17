@@ -1,9 +1,8 @@
 import React, { useEffect, useRef, useState, } from "react"
-import "./scene.less"
 import { Button, } from "antd"
 import JSONEditor from "jsoneditor"
-import { SceneProps, } from "../types"
-export default function (props: SceneProps) {
+import { SceneBgProps, } from "../../types"
+export default function (props: SceneBgProps) {
     const jsonContainer = useRef<HTMLDivElement>(null)
     const [ target, setTarget, ] = useState<JSONEditor>()
     useEffect(() => {
@@ -13,7 +12,7 @@ export default function (props: SceneProps) {
     }, [])
     return (
         <div className="sceneContainer">
-            <Button type="primary" onClick={() => props.update(target?.get())}>更新场景</Button>
+            <Button type="primary" onClick={() => props.update(target?.get())}>更新视频背景</Button>
             <div className="jsonContainer" ref={jsonContainer}></div>
         </div>
     )
