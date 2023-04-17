@@ -10,6 +10,7 @@ const TabMenus: React.FC<Props> = (props: Props) => {
                 <Tab>Background Audio</Tab>
                 <Tab>Scene Background</Tab>
                 <Tab>Playback Controls</Tab>
+                <Tab>Elements</Tab>
             </TabList>
 
             <TabPanels>
@@ -24,6 +25,9 @@ const TabMenus: React.FC<Props> = (props: Props) => {
                 </TabPanel>
                 <TabPanel>
                     {<props.Broadcast play={props.play} pause={props.pause} replay={props.replay} />}
+                </TabPanel>
+                <TabPanel>
+                    {<props.Element data={props.ElementData} update={props.updateElement} />}
                 </TabPanel>
             </TabPanels>
         </Tabs>

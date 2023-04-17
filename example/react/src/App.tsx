@@ -8,6 +8,7 @@ import Scene from "./components/scene/scene"
 import BgAudio from "./components/bgAudio"
 import SceneBg from "./components/sceneBackground"
 import BroadcastControl from "./components/controls"
+import Element from "./components/element"
 import TabMenus from "./components/tabs"
 const App = () => {
     const Divider = useRef<HTMLDivElement>(null)
@@ -50,6 +51,9 @@ const App = () => {
     const updateSceneBg = (data: CompileConfig.SceneBackground) => {
         v?.setSceneBackground(data)
     }
+    const updateElement = (data: CompileConfig.VideoElement[]) => {
+        console.log(data)
+    }
     const handleMouseDown = () => {
         document.addEventListener("mousemove", handleMouseMove)
         document.addEventListener("mouseup", handleMouseUp)
@@ -86,6 +90,9 @@ const App = () => {
                         SceneBgData={data.sceneBackground}
                         updateSceneBackground={updateSceneBg}
                         Broadcast={BroadcastControl}
+                        Element={Element}
+                        ElementData={data.elements as CompileConfig.VideoElement[]}
+                        updateElement={updateElement}
                         play={play}
                         pause={pause}
                         replay={replay}
