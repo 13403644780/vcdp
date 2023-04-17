@@ -1,11 +1,11 @@
 import React, { useEffect, useRef, useState, } from "react"
 import "./scene.less"
-import { Button, } from "antd"
+import { Button, } from "@chakra-ui/react"
 import JSONEditor from "jsoneditor"
 import { SceneProps, } from "../../types"
 export default function (props: SceneProps) {
     const jsonContainer = useRef<HTMLDivElement>(null)
-    const [ target, setTarget, ] = useState<JSONEditor>()
+    const [target, setTarget,] = useState<JSONEditor>()
     useEffect(() => {
         const t = new JSONEditor(jsonContainer.current as HTMLDivElement, {})
         t.set(props.data)
@@ -13,7 +13,9 @@ export default function (props: SceneProps) {
     }, [])
     return (
         <div className="sceneContainer">
-            <Button type="primary" onClick={() => props.update(target?.get())}>更新场景</Button>
+            <Button colorScheme='teal' variant='solid' onClick={() => props.update(target?.get())}>
+                update Scene
+            </Button>
             <div className="jsonContainer" ref={jsonContainer}></div>
         </div>
     )

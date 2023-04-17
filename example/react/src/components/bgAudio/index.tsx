@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState, } from "react"
-import { Button, } from "antd"
+import { Button, } from "@chakra-ui/react"
 import JSONEditor from "jsoneditor"
 import { BgAudioProps, } from "../../types"
 export default function (props: BgAudioProps) {
@@ -12,7 +12,9 @@ export default function (props: BgAudioProps) {
     }, [])
     return (
         <div className="sceneContainer">
-            <Button type="primary" onClick={() => props.update(target?.get())}>更新背景音乐</Button>
+            <Button colorScheme='teal' variant='solid' onClick={() => props.update(target?.get())}>
+                update Background Audio
+            </Button>
             <div className="jsonContainer" ref={jsonContainer}></div>
         </div>
     )

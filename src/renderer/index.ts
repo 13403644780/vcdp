@@ -30,7 +30,6 @@ export class Renderer {
                 loop: false,
                 mute: playFiberNode.dub.mute || false,
             },])
-            console.log(playFiberNode)
         } else {
             this._movie._duration = playFiberNode.video.duration
         }

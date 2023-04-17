@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState, } from "react"
-import { Button, } from "antd"
+import { Button, } from "@chakra-ui/react"
 import JSONEditor from "jsoneditor"
 import { SceneBgProps, } from "../../types"
 export default function (props: SceneBgProps) {
@@ -12,7 +12,7 @@ export default function (props: SceneBgProps) {
     }, [])
     return (
         <div className="sceneContainer">
-            <Button type="primary" onClick={() => props.update(target?.get())}>更新视频背景</Button>
+            <Button colorScheme='teal' variant='solid' onClick={() => props.update(target?.get())}>Update Scene Background</Button>
             <div className="jsonContainer" ref={jsonContainer}></div>
         </div>
     )
