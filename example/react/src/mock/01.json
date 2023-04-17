@@ -59,16 +59,12 @@
                 "fontStyle": "italic bold",
                 "align": "center",
                 "fill": "#FFFFFF",
-                "x": 0,
-                "y": 0,
-                "lineJoin": "round",
-                "strokeLinecap": "round",
-                "shadowColor": "#38B2AC",
-                "shadowOffset": {
-                  "x": 0,
-                  "y": 0
-                },
-                "shadowOpacity": 1
+                "stroke": "#38B2AC",
+                "strokeWidth": 50,
+                "fillAfterStrokeEnabled": true,
+                "hitStrokeWidth": 10,
+                "x": 100,
+                "y": 10
             }
         },
         {
