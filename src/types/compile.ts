@@ -9,7 +9,7 @@ export namespace CompileConfig {
     elements: VideoElement[],
     sceneBackground?: SceneBackground
   }
-  interface BackgroundAudio {
+  export interface BackgroundAudio {
     source: string
     startTime: number
     endTime: number
@@ -25,7 +25,7 @@ export namespace CompileConfig {
     dub?: Dub
   }
   export interface SceneBackground {
-    type: 1 | 2 | 3 // 1 颜色 2 图片 3 视频
+    type: number // 1 颜色 2 图片 3 视频
     source: string
     alpha: number // 透明度 0-1
   }

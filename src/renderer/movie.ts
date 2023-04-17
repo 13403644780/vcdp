@@ -257,6 +257,18 @@ export class MovieRender {
             image.onload = () => {
                 this._sceneBackgroundRect.fillPatternImage(image)
                 this._sceneBackgroundRect.alpha(options.alpha)
+                this._sceneBackgroundRect.fillPatternX(this._sceneBackgroundRect.width() / 2)
+                this._sceneBackgroundRect.fillPatternY(this._sceneBackgroundRect.height() / 2)
+                this._sceneBackgroundRect.fillPatternRepeat("no-repeat")
+                this._sceneBackgroundRect.fillPatternOffset({
+                    x: image.width / 2,
+                    y: image.height / 2,
+                })
+                const scale = this.initVideoScale(image.width, image.height)
+                this._sceneBackgroundRect.fillPatternScale({
+                    x: scale,
+                    y: scale,
+                })
             }
         }
     }

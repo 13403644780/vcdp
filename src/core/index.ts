@@ -105,10 +105,13 @@ class Core {
     * 更新场景
     * @returns 
     */
-    public update(options: CompileConfig.Options) {
+    public update(options: CompileConfig.MovieData) {
         this._render._movie.dispose()
         this._render._movie.stopReplay()
-        this._compile.init(options)
+        this._compile.init({
+            ...options,
+            firstCompileCallback: this.LoadComplete.bind(this),
+        })
         this._eventEmitter.emit("update")
     }
     /**

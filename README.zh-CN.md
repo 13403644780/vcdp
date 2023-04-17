@@ -45,6 +45,8 @@ npm install
 ```
 3.启动DEMO
 ```bash
+pnpm watch
+pnpm ts-types
 pnpm react
 ```
 ## 交流
