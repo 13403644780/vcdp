@@ -18,8 +18,9 @@ const App = () => {
   
 
     useEffect(() => {
+        if (!Player.current) return
         const V = new Core({
-            container: Player.current as HTMLDivElement,
+            container: "#Player",
             movieData: data as CompileConfig.MovieData,
             videoHeight: 1080,
             videoWidth: 1920,
@@ -60,6 +61,7 @@ const App = () => {
     const handleMouseUp = () => {
         document.removeEventListener("mousemove", handleMouseMove)
         document.removeEventListener("mouseup", handleMouseUp)
+    }
     const play = () => {
         v?.play()
     }
@@ -91,7 +93,7 @@ const App = () => {
                 </div>
                 <div className="topDivider"></div>
                 <div className="topRight">
-                    <div className="player" ref={Player}></div>
+                    <div className="player" ref={Player} id="Player"></div>
                 </div>
             </div>
             <div className="divider" onMouseDown={handleMouseDown} ref={Divider}/>
