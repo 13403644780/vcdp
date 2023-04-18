@@ -43,6 +43,7 @@ export class MovieRender {
     _duration: number
     _sceneDuration: number
     _sceneBackgroundRect: Konva.Rect
+    _startTime: number
     constructor(options: Movie.Options) {
         this._options = options
         this._canvasScale = 1
@@ -54,10 +55,6 @@ export class MovieRender {
             {
                 eventName: "loadedmetadata",
                 callbacks: [this.resetImage.bind(this),],
-            },
-            {
-                eventName: "timeupdate",
-                callbacks: [this.initSubtitle.bind(this), this.validateNextNode.bind(this),],
             },
             {
                 eventName: "play",
@@ -155,6 +152,14 @@ export class MovieRender {
         this.initLoading()
         this.initPause()
         this.initReplay()
+    }
+    initTimer() {
+        if (Date.now() - this._startTime >= this._duration) {
+            this._options.updateNextNode()
+        } else {
+            this.initSubtitle()
+            requestAnimationFrame(this.initTimer.bind(this))
+        }
     }
     initScale() {
         const { clientWidth, clientHeight, } = this._options.container

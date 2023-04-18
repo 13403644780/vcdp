@@ -50,10 +50,10 @@ export class Element {
     initPosition(element: Konva.Text | Konva.Image, styleX: number, styleY: number) {
         const currentWidth = element.width()
         const currentHeight = element.height()
-        element.scale({
-            x: this._scale,
-            y: this._scale,
-        })
+        // element.scale({
+        //     x: this._scale,
+        //     y: this._scale,
+        // })
         element.offset({
             x: currentWidth / 2,
             y: currentHeight / 2,

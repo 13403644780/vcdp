@@ -20,7 +20,7 @@ export class Renderer {
         })
     }
     public update(playFiberNode: Fiber.PlayFiberNode) {
-        this._movie._sceneDuration = 0
+        this._movie._startTime = Date.now()
         this._movie.updateVideo(playFiberNode.video)
         this._movie.updateSubtitleSource(playFiberNode.subtitle)
         if (playFiberNode.dub) {
@@ -47,6 +47,7 @@ export class Renderer {
         this._movie.initSceneBackground(sceneBackground)
     }
     public play() {
+        this._movie._startTime = Date.now()
         this._movie._backgroundAudio.play()
         this._movie._dubAudio.play()
         this._movie._videoTarget.play()

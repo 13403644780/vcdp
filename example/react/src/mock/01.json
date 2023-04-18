@@ -63,7 +63,7 @@
                 "strokeWidth": 50,
                 "fillAfterStrokeEnabled": true,
                 "hitStrokeWidth": 10,
-                "strokeLineJoin": "round",
+                "lineJoin": "round",
                 "x": 100,
                 "y": 10
             }
